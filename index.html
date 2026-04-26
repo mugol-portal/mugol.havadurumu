@@ -277,21 +277,6 @@
         body.light-mode .mg-ad-label {
             background: #f8fafc;
         }
-
-        /* ── Yatay AdSense Reklam Bandı ── */
-        .adsense-banner-wrap {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            padding: 8px 0 0;
-            background: transparent;
-            min-height: 100px;
-            box-sizing: border-box;
-        }
-        .adsense-banner-wrap ins.adsbygoogle {
-            width: 100% !important;
-            min-height: 90px;
-        }
     </style>
 </head>
 <body>
@@ -301,7 +286,7 @@
         (function() {
             if (localStorage.getItem('mugol-noads') === 'true') {
                 var style = document.createElement('style');
-                style.textContent = '.mg-ad-box, .adsense-banner-wrap, ins.adsbygoogle, amp-auto-ads { display: none !important; }';
+                style.textContent = '.mg-ad-box, ins.adsbygoogle, amp-auto-ads { display: none !important; }';
                 document.head.appendChild(style);
             }
         })();
@@ -310,19 +295,6 @@
     <amp-auto-ads type="adsense"
             data-ad-client="ca-pub-1880946354382681">
     </amp-auto-ads>
-
-    <!-- Yatay AdSense Reklam Bandı -->
-    <div class="adsense-banner-wrap">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-1880946354382681"
-             data-ad-slot="1435965312"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
 
     <div class="ambient-light"></div>
 
@@ -343,6 +315,18 @@
                 <button class="icon-btn theme-toggle" title="Tema Değiştir">🌙</button>
             </div>
         </header>
+
+        <!-- Resimli Reklam: Header Altı -->
+        <div class="mg-ad-box" aria-label="Reklam" role="complementary">
+            <span class="mg-ad-label">Reklam</span>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-1880946354382681"
+                 data-ad-slot="1689789138"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
 
         <!-- KATEGORİ BANNERI (SEKMELER) EN ÜSTTE -->
         <div class="tabs-dock" id="mainTabs">
@@ -731,41 +715,21 @@
         }
 
         async function getLocationWeather() {
-            if (!navigator.geolocation) return showError('⚠️ Tarayıcınız konum özelliğini desteklemiyor.');
+            if (!navigator.geolocation) return showError('Konum desteklenmiyor.');
             locationBtn.classList.add('pulse-gold');
             try {
                 const position = await new Promise((resolve, reject) => {
-                    navigator.geolocation.getCurrentPosition(resolve, reject, {
-                        enableHighAccuracy: true,
-                        timeout: 12000,
-                        maximumAge: 60000
-                    });
+                    navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 10000 });
                 });
-                currentLat = position.coords.latitude;
-                currentLon = position.coords.longitude;
-                isUsingLocation = true;
+                currentLat = position.coords.latitude; currentLon = position.coords.longitude; isUsingLocation = true;
                 showLoading();
-                try {
-                    const weatherData = await fetchWeatherData(currentLat, currentLon);
-                    displayWeather(weatherData);
-                    citySelect.value = '';
-                    if (notificationBtn.classList.contains('active')) {
-                        await showWeatherNotification(weatherData.data, weatherData.city);
-                    }
-                } catch (apiErr) {
-                    showError('📡 Hava verisi alınamadı. Ağ bağlantınızı kontrol edin.');
+                const weatherData = await fetchWeatherData(currentLat, currentLon);
+                displayWeather(weatherData);
+                citySelect.value = '';
+                if (notificationBtn.classList.contains('active')) {
+                    await showWeatherNotification(weatherData.data, weatherData.city);
                 }
-            } catch (e) {
-                if (e && e.code === 1) {
-                    showError('🔒 Konum izni reddedildi. Tarayıcı ayarlarından konum iznini açın.');
-                } else if (e && e.code === 2) {
-                    showError('📍 Konum belirlenemedi. Lütfen tekrar deneyin.');
-                } else if (e && e.code === 3) {
-                    showError('⏱️ Konum isteği zaman aşımına uğradı. Daha iyi sinyal alanında tekrar deneyin.');
-                } else {
-                    showError('📍 Konum alınamadı. Lütfen tekrar deneyin.');
-                }
-            }
+            } catch (e) { showError('Konum alınamadı.'); }
             finally { locationBtn.classList.remove('pulse-gold'); }
         }
 
@@ -859,18 +823,6 @@
                     <div class="scroll-wrap">
                         ${hourlyData.map(h => `<div class="hour-pill"><div class="hp-time">${h.time}</div><div class="hp-icon">${h.icon}</div><div class="hp-temp">${h.temp}°</div></div>`).join('')}
                     </div>
-
-                    <!-- Reklam: Saatlik Tahmin Sonrası -->
-                    <div class="mg-ad-box" aria-label="Reklam" role="complementary">
-                        <span class="mg-ad-label">Reklam</span>
-                        <ins class="adsbygoogle"
-                             style="display:block"
-                             data-ad-client="ca-pub-1880946354382681"
-                             data-ad-slot="1689789138"
-                             data-ad-format="auto"
-                             data-full-width-responsive="true"></ins>
-                        <script>(adsbygoogle = window.adsbygoogle || []).push({});<\/script>
-                    </div>
                     
                     <div class="section-head"><span class="section-title">5 Günlük Tahmin</span><span class="section-icon">📅</span></div>
                     <div class="daily-grid">
@@ -882,17 +834,7 @@
                         <iframe src="https://embed.windy.com/embed2.html?lat=${lat}&lon=${lon}&zoom=6&level=surface&overlay=clouds&menu=&message=true&marker=true&calendar=now&pressure=&type=map&location=coordinates&detail=&detailLat=${lat}&detailLon=${lon}&metricWind=km%2Fh&metricTemp=%C2%B0C&radarRange=-1" loading="lazy"></iframe>
                     </div>
 
-                    <!-- Reklam: Sayfa Sonu -->
-                    <div class="mg-ad-box" aria-label="Reklam" role="complementary">
-                        <span class="mg-ad-label">Reklam</span>
-                        <ins class="adsbygoogle"
-                             style="display:block"
-                             data-ad-client="ca-pub-1880946354382681"
-                             data-ad-slot="1689789138"
-                             data-ad-format="auto"
-                             data-full-width-responsive="true"></ins>
-                        <script>(adsbygoogle = window.adsbygoogle || []).push({});<\/script>
-                    </div>
+                </div>
 
                 <!-- SEKME 2: HABERLER VE UYARILAR -->
                 <div class="tab-pane ${activeTab === 'news' ? 'active' : ''}" id="pane-news">
@@ -906,18 +848,6 @@
                     <div class="alert-container">
                         ${generateWeatherAlerts(current, news)}
                     </div>
-
-                    <!-- Reklam: Haberler Sekmesi Sonu -->
-                    <div class="mg-ad-box" aria-label="Reklam" role="complementary">
-                        <span class="mg-ad-label">Reklam</span>
-                        <ins class="adsbygoogle"
-                             style="display:block"
-                             data-ad-client="ca-pub-1880946354382681"
-                             data-ad-slot="1689789138"
-                             data-ad-format="auto"
-                             data-full-width-responsive="true"></ins>
-                        <script>(adsbygoogle = window.adsbygoogle || []).push({});<\/script>
-                    </div>
                     
                 </div>
             `;
@@ -927,12 +857,8 @@
         function showError(msg) { weatherContent.innerHTML = `<div class="weather-hero"><div class="loading-wrap"><div style="font-size:32px;margin-bottom:8px">⚠️</div><p>${msg}</p></div></div>`; }
 
         async function loadWeather() {
-            if (!citySelect.value) {
-                if (isUsingLocation && currentLat) return refreshWeather();
-                return showError('Lütfen listeden bir şehir seçin.');
-            }
-            isUsingLocation = false; currentLat = null; currentLon = null;
-            showLoading();
+            if (!citySelect.value) return showError('Şehir seçin.');
+            isUsingLocation = false; showLoading();
             try {
                 const [lat, lon] = cityCoords[citySelect.value];
                 const weatherData = await fetchWeatherData(lat, lon, citySelect.value);
@@ -940,7 +866,7 @@
                 if (notificationBtn.classList.contains('active')) {
                     await showWeatherNotification(weatherData.data, weatherData.city);
                 }
-            } catch { showError('📡 Ağ bağlantınızı kontrol edip tekrar deneyin.'); }
+            } catch { showError('Ağ bağlantınızı kontrol edip tekrar deneyin.'); }
         }
 
         async function refreshWeather() {
@@ -950,7 +876,7 @@
                     showLoading(); 
                     const wd = await fetchWeatherData(currentLat, currentLon);
                     displayWeather(wd); 
-                } catch { showError('📡 Hava verisi yenilenemedi. Ağ bağlantınızı kontrol edin.'); }
+                } catch { showError('Hata oluştu.'); }
             } else if (citySelect.value) {
                 await loadWeather();
             }
