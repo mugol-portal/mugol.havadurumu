@@ -286,7 +286,7 @@
         (function() {
             if (localStorage.getItem('mugol-noads') === 'true') {
                 var style = document.createElement('style');
-                style.textContent = '.mg-ad-box, ins.adsbygoogle, amp-auto-ads { display: none !important; }';
+                style.textContent = '.mg-ad-box, .adsense-banner-wrap, ins.adsbygoogle, amp-auto-ads { display: none !important; }';
                 document.head.appendChild(style);
             }
         })();
@@ -295,6 +295,19 @@
     <amp-auto-ads type="adsense"
             data-ad-client="ca-pub-1880946354382681">
     </amp-auto-ads>
+
+    <!-- Yatay AdSense Reklam Bandı -->
+    <div class="adsense-banner-wrap">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1880946354382681"
+             data-ad-slot="1435965312"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
 
     <div class="ambient-light"></div>
 
