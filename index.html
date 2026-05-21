@@ -1782,63 +1782,73 @@
                         ctx.closePath();
                     }
 
-                    // ── ARKA PLAN: İnce gökyüzü gradyanı ──
-                    const bgGrad = ctx.createLinearGradient(0, 0, PW * 0.3, TOTAL_H);
-                    bgGrad.addColorStop(0,   '#daeef9');
-                    bgGrad.addColorStop(0.5, '#cce6f6');
-                    bgGrad.addColorStop(1,   '#bddaf2');
+                    // ── ARKA PLAN: Premium gökyüzü gradyanı ──
+                    const bgGrad = ctx.createLinearGradient(0, 0, PW * 0.4, TOTAL_H);
+                    bgGrad.addColorStop(0,   '#e8f5fd');
+                    bgGrad.addColorStop(0.35, '#d6ecf8');
+                    bgGrad.addColorStop(0.7, '#c4e0f4');
+                    bgGrad.addColorStop(1,   '#b0d4ef');
                     ctx.fillStyle = bgGrad;
                     ctx.fillRect(0, 0, PW, TOTAL_H);
 
                     // Dekoratif yumuşak daireler (ambient)
                     ctx.save();
-                    ctx.globalAlpha = 0.10;
+                    ctx.globalAlpha = 0.13;
                     ctx.fillStyle = region.color;
-                    ctx.beginPath(); ctx.arc(PW + 80, -80, 500, 0, Math.PI*2); ctx.fill();
-                    ctx.globalAlpha = 0.06;
-                    ctx.beginPath(); ctx.arc(-80, TOTAL_H + 80, 460, 0, Math.PI*2); ctx.fill();
-                    ctx.globalAlpha = 0.035;
+                    ctx.beginPath(); ctx.arc(PW + 100, -100, 560, 0, Math.PI*2); ctx.fill();
+                    ctx.globalAlpha = 0.08;
+                    ctx.beginPath(); ctx.arc(-100, TOTAL_H + 100, 500, 0, Math.PI*2); ctx.fill();
+                    ctx.globalAlpha = 0.04;
                     ctx.fillStyle = '#0d4e82';
-                    ctx.beginPath(); ctx.arc(PW/2, TOTAL_H * 0.48, 680, 0, Math.PI*2); ctx.fill();
+                    ctx.beginPath(); ctx.arc(PW/2, TOTAL_H * 0.48, 720, 0, Math.PI*2); ctx.fill();
+                    ctx.globalAlpha = 0.055;
+                    ctx.fillStyle = region.color;
+                    ctx.beginPath(); ctx.arc(PW * 0.15, TOTAL_H * 0.62, 380, 0, Math.PI*2); ctx.fill();
                     ctx.restore();
 
                     // ── ÜST BAŞLIK BANDI ──
-                    const HDR_BAR_H = 116;
+                    const HDR_BAR_H = 126;
                     const hdrGrad = ctx.createLinearGradient(0, 0, PW, HDR_BAR_H);
                     hdrGrad.addColorStop(0,   region.color);
-                    hdrGrad.addColorStop(0.6, region.color + 'dd');
-                    hdrGrad.addColorStop(1,   region.color + 'aa');
+                    hdrGrad.addColorStop(0.5, region.color + 'ee');
+                    hdrGrad.addColorStop(1,   region.color + 'cc');
                     ctx.fillStyle = hdrGrad;
                     ctx.fillRect(0, 0, PW, HDR_BAR_H);
 
-                    // Header iç parlaklık
-                    const hdrShine = ctx.createLinearGradient(0, 0, 0, HDR_BAR_H * 0.55);
-                    hdrShine.addColorStop(0, 'rgba(255,255,255,0.18)');
+                    // Header iç parlaklık — daha belirgin
+                    const hdrShine = ctx.createLinearGradient(0, 0, 0, HDR_BAR_H * 0.6);
+                    hdrShine.addColorStop(0, 'rgba(255,255,255,0.25)');
                     hdrShine.addColorStop(1, 'rgba(255,255,255,0)');
                     ctx.fillStyle = hdrShine;
                     ctx.fillRect(0, 0, PW, HDR_BAR_H);
 
                     // Header alt yumuşak gölge
-                    const hdrShadow = ctx.createLinearGradient(0, HDR_BAR_H, 0, HDR_BAR_H + 36);
-                    hdrShadow.addColorStop(0, 'rgba(0,0,0,0.13)');
+                    const hdrShadow = ctx.createLinearGradient(0, HDR_BAR_H, 0, HDR_BAR_H + 40);
+                    hdrShadow.addColorStop(0, 'rgba(0,0,0,0.14)');
                     hdrShadow.addColorStop(1, 'transparent');
                     ctx.fillStyle = hdrShadow;
-                    ctx.fillRect(0, HDR_BAR_H, PW, 36);
+                    ctx.fillRect(0, HDR_BAR_H, PW, 40);
 
-                    // "HAVA DURUMU" pill - daha büyük, belirgin
-                    const pillW = 340, pillH = 56, pillX = PW/2 - pillW/2, pillY = HDR_BAR_H/2 - pillH/2;
-                    // Pill gölgesi
+                    // "HAVA DURUMU" pill - premium, daha büyük ve belirgin
+                    const pillW = 360, pillH = 60, pillX = PW/2 - pillW/2, pillY = HDR_BAR_H/2 - pillH/2;
+                    // Pill dış gölgesi
                     ctx.save();
-                    ctx.shadowColor = 'rgba(0,0,0,0.20)';
-                    ctx.shadowBlur = 14;
-                    ctx.shadowOffsetY = 4;
-                    ctx.fillStyle = 'rgba(255,255,255,0.22)';
-                    rr(pillX, pillY, pillW, pillH, 28); ctx.fill();
+                    ctx.shadowColor = 'rgba(0,0,0,0.28)';
+                    ctx.shadowBlur = 20;
+                    ctx.shadowOffsetY = 6;
+                    ctx.fillStyle = 'rgba(255,255,255,0.26)';
+                    rr(pillX, pillY, pillW, pillH, 30); ctx.fill();
                     ctx.restore();
-                    ctx.strokeStyle = 'rgba(255,255,255,0.65)'; ctx.lineWidth = 2;
-                    rr(pillX, pillY, pillW, pillH, 28); ctx.stroke();
+                    // Pill iç parlaklık
+                    const pillShineG = ctx.createLinearGradient(0, pillY, 0, pillY + pillH * 0.55);
+                    pillShineG.addColorStop(0, 'rgba(255,255,255,0.22)');
+                    pillShineG.addColorStop(1, 'rgba(255,255,255,0)');
+                    ctx.fillStyle = pillShineG;
+                    rr(pillX, pillY, pillW, pillH, 30); ctx.fill();
+                    ctx.strokeStyle = 'rgba(255,255,255,0.72)'; ctx.lineWidth = 2.5;
+                    rr(pillX, pillY, pillW, pillH, 30); ctx.stroke();
                     ctx.fillStyle = '#ffffff';
-                    ctx.font = "900 28px 'Nunito', sans-serif";
+                    ctx.font = "900 30px 'Nunito', sans-serif";
                     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
                     ctx.fillText('HAVA DURUMU', PW/2, HDR_BAR_H/2 + 1);
 
@@ -1861,25 +1871,31 @@
                     ctx.font = "700 27px 'Nunito', sans-serif";
                     ctx.fillText(subLabelTxt, PADX + 2, INFO_Y + 68);
 
-                    // Tarih pill - sağda, cam görünümlü
-                    const dpW = 330, dpH = 82, dpX = PW - PADX - dpW, dpY = INFO_Y + 4;
+                    // Tarih pill - sağda, daha belirgin cam görünüm
+                    const dpW = 340, dpH = 86, dpX = PW - PADX - dpW, dpY = INFO_Y + 2;
                     ctx.save();
-                    ctx.shadowColor = 'rgba(0,40,90,0.12)';
-                    ctx.shadowBlur = 18;
-                    ctx.shadowOffsetY = 6;
-                    ctx.fillStyle = 'rgba(26,60,100,0.09)';
-                    rr(dpX, dpY, dpW, dpH, 22); ctx.fill();
+                    ctx.shadowColor = 'rgba(0,40,90,0.16)';
+                    ctx.shadowBlur = 22;
+                    ctx.shadowOffsetY = 8;
+                    ctx.fillStyle = 'rgba(26,60,100,0.11)';
+                    rr(dpX, dpY, dpW, dpH, 24); ctx.fill();
                     ctx.restore();
-                    ctx.strokeStyle = 'rgba(26,80,130,0.22)'; ctx.lineWidth = 1.5;
-                    rr(dpX, dpY, dpW, dpH, 22); ctx.stroke();
+                    // Tarih pill üst parlaklık
+                    const dpShine = ctx.createLinearGradient(0, dpY, 0, dpY + dpH * 0.5);
+                    dpShine.addColorStop(0, 'rgba(255,255,255,0.16)');
+                    dpShine.addColorStop(1, 'rgba(255,255,255,0)');
+                    ctx.fillStyle = dpShine;
+                    rr(dpX, dpY, dpW, dpH, 24); ctx.fill();
+                    ctx.strokeStyle = 'rgba(26,80,130,0.26)'; ctx.lineWidth = 1.5;
+                    rr(dpX, dpY, dpW, dpH, 24); ctx.stroke();
 
                     ctx.fillStyle = '#142d4c';
-                    ctx.font = "800 27px 'Nunito', sans-serif";
+                    ctx.font = "800 28px 'Nunito', sans-serif";
                     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-                    ctx.fillText(gunAdi.toUpperCase(), dpX + dpW/2, dpY + 28);
-                    ctx.font = "600 23px 'Nunito', sans-serif";
+                    ctx.fillText(gunAdi.toUpperCase(), dpX + dpW/2, dpY + 30);
+                    ctx.font = "600 24px 'Nunito', sans-serif";
                     ctx.fillStyle = '#4a82aa';
-                    ctx.fillText(tarihStr, dpX + dpW/2, dpY + 58);
+                    ctx.fillText(tarihStr, dpX + dpW/2, dpY + 60);
 
                     // Ayırıcı çizgi - gradient
                     const SEP_Y = INFO_Y + 126;
@@ -1902,30 +1918,35 @@
                         const midY = ry + ROW_H / 2;
                         const isEven = i % 2 === 0;
 
-                        // Satır kart arka planı - tüm satırlar kart, çift/tek fark
+                        // Satır kart arka planı - daha belirgin, premium görünüm
                         ctx.save();
-                        ctx.shadowColor = 'rgba(0,40,90,0.10)';
-                        ctx.shadowBlur = 10;
-                        ctx.shadowOffsetY = 3;
-                        ctx.fillStyle = isEven ? 'rgba(255,255,255,0.52)' : 'rgba(255,255,255,0.22)';
-                        rr(PADX, ry + 5, CARD_W, ROW_H - 10, 16); ctx.fill();
+                        ctx.shadowColor = 'rgba(0,30,80,0.14)';
+                        ctx.shadowBlur = 14;
+                        ctx.shadowOffsetY = 4;
+                        ctx.fillStyle = isEven ? 'rgba(255,255,255,0.60)' : 'rgba(255,255,255,0.28)';
+                        rr(PADX, ry + 5, CARD_W, ROW_H - 10, 18); ctx.fill();
                         // Kart üst parlaklık
-                        const cardShine = ctx.createLinearGradient(0, ry + 5, 0, ry + 5 + (ROW_H-10) * 0.4);
-                        cardShine.addColorStop(0, isEven ? 'rgba(255,255,255,0.35)' : 'rgba(255,255,255,0.12)');
+                        const cardShine = ctx.createLinearGradient(0, ry + 5, 0, ry + 5 + (ROW_H-10) * 0.45);
+                        cardShine.addColorStop(0, isEven ? 'rgba(255,255,255,0.42)' : 'rgba(255,255,255,0.18)');
                         cardShine.addColorStop(1, 'transparent');
                         ctx.fillStyle = cardShine;
-                        rr(PADX, ry + 5, CARD_W, ROW_H - 10, 16); ctx.fill();
+                        rr(PADX, ry + 5, CARD_W, ROW_H - 10, 18); ctx.fill();
+                        // Kart ince border
+                        ctx.strokeStyle = isEven ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.20)';
+                        ctx.lineWidth = 1;
+                        rr(PADX, ry + 5, CARD_W, ROW_H - 10, 18); ctx.stroke();
                         ctx.restore();
 
                         // Sol aksan çizgi - daha kalın, parlak gradient
                         ctx.save();
-                        ctx.shadowColor = region.color + '88';
-                        ctx.shadowBlur = 12;
+                        ctx.shadowColor = region.color + 'aa';
+                        ctx.shadowBlur = 16;
                         const accentGrad = ctx.createLinearGradient(0, ry + 14, 0, ry + ROW_H - 14);
                         accentGrad.addColorStop(0, region.color + 'ff');
-                        accentGrad.addColorStop(1, region.color + 'aa');
+                        accentGrad.addColorStop(0.5, region.color + 'ee');
+                        accentGrad.addColorStop(1, region.color + '99');
                         ctx.fillStyle = accentGrad;
-                        ctx.beginPath(); ctx.roundRect(PADX, ry + 14, 7, ROW_H - 28, 4); ctx.fill();
+                        ctx.beginPath(); ctx.roundRect(PADX + 2, ry + 14, 8, ROW_H - 28, 5); ctx.fill();
                         ctx.restore();
 
                         // Satır ayırıcı (son satır hariç)
@@ -2019,44 +2040,57 @@
                     });
 
                     // ── ALT FOOTER BANDI ──
-                    const FOOT_Y = TOTAL_H - 110;
+                    const FOOT_Y = TOTAL_H - 118;
 
-                    // Footer üst fade
-                    const footFade = ctx.createLinearGradient(0, FOOT_Y - 30, 0, FOOT_Y);
+                    // Footer üst fade — daha geniş geçiş
+                    const footFade = ctx.createLinearGradient(0, FOOT_Y - 40, 0, FOOT_Y);
                     footFade.addColorStop(0, 'transparent');
-                    footFade.addColorStop(1, 'rgba(0,0,0,0.09)');
+                    footFade.addColorStop(1, 'rgba(0,0,0,0.10)');
                     ctx.fillStyle = footFade;
-                    ctx.fillRect(0, FOOT_Y - 30, PW, 30);
+                    ctx.fillRect(0, FOOT_Y - 40, PW, 40);
 
-                    // Footer ana renk
+                    // Footer ana renk — daha derin gradient
                     const footGrad = ctx.createLinearGradient(0, 0, PW, 0);
                     footGrad.addColorStop(0,   region.color);
-                    footGrad.addColorStop(0.7, region.color + 'ee');
-                    footGrad.addColorStop(1,   region.color + 'bb');
+                    footGrad.addColorStop(0.55, region.color + 'f0');
+                    footGrad.addColorStop(1,   region.color + 'cc');
                     ctx.fillStyle = footGrad;
-                    ctx.fillRect(0, FOOT_Y, PW, 110);
+                    ctx.fillRect(0, FOOT_Y, PW, 118);
+
+                    // Footer dikey gradient overlay
+                    const footV = ctx.createLinearGradient(0, FOOT_Y, 0, FOOT_Y + 118);
+                    footV.addColorStop(0, 'rgba(0,0,0,0.06)');
+                    footV.addColorStop(0.5, 'rgba(0,0,0,0)');
+                    footV.addColorStop(1, 'rgba(0,0,0,0.12)');
+                    ctx.fillStyle = footV;
+                    ctx.fillRect(0, FOOT_Y, PW, 118);
 
                     // Footer iç parlaklık
-                    const footShine = ctx.createLinearGradient(0, FOOT_Y, 0, FOOT_Y + 44);
-                    footShine.addColorStop(0, 'rgba(255,255,255,0.14)');
+                    const footShine = ctx.createLinearGradient(0, FOOT_Y, 0, FOOT_Y + 50);
+                    footShine.addColorStop(0, 'rgba(255,255,255,0.18)');
                     footShine.addColorStop(1, 'rgba(255,255,255,0)');
                     ctx.fillStyle = footShine;
-                    ctx.fillRect(0, FOOT_Y, PW, 44);
+                    ctx.fillRect(0, FOOT_Y, PW, 50);
 
                     // Logo
-                    const logoSz  = 72;
-                    const footMidY = FOOT_Y + 55;
+                    const logoSz  = 76;
+                    const footMidY = FOOT_Y + 59;
                     const logoX   = PADX;
 
                     if (logoImg) {
-                        // Logo halka
+                        // Logo çift halka — daha premium
                         ctx.save();
-                        ctx.shadowColor = 'rgba(255,255,255,0.6)';
-                        ctx.shadowBlur = 20;
+                        ctx.shadowColor = 'rgba(255,255,255,0.5)';
+                        ctx.shadowBlur = 24;
                         ctx.beginPath();
-                        ctx.arc(logoX + logoSz/2, footMidY, logoSz/2 + 4, 0, Math.PI*2);
-                        ctx.strokeStyle = 'rgba(255,255,255,0.55)';
-                        ctx.lineWidth = 3;
+                        ctx.arc(logoX + logoSz/2, footMidY, logoSz/2 + 6, 0, Math.PI*2);
+                        ctx.strokeStyle = 'rgba(255,255,255,0.30)';
+                        ctx.lineWidth = 4;
+                        ctx.stroke();
+                        ctx.beginPath();
+                        ctx.arc(logoX + logoSz/2, footMidY, logoSz/2 + 2, 0, Math.PI*2);
+                        ctx.strokeStyle = 'rgba(255,255,255,0.65)';
+                        ctx.lineWidth = 2.5;
                         ctx.stroke();
                         ctx.restore();
                         // Logo resmi
@@ -2068,25 +2102,25 @@
                         ctx.restore();
                     }
 
-                    // MuGöl yazısı
+                    // MuGöl yazısı — daha büyük, gölgeli
                     ctx.save();
-                    ctx.shadowColor = 'rgba(0,0,0,0.25)';
-                    ctx.shadowBlur = 8;
+                    ctx.shadowColor = 'rgba(0,0,0,0.30)';
+                    ctx.shadowBlur = 10;
                     ctx.fillStyle = '#ffffff';
-                    ctx.font = "900 48px 'Nunito', sans-serif";
+                    ctx.font = "900 50px 'Nunito', sans-serif";
                     ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-                    ctx.fillText('MuGöl', logoX + logoSz + 18, footMidY - 15);
+                    ctx.fillText('MuGöl', logoX + logoSz + 20, footMidY - 16);
                     ctx.restore();
-                    ctx.fillStyle = 'rgba(255,255,255,0.72)';
-                    ctx.font = "700 25px 'Nunito', sans-serif";
+                    ctx.fillStyle = 'rgba(255,255,255,0.78)';
+                    ctx.font = "700 26px 'Nunito', sans-serif";
                     ctx.textAlign = 'left';
-                    ctx.fillText('Hava Durumu', logoX + logoSz + 20, footMidY + 19);
+                    ctx.fillText('Hava Durumu', logoX + logoSz + 22, footMidY + 20);
 
-                    // Sağda domain
-                    ctx.fillStyle = 'rgba(255,255,255,0.50)';
-                    ctx.font = "600 21px 'Nunito', sans-serif";
+                    // Sağda domain — güncellenmiş URL
+                    ctx.fillStyle = 'rgba(255,255,255,0.55)';
+                    ctx.font = "600 19px 'Nunito', sans-serif";
                     ctx.textAlign = 'right';
-                    ctx.fillText('mugol-portal.github.io', PW - PADX, footMidY + 19);
+                    ctx.fillText('mugol-portal.github.io/mugol.havadurumu/', PW - PADX, footMidY + 19);
 
                     // İndir
                     const suffix = totalPages > 1 ? `_${pageNum}` : '';
