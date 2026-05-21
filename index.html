@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="HandheldFriendly" content="true">
     <meta name="MobileOptimized" content="375">
-    <meta name="theme-color" content="#02040a">
+    <meta name="theme-color" content="#0c1f3f">
     
     <!-- PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -26,23 +26,23 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-dark: #02040a;
-            --bg-gradient: radial-gradient(circle at 0% 0%, #1e293b 0%, #02040a 100%);
-            --glass-bg: rgba(20, 25, 40, 0.65);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-shine: rgba(255, 255, 255, 0.03);
-            --glass-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
-            --glass-inner-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-            --text-primary: #ffffff;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --gold-primary: #fbbf24;
-            --gold-metallic: linear-gradient(135deg, #fcd34d 0%, #d97706 100%);
-            --gold-glow: rgba(251, 191, 36, 0.25);
+            --bg-dark: #0c1f3f;
+            --bg-gradient: linear-gradient(160deg, #1a3a6b 0%, #0c2a5e 40%, #061830 100%);
+            --glass-bg: rgba(14, 42, 90, 0.60);
+            --glass-border: rgba(100, 180, 255, 0.12);
+            --glass-shine: rgba(100, 180, 255, 0.06);
+            --glass-shadow: 0 25px 50px -12px rgba(0, 10, 40, 0.7);
+            --glass-inner-shadow: inset 0 0 0 1px rgba(100, 180, 255, 0.08);
+            --text-primary: #e8f4ff;
+            --text-secondary: #7eb8e8;
+            --text-muted: #4a7fa8;
+            --gold-primary: #38bdf8;
+            --gold-metallic: linear-gradient(135deg, #7dd3fc 0%, #0ea5e9 100%);
+            --gold-glow: rgba(56, 189, 248, 0.30);
             --radius-xl: 32px;
             --radius-lg: 20px;
             --radius-md: 14px;
@@ -58,6 +58,15 @@
             --alert-success-border: rgba(16, 185, 129, 0.3);
             --alert-news-bg: rgba(139, 92, 246, 0.15);
             --alert-news-border: rgba(139, 92, 246, 0.3);
+            
+            /* Region Colors */
+            --region-marmara: #3b82f6;
+            --region-ege: #06b6d4;
+            --region-akdeniz: #f97316;
+            --region-ic: #f59e0b;
+            --region-karadeniz: #10b981;
+            --region-dogu: #8b5cf6;
+            --region-guneydogu: #ef4444;
         }
 
         body.light-mode {
@@ -86,7 +95,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Nunito', sans-serif;
             background: var(--bg-dark);
             background-image: var(--bg-gradient);
             color: var(--text-primary);
@@ -98,10 +107,16 @@
 
         .ambient-light {
             position: fixed; top: -20vh; left: -20vw; width: 80vw; height: 80vw;
-            background: radial-gradient(circle, rgba(251, 191, 36, 0.08) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, transparent 70%);
             filter: blur(60px); z-index: -1; animation: breathe 10s infinite alternate;
         }
-        @keyframes breathe { 0% { opacity: 0.5; transform: scale(1); } 100% { opacity: 0.8; transform: scale(1.1); } }
+        .ambient-light-2 {
+            position: fixed; bottom: -15vh; right: -15vw; width: 70vw; height: 70vw;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.10) 0%, transparent 70%);
+            filter: blur(80px); z-index: -1; animation: breathe 14s 3s infinite alternate;
+        }
+        body.light-mode .ambient-light-2 { background: radial-gradient(circle, rgba(14, 165, 233, 0.06) 0%, transparent 70%); }
+        @keyframes breathe { 0% { opacity: 0.5; transform: scale(1); } 100% { opacity: 0.9; transform: scale(1.12); } }
 
         .container { max-width: 440px; margin: 0 auto; padding: 16px 20px 110px 20px; }
 
@@ -118,19 +133,19 @@
         body.light-mode .logo-box { border-color: rgba(0, 0, 0, 0.8); background: rgba(255, 255, 255, 0.5); }
         .logo-box img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
 
-        .brand-text h1 { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1; background: var(--gold-metallic); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .brand-text p { font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+        .brand-text h1 { font-size: 1.35rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1; background: var(--gold-metallic); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .brand-text p { font-size: 0.68rem; color: var(--text-secondary); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
         
         .control-group { display: flex; gap: 10px; }
         .icon-btn { width: 44px; height: 44px; border-radius: var(--radius-md); border: none; background: var(--glass-bg); box-shadow: var(--glass-inner-shadow); border: 1px solid var(--glass-border); color: var(--text-primary); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); font-size: 1.1rem; }
         .icon-btn:hover { background: var(--glass-shine); transform: translateY(-2px); border-color: var(--gold-primary); }
-        .icon-btn.active { background: var(--gold-metallic); color: #0f172a; box-shadow: 0 8px 20px var(--gold-glow); border-color: transparent; }
+        .icon-btn.active { background: var(--gold-metallic); color: #0a1628; box-shadow: 0 8px 20px var(--gold-glow); border-color: transparent; }
 
         /* TABS (KATEGORİ BANNERI EN ÜSTTE) */
-        .tabs-dock { display: flex; background: var(--glass-bg); border-radius: var(--radius-lg); padding: 6px; gap: 8px; margin-bottom: 16px; box-shadow: var(--glass-shadow), var(--glass-inner-shadow); border: 1px solid var(--glass-border); backdrop-filter: blur(20px); }
-        .tab-btn { flex: 1; padding: 12px 0; border: none; background: transparent; color: var(--text-secondary); font-weight: 700; font-size: 0.9rem; font-family: inherit; border-radius: var(--radius-md); cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        .tab-btn:hover { color: var(--text-primary); background: rgba(255,255,255,0.05); }
-        .tab-btn.active { background: var(--gold-metallic); color: #0f172a; box-shadow: 0 4px 12px var(--gold-glow); }
+        .tabs-dock { display: flex; background: var(--glass-bg); border-radius: var(--radius-lg); padding: 5px; gap: 6px; margin-bottom: 16px; box-shadow: var(--glass-shadow), var(--glass-inner-shadow); border: 1px solid var(--glass-border); backdrop-filter: blur(20px); }
+        .tab-btn { flex: 1; padding: 11px 4px; border: none; background: transparent; color: var(--text-secondary); font-weight: 800; font-size: 0.82rem; font-family: 'Nunito', sans-serif; border-radius: 15px; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); letter-spacing: 0.01em; }
+        .tab-btn:hover { color: var(--text-primary); background: rgba(255,255,255,0.06); }
+        .tab-btn.active { background: var(--gold-metallic); color: #0a1628; box-shadow: 0 4px 14px var(--gold-glow); }
         
         .tab-pane { display: none; animation: hero-enter 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
         .tab-pane.active { display: block; }
@@ -139,37 +154,45 @@
         .search-dock { background: var(--glass-bg); border-radius: var(--radius-lg); padding: 6px; display: flex; gap: 8px; margin-bottom: 24px; box-shadow: var(--glass-shadow), var(--glass-inner-shadow); border: 1px solid var(--glass-border); backdrop-filter: blur(20px); align-items: center; height: 56px; }
         .select-group { flex: 1; position: relative; height: 100%; }
         .city-select { width: 100%; height: 100%; padding: 0 16px; border: none; background: transparent; color: var(--text-primary); font-size: 0.95rem; font-weight: 600; font-family: inherit; appearance: none; outline: none; cursor: pointer; }
-        .city-select option { background: #02040a; color: white; padding: 10px; }
+        .city-select option { background: #0c1f3f; color: white; padding: 10px; }
         body.light-mode .city-select option { background: white; color: black; }
         .select-indicator { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 24px; height: 24px; background: rgba(255,255,255,0.05); border-radius: 6px; display: flex; align-items: center; justify-content: center; pointer-events: none; color: var(--text-secondary); font-size: 0.7rem; }
         
         .action-btn { width: 42px; height: 42px; border-radius: var(--radius-md); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 1.1rem; flex-shrink: 0; }
         .btn-ghost { background: transparent; color: var(--text-secondary); }
         .btn-ghost:hover { background: rgba(255,255,255,0.05); color: var(--text-primary); }
-        .btn-gold { background: var(--gold-metallic); color: #0f172a; box-shadow: 0 4px 12px var(--gold-glow); }
+        .btn-gold { background: var(--gold-metallic); color: #0a1628; box-shadow: 0 4px 12px var(--gold-glow); }
         .btn-gold:hover { transform: scale(1.05); }
 
         /* HERO CARD */
-        .weather-hero { background: var(--glass-bg); border-radius: var(--radius-xl); padding: 32px 24px; text-align: center; position: relative; overflow: hidden; box-shadow: var(--glass-shadow), var(--glass-inner-shadow); border: 1px solid var(--glass-border); margin-bottom: 24px; animation: hero-enter 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .weather-hero::before { content: ''; position: absolute; inset: 0; border-radius: var(--radius-xl); padding: 1px; background: linear-gradient(180deg, rgba(255,255,255,0.1), transparent 80%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; pointer-events: none; }
-        .hero-icon { font-size: 88px; margin-bottom: 8px; display: inline-block; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.3)); animation: float 6s ease-in-out infinite; }
-        .hero-temp { font-size: 4.2rem; font-weight: 800; line-height: 1; letter-spacing: -2px; background: linear-gradient(180deg, var(--text-primary) 30%, rgba(255,255,255,0.4) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 4px; }
+        .weather-hero { background: var(--glass-bg); border-radius: var(--radius-xl); padding: 32px 24px; text-align: center; position: relative; overflow: hidden; box-shadow: var(--glass-shadow), var(--glass-inner-shadow); border: 1px solid var(--glass-border); margin-bottom: 24px; animation: hero-enter 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); transition: background 0.6s; }
+        .weather-hero::before { content: ''; position: absolute; inset: 0; border-radius: var(--radius-xl); padding: 1px; background: linear-gradient(180deg, rgba(255,255,255,0.12), transparent 80%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; pointer-events: none; }
+        .weather-hero.hero-sunny::after { content: ''; position: absolute; top: -30%; right: -10%; width: 60%; height: 60%; background: radial-gradient(circle, rgba(56,189,248,0.20) 0%, transparent 70%); pointer-events: none; animation: breathe 8s infinite alternate; }
+        .weather-hero.hero-rain::after { content: ''; position: absolute; top: -20%; left: 10%; width: 80%; height: 80%; background: radial-gradient(circle, rgba(59,130,246,0.18) 0%, transparent 70%); pointer-events: none; animation: breathe 10s infinite alternate; }
+        .weather-hero.hero-snow::after { content: ''; position: absolute; top: -20%; left: 10%; width: 80%; height: 80%; background: radial-gradient(circle, rgba(186,230,253,0.2) 0%, transparent 70%); pointer-events: none; animation: breathe 10s infinite alternate; }
+        .weather-hero.hero-storm::after { content: ''; position: absolute; top: -20%; left: 10%; width: 80%; height: 80%; background: radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 70%); pointer-events: none; animation: breathe 6s infinite alternate; }
+        .hero-icon { font-size: 88px; margin-bottom: 8px; display: inline-block; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.3)); animation: float 6s ease-in-out infinite; position: relative; z-index: 1; }
+        .hero-temp { font-size: 4.8rem; font-weight: 900; line-height: 1; letter-spacing: -4px; background: linear-gradient(180deg, var(--text-primary) 30%, rgba(255,255,255,0.4) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 4px; position: relative; z-index: 1; }
         body.light-mode .hero-temp { background: linear-gradient(180deg, var(--text-primary) 30%, rgba(0,0,0,0.4) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        .hero-feels { font-size: 0.95rem; color: var(--text-secondary); font-weight: 500; margin-bottom: 8px; }
-        .hero-desc { font-size: 1.15rem; font-weight: 600; color: var(--gold-primary); text-transform: capitalize; margin-bottom: 28px; letter-spacing: 0.5px; }
-        .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; background: rgba(0,0,0,0.2); border-radius: var(--radius-lg); padding: 4px; border: 1px solid var(--glass-border); }
+        .hero-feels { font-size: 0.88rem; color: var(--text-secondary); font-weight: 600; margin-bottom: 6px; position: relative; z-index: 1; }
+        .hero-desc { font-size: 1.05rem; font-weight: 800; color: var(--gold-primary); text-transform: capitalize; margin-bottom: 22px; letter-spacing: 0.3px; position: relative; z-index: 1; }
+        .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; background: rgba(0,0,0,0.2); border-radius: var(--radius-lg); padding: 4px; border: 1px solid var(--glass-border); position: relative; z-index: 1; }
         body.light-mode .hero-stats { background: rgba(255,255,255,0.3); }
-        .stat-box { padding: 12px 4px; display: flex; flex-direction: column; align-items: center; }
-        .stat-icon { font-size: 1.2rem; margin-bottom: 4px; filter: grayscale(0.5); }
-        .stat-val { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); }
-        .stat-label { font-size: 0.65rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; margin-top: 2px; }
-        .loc-tag { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.05); padding: 6px 12px; border-radius: 100px; font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); border: 1px solid var(--glass-border); display: flex; align-items: center; gap: 4px; }
+        .stat-box { padding: 12px 4px; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+        .stat-icon { font-size: 1.15rem; filter: grayscale(0.3); }
+        .stat-val { font-size: 0.9rem; font-weight: 800; color: var(--text-primary); }
+        .stat-label { font-size: 0.62rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.4px; }
+        .loc-tag { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.07); padding: 5px 12px; border-radius: 100px; font-size: 0.72rem; font-weight: 700; color: var(--text-secondary); border: 1px solid var(--glass-border); display: flex; align-items: center; gap: 4px; z-index: 2; backdrop-filter: blur(8px); }
+        
+        /* UV & Extra detail */
+        .uv-bar { height: 5px; border-radius: 100px; background: linear-gradient(90deg, #22c55e, #eab308, #ef4444); margin-top: 4px; position: relative; }
+        .uv-dot { position: absolute; top: -3px; width: 11px; height: 11px; background: white; border-radius: 50%; border: 2px solid #061830; transform: translateX(-50%); box-shadow: 0 2px 6px rgba(0,0,0,0.4); transition: left 0.5s cubic-bezier(0.34,1.56,0.64,1); }
 
         /* SECTIONS & TITLES */
-        .section-head { display: flex; align-items: center; justify-content: space-between; margin: 32px 4px 16px; }
-        .section-title { font-size: 1rem; font-weight: 700; color: var(--text-primary); }
-        .section-icon { color: var(--gold-primary); margin-right: 6px; }
+        .section-head { display: flex; align-items: center; justify-content: space-between; margin: 28px 4px 14px; }
+        .section-title { font-size: 0.95rem; font-weight: 900; color: var(--text-primary); letter-spacing: -0.01em; }
+        .section-icon { color: var(--gold-primary); margin-right: 6px; font-size: 1rem; }
         
         /* NEWS & ALERTS */
         .alert-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
@@ -196,30 +219,32 @@
         .news-badge { display: inline-block; background: #8b5cf6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; margin-bottom: 4px; width: fit-content; text-transform: uppercase;}
 
         /* DETAILS GRID */
-        .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
-        .detail-card { background: var(--glass-bg); border-radius: var(--radius-lg); padding: 16px; display: flex; align-items: center; gap: 14px; border: 1px solid var(--glass-border); box-shadow: var(--glass-inner-shadow); transition: transform 0.2s; }
-        .detail-card:hover { transform: translateY(-3px); background: var(--glass-shine); border-color: var(--gold-primary); }
-        .detail-icon { font-size: 1.8rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); }
-        .detail-info { display: flex; flex-direction: column; gap: 2px; }
-        .detail-label { font-size: 0.7rem; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-        .detail-val { font-size: 1.05rem; font-weight: 800; color: var(--text-primary); }
+        .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+        .detail-card { background: var(--glass-bg); border-radius: var(--radius-lg); padding: 16px; display: flex; align-items: center; gap: 12px; border: 1px solid var(--glass-border); box-shadow: var(--glass-inner-shadow); transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s, box-shadow 0.2s; }
+        .detail-card:hover { transform: translateY(-4px) scale(1.01); background: var(--glass-shine); border-color: var(--gold-primary); box-shadow: 0 12px 30px rgba(56,189,248,0.15); }
+        .detail-icon { font-size: 1.7rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); flex-shrink: 0; }
+        .detail-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+        .detail-label { font-size: 0.68rem; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .detail-val { font-size: 1rem; font-weight: 900; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .detail-sub { font-size: 0.7rem; color: var(--text-muted); font-weight: 500; }
 
         /* SCROLL WRAP & FORECAST */
         .scroll-wrap { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 20px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
         .scroll-wrap::-webkit-scrollbar { display: none; }
-        .hour-pill { min-width: 72px; background: var(--glass-bg); border-radius: var(--radius-lg); padding: 16px 8px; display: flex; flex-direction: column; align-items: center; gap: 10px; border: 1px solid var(--glass-border); box-shadow: var(--glass-inner-shadow); transition: transform 0.2s; }
-        .hour-pill:hover { transform: translateY(-4px); background: var(--glass-shine); border-color: var(--gold-primary); }
-        .hp-time { font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); }
+        .hour-pill { min-width: 74px; background: var(--glass-bg); border-radius: var(--radius-lg); padding: 16px 8px; display: flex; flex-direction: column; align-items: center; gap: 8px; border: 1px solid var(--glass-border); box-shadow: var(--glass-inner-shadow); transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s; }
+        .hour-pill:hover { transform: translateY(-5px); border-color: var(--gold-primary); box-shadow: 0 10px 25px rgba(56,189,248,0.18); }
+        .hour-pill.current { border-color: var(--gold-primary); background: linear-gradient(180deg, rgba(251,191,36,0.12), var(--glass-bg)); }
+        .hp-time { font-size: 0.72rem; font-weight: 700; color: var(--text-secondary); }
         .hp-icon { font-size: 1.6rem; }
-        .hp-temp { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); }
+        .hp-temp { font-size: 0.95rem; font-weight: 800; color: var(--text-primary); }
         
-        .daily-grid { display: flex; flex-direction: column; gap: 10px; }
-        .day-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-radius: var(--radius-lg); background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: var(--glass-inner-shadow); transition: all 0.2s; }
-        .day-row:hover { background: var(--glass-shine); transform: scale(1.01); }
-        .dr-name { flex: 1; font-weight: 600; font-size: 0.95rem; }
-        .dr-icon { font-size: 1.4rem; }
-        .dr-vals { font-weight: 700; font-size: 1rem; }
-        .dr-low { color: var(--text-muted); font-weight: 500; font-size: 0.85rem; margin-left: 8px; }
+        .daily-grid { display: flex; flex-direction: column; gap: 7px; }
+        .day-row { display: flex; align-items: center; justify-content: space-between; padding: 13px 18px; border-radius: var(--radius-lg); background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: var(--glass-inner-shadow); transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1); }
+        .day-row:hover { background: var(--glass-shine); transform: scale(1.015) translateX(3px); border-color: rgba(251,191,36,0.35); }
+        .dr-name { flex: 1; font-weight: 700; font-size: 0.88rem; color: var(--text-secondary); }
+        .dr-icon { font-size: 1.3rem; margin: 0 14px; }
+        .dr-vals { font-weight: 900; font-size: 1rem; color: var(--text-primary); }
+        .dr-low { color: var(--text-muted); font-weight: 600; font-size: 0.83rem; margin-left: 6px; }
 
         /* SATELLITE/RADAR MAP */
         .map-container { width: 100%; height: 350px; border-radius: var(--radius-xl); overflow: hidden; border: 1px solid var(--glass-border); box-shadow: var(--glass-inner-shadow), var(--glass-shadow); background: var(--glass-bg); margin-bottom: 24px; position: relative; z-index: 1; transform: translateZ(0); }
@@ -230,17 +255,59 @@
         .loading-wrap { padding: 50px; text-align: center; }
         .gold-spinner { width: 36px; height: 36px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--gold-primary); border-radius: 50%; animation: spin 0.8s ease-in-out infinite; margin: 0 auto 12px; }
         
-        .pwa-toast { position: fixed; bottom: 24px; left: 20px; right: 20px; background: rgba(15, 23, 42, 0.95); border: 1px solid var(--gold-primary); backdrop-filter: blur(20px); border-radius: 20px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; transform: translateY(150%); transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); z-index: 2000; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .pwa-toast { position: fixed; bottom: 24px; left: 20px; right: 20px; background: rgba(8, 25, 60, 0.97); border: 1px solid var(--gold-primary); backdrop-filter: blur(20px); border-radius: 20px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; transform: translateY(150%); transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); z-index: 2000; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
         body.light-mode .pwa-toast { background: rgba(255,255,255,0.95); }
         .pwa-toast.show { transform: translateY(0); }
-        .toast-btn { background: var(--gold-metallic); color: #02040a; border: none; padding: 8px 16px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
+        .toast-btn { background: var(--gold-metallic); color: #061830; border: none; padding: 8px 16px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
 
         @keyframes hero-enter { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         .pulse-gold { animation: pulse 1s infinite; background: var(--gold-metallic) !important; color: #000 !important; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* ─── BÖLGESEL HAVA DURUMU ─── */
+        .bolge-intro { background: var(--glass-bg); border-radius: var(--radius-xl); padding: 22px 24px; text-align: center; margin-bottom: 20px; border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow), var(--glass-inner-shadow); position: relative; overflow: hidden; animation: hero-enter 0.7s cubic-bezier(0.2,0.8,0.2,1); }
+        .bolge-intro::after { content: ''; position: absolute; top: -30%; right: -10%; width: 60%; height: 110%; background: radial-gradient(circle, rgba(56,189,248,0.12) 0%, transparent 70%); pointer-events: none; }
+        .bolge-intro h2 { font-size: 1.35rem; font-weight: 900; background: var(--gold-metallic); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.03em; margin-bottom: 4px; }
+        .bolge-intro p { font-size: 0.78rem; color: var(--text-secondary); font-weight: 600; }
+        .bolge-intro .bolge-emoji { font-size: 2.6rem; margin-bottom: 8px; display: block; }
+
+        .bolge-region { margin-bottom: 14px; animation: slideUp 0.6s cubic-bezier(0.2,0.8,0.2,1) both; }
+
+        /* Region card container */
+        .bolge-region-card { background: var(--glass-bg); border-radius: var(--radius-xl); border: 1px solid rgba(100,180,255,0.14); box-shadow: var(--glass-inner-shadow), var(--glass-shadow), 0 0 0 0.5px rgba(56,189,248,0.06); overflow: hidden; backdrop-filter: blur(20px); }
+
+        /* Region header inside card */
+        .bolge-region-header { display: flex; align-items: center; gap: 14px; padding: 15px 18px; background: rgba(14,42,90,0.6); border-bottom: 1px solid var(--glass-border); backdrop-filter: blur(10px); }
+        body.light-mode .bolge-region-header { background: rgba(0,0,0,0.02); }
+        .bolge-region-bar { width: 4px; height: 38px; border-radius: 4px; flex-shrink: 0; }
+        .bolge-region-label { flex: 1; }
+        .bolge-region-name { font-size: 0.95rem; font-weight: 900; color: var(--text-primary); letter-spacing: -0.01em; line-height: 1.2; }
+        .bolge-region-sub { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; margin-top: 2px; }
+        .bolge-region-badge { font-size: 0.68rem; font-weight: 800; padding: 3px 10px; border-radius: 100px; color: white; }
+
+        /* City list rows */
+        .bolge-city-list { display: flex; flex-direction: column; }
+        .bolge-city-row { display: flex; align-items: center; gap: 12px; padding: 13px 18px; cursor: pointer; transition: all 0.2s ease; border-bottom: 1px solid var(--glass-border); position: relative; }
+        .bolge-city-row:last-child { border-bottom: none; }
+        .bolge-city-row:hover { background: rgba(56,189,248,0.07); border-left: 3px solid rgba(56,189,248,0.5); padding-left: 15px; }
+        body.light-mode .bolge-city-row:hover { background: rgba(0,0,0,0.03); }
+        .bolge-city-row:active { background: rgba(255,255,255,0.08); transform: scale(0.99); }
+
+        .bcr-icon { font-size: 1.5rem; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3)); }
+        .bcr-info { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+        .bcr-name { font-size: 0.9rem; font-weight: 800; color: var(--text-primary); white-space: nowrap; }
+        .bcr-desc { font-size: 0.68rem; color: var(--text-muted); font-weight: 600; white-space: nowrap; }
+        .bcr-temp { font-size: 1rem; font-weight: 900; color: var(--text-primary); min-width: 38px; text-align: right; flex-shrink: 0; letter-spacing: -0.5px; }
+        .bcr-arrow { font-size: 0.75rem; color: var(--text-muted); margin-left: 6px; flex-shrink: 0; opacity: 0.6; }
+
+        /* Skeleton rows */
+        .bolge-row-skeleton { height: 52px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--glass-border); animation: skeleton-pulse 1.5s ease-in-out infinite; }
+        .bolge-row-skeleton:last-child { border-bottom: none; }
+        @keyframes skeleton-pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.75; } }
+        
         /* ── AdSense Reklam Kutusu ── */
         .mg-ad-box {
             position: relative;
@@ -266,7 +333,7 @@
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            background: var(--bg-dark, #02040a);
+            background: var(--bg-dark, #020818);
             padding: 2px 10px;
             border-radius: 20px;
             border: 1px solid var(--glass-border);
@@ -297,7 +364,20 @@
         .portal-back-btn:hover { color: var(--gold-primary); border-color: var(--gold-primary); }
         .portal-back-btn svg { width: 13px; height: 13px; }
 
+
+        /* PNG İndirme Butonu */
+        .bolge-png-btn {
+            display: flex; align-items: center; gap: 5px;
+            background: none; border: 1px solid var(--glass-border);
+            color: var(--text-muted); font-size: 0.65rem; font-weight: 700;
+            padding: 4px 10px; border-radius: 100px; cursor: pointer;
+            transition: all 0.2s; font-family: 'Nunito', sans-serif;
+            letter-spacing: 0.3px; white-space: nowrap;
+        }
+        .bolge-png-btn:hover { border-color: var(--gold-primary); color: var(--gold-primary); }
+        .bolge-png-btn svg { width: 11px; height: 11px; flex-shrink: 0; }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
@@ -317,6 +397,7 @@
     </amp-auto-ads>
 
     <div class="ambient-light"></div>
+    <div class="ambient-light-2"></div>
 
     <div class="container">
         <!-- Header -->
@@ -353,6 +434,7 @@
         <div class="tabs-dock" id="mainTabs">
             <button class="tab-btn active" data-tab="weather">Hava Durumu</button>
             <button class="tab-btn" data-tab="news">Haberler</button>
+            <button class="tab-btn" data-tab="bolge">🗺️ Bölgeler</button>
         </div>
 
         <!-- SEARCH BAR (SADECE HAVA DURUMU SEKME İÇİN GÖRÜNÜR) -->
@@ -457,6 +539,21 @@
                 <div class="loading-wrap">
                     <div class="gold-spinner"></div>
                     <p style="color:var(--text-secondary);font-size:0.9rem;">Veriler yükleniyor...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- BÖLGELER PANELİ -->
+        <div class="tab-pane" id="pane-bolge">
+            <div class="bolge-intro">
+                <span class="bolge-emoji">🗺️</span>
+                <h2>Türkiye Bölgesel Hava</h2>
+                <p>7 coğrafi bölge — tüm iller anlık güncelleme</p>
+            </div>
+            <div id="bolgeContent">
+                <div class="loading-wrap">
+                    <div class="gold-spinner"></div>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:8px;">Bölgesel veriler yükleniyor...</p>
                 </div>
             </div>
         </div>
@@ -671,66 +768,51 @@
         }
 
         async function fetchWeatherData(lat, lon, cityName = null) {
-            const currentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}&units=metric&lang=tr`;
-            const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}&units=metric&lang=tr`;
-            const aqiUrl = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}`;
-            
-            const[currentRes, forecastRes, aqiRes, realNews] = await Promise.all([
-                fetch(currentUrl), 
-                fetch(forecastUrl),
-                fetch(aqiUrl).catch(() => null),
+            const meteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
+                `&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,surface_pressure` +
+                `&hourly=temperature_2m,weather_code` +
+                `&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset` +
+                `&timezone=auto&forecast_days=5`;
+
+            const [meteoRes, realNews] = await Promise.all([
+                fetch(meteoUrl),
                 fetchRealWeatherNews()
             ]);
-            
-            if (!currentRes.ok || !forecastRes.ok) throw new Error('API hatası');
-            
-            const currentData = await currentRes.json();
-            const forecastData = await forecastRes.json();
-            
-            let aqiData = null;
-            if (aqiRes && aqiRes.ok) {
-                const tempAqi = await aqiRes.json();
-                if(tempAqi.list && tempAqi.list.length > 0) {
-                    aqiData = tempAqi.list[0].main.aqi;
-                }
-            }
-            
+
+            if (!meteoRes.ok) throw new Error('API hatası');
+            const d = await meteoRes.json();
+
+            // Güncel saate en yakın hourly index
+            const nowIso = d.current.time;
+            const hourlyTimes = d.hourly.time;
+
             const data = {
                 current: {
-                    temperature_2m: currentData.main.temp,
-                    feels_like: currentData.main.feels_like,
-                    relative_humidity_2m: currentData.main.humidity,
-                    weather_code: mapOpenWeatherToCode(currentData.weather[0].id),
-                    wind_speed_10m: currentData.wind.speed * 3.6,
-                    pressure_msl: currentData.main.pressure,
-                    visibility: currentData.visibility,
-                    sunrise: currentData.sys.sunrise,
-                    sunset: currentData.sys.sunset,
-                    aqi: aqiData
+                    temperature_2m: d.current.temperature_2m,
+                    feels_like: d.current.apparent_temperature,
+                    relative_humidity_2m: d.current.relative_humidity_2m,
+                    weather_code: d.current.weather_code,
+                    wind_speed_10m: d.current.wind_speed_10m,
+                    pressure_msl: d.current.surface_pressure,
+                    visibility: 10000,
+                    sunrise: new Date(d.daily.sunrise[0]).getTime() / 1000,
+                    sunset:  new Date(d.daily.sunset[0]).getTime()  / 1000,
+                    aqi: null
                 },
                 hourly: {
-                    time: forecastData.list.map(item => item.dt_txt),
-                    temperature_2m: forecastData.list.map(item => item.main.temp),
-                    weather_code: forecastData.list.map(item => mapOpenWeatherToCode(item.weather[0].id))
+                    time: hourlyTimes,
+                    temperature_2m: d.hourly.temperature_2m,
+                    weather_code: d.hourly.weather_code
                 },
-                daily: { time:[], weather_code:[], temperature_2m_max:[], temperature_2m_min:[] },
+                daily: {
+                    time: d.daily.time,
+                    weather_code: d.daily.weather_code,
+                    temperature_2m_max: d.daily.temperature_2m_max,
+                    temperature_2m_min: d.daily.temperature_2m_min
+                },
                 news: realNews
             };
-            
-            const dailyMap = {};
-            forecastData.list.forEach(item => {
-                const date = item.dt_txt.split(' ')[0];
-                if (!dailyMap[date]) dailyMap[date] = { temps:[], codes:[] };
-                dailyMap[date].temps.push(item.main.temp);
-                dailyMap[date].codes.push(mapOpenWeatherToCode(item.weather[0].id));
-            });
-            Object.keys(dailyMap).slice(0, 5).forEach(date => {
-                data.daily.time.push(date);
-                data.daily.temperature_2m_max.push(Math.max(...dailyMap[date].temps));
-                data.daily.temperature_2m_min.push(Math.min(...dailyMap[date].temps));
-                data.daily.weather_code.push(dailyMap[date].codes[0]);
-            });
-            
+
             const city = cityName || await getCityNameFromCoords(lat, lon);
             return { city, data, lat, lon };
         }
@@ -786,6 +868,19 @@
             const sunsetTime = formatTime(current.sunset);
             const visibilityKm = current.visibility ? (current.visibility / 1000).toFixed(1) + ' km' : 'Bilinmiyor';
             const aqiObj = current.aqi ? getAqiText(current.aqi) : { text: 'Bilinmiyor', icon: '⚪' };
+            
+            // Hero class based on weather type
+            const heroClass = current.weather_code >= 95 ? 'hero-storm' : current.weather_code >= 70 ? 'hero-snow' : current.weather_code >= 60 ? 'hero-rain' : current.weather_code >= 1 ? '' : 'hero-sunny';
+            
+            // UV index estimate (based on time & weather)
+            const now = new Date();
+            const hour = now.getHours();
+            let uvBase = current.weather_code === 0 ? 8 : current.weather_code <= 2 ? 5 : current.weather_code <= 3 ? 3 : 1;
+            if (hour < 8 || hour > 19) uvBase = 0;
+            else if (hour < 10 || hour > 16) uvBase = Math.round(uvBase * 0.5);
+            const uvIndex = Math.min(11, uvBase);
+            const uvLevel = uvIndex <= 2 ? 'Düşük' : uvIndex <= 5 ? 'Orta' : uvIndex <= 7 ? 'Yüksek' : uvIndex <= 10 ? 'Çok Yüksek' : 'Aşırı';
+            const uvPct = Math.round((uvIndex / 11) * 100);
 
             // Aktif Tab'ı hatırla (Yenileme yapıldığında doğru sayfada kalması için)
             const activeTabBtn = document.querySelector('.tab-btn.active');
@@ -795,7 +890,7 @@
                 <!-- SEKME 1: HAVA DURUMU -->
                 <div class="tab-pane ${activeTab === 'weather' ? 'active' : ''}" id="pane-weather">
                     
-                    <div class="weather-hero">
+                    <div class="weather-hero ${heroClass}">
                         <div class="loc-tag">📍 ${city}</div>
                         <div class="hero-icon">${getWeatherIcon(current.weather_code)}</div>
                         <div class="hero-temp">${Math.round(current.temperature_2m)}°</div>
@@ -822,6 +917,14 @@
                             <div class="detail-info">
                                 <span class="detail-label">Güneş Batış</span>
                                 <span class="detail-val">${sunsetTime}</span>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-icon">☀️</div>
+                            <div class="detail-info">
+                                <span class="detail-label">UV İndeksi</span>
+                                <span class="detail-val">${uvIndex} — ${uvLevel}</span>
+                                <div class="uv-bar" style="width:100px;"><div class="uv-dot" style="left:${uvPct}%"></div></div>
                             </div>
                         </div>
                         <div class="detail-card">
@@ -877,6 +980,102 @@
         function showLoading() { weatherContent.innerHTML = `<div class="weather-hero"><div class="loading-wrap"><div class="gold-spinner"></div><p style="color:var(--text-secondary)">Meteorolojik veriler taranıyor...</p></div></div>`; }
         function showError(msg) { weatherContent.innerHTML = `<div class="weather-hero"><div class="loading-wrap"><div style="font-size:32px;margin-bottom:8px">⚠️</div><p>${msg}</p></div></div>`; }
 
+        let bolgeLoaded = false;
+
+        // ─── BÖLGESEL HAVA DURUMU ───
+        const REGIONS = [
+            { name: 'Marmara Bölgesi', emoji: '🌊', color: '#3b82f6', cities: ['İstanbul', 'Bursa', 'Kocaeli', 'Edirne', 'Tekirdağ', 'Balıkesir', 'Çanakkale', 'Yalova'] },
+            { name: 'Ege Bölgesi', emoji: '🏖️', color: '#06b6d4', cities: ['İzmir', 'Aydın', 'Muğla', 'Denizli', 'Manisa', 'Uşak', 'Kütahya', 'Afyonkarahisar'] },
+            { name: 'Akdeniz Bölgesi', emoji: '☀️', color: '#f97316', cities: ['Antalya', 'Mersin', 'Adana', 'Hatay', 'Isparta', 'Burdur', 'Kahramanmaraş', 'Osmaniye'] },
+            { name: 'İç Anadolu Bölgesi', emoji: '🏔️', color: '#f59e0b', cities: ['Ankara', 'Konya', 'Kayseri', 'Eskişehir', 'Sivas', 'Yozgat', 'Kırşehir', 'Nevşehir'] },
+            { name: 'Karadeniz Bölgesi', emoji: '🌲', color: '#10b981', cities: ['Trabzon', 'Samsun', 'Ordu', 'Rize', 'Giresun', 'Kastamonu', 'Sinop', 'Bartın'] },
+            { name: 'Doğu Anadolu Bölgesi', emoji: '⛰️', color: '#8b5cf6', cities: ['Erzurum', 'Malatya', 'Van', 'Erzincan', 'Elazığ', 'Bingöl', 'Muş', 'Bitlis'] },
+            { name: 'Güneydoğu Anadolu Bölgesi', emoji: '🌵', color: '#ef4444', cities: ['Gaziantep', 'Diyarbakır', 'Şanlıurfa', 'Mardin', 'Batman', 'Siirt', 'Kilis', 'Adıyaman'] }
+        ];
+
+        async function fetchCityWeatherSimple(cityName) {
+            try {
+                const [lat, lon] = cityCoords[cityName];
+                const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto`;
+                const res = await fetch(url);
+                if (!res.ok) return null;
+                const d = await res.json();
+                const code = d.current.weather_code;
+                return {
+                    city: cityName,
+                    temp: Math.round(d.current.temperature_2m),
+                    code: code,
+                    icon: getWeatherIcon(code),
+                    desc: getWeatherDesc(code)
+                };
+            } catch { return null; }
+        }
+
+        async function loadRegionalWeather() {
+            const bolgeContent = document.getElementById('bolgeContent');
+            bolgeContent.innerHTML = `<div class="loading-wrap"><div class="gold-spinner"></div><p style="color:var(--text-secondary);font-size:0.85rem;margin-top:8px;">Tüm iller yükleniyor…</p></div>`;
+
+            let html = '';
+            for (let ri = 0; ri < REGIONS.length; ri++) {
+                const region = REGIONS[ri];
+                const delayStyle = `animation-delay:${ri * 0.07}s`;
+                const skeletons = region.cities.map(() => `<div class="bolge-row-skeleton"></div>`).join('');
+                html += `
+                <div class="bolge-region" style="${delayStyle}">
+                    <div class="bolge-region-card">
+                        <div class="bolge-region-header">
+                            <div class="bolge-region-bar" style="background:${region.color};box-shadow:0 0 10px ${region.color}60;"></div>
+                            <div class="bolge-region-label">
+                                <div class="bolge-region-name">${region.emoji} ${region.name}</div>
+                                <div class="bolge-region-sub">${region.cities.length} il · anlık güncelleme</div>
+                            </div>
+                            <div class="bolge-region-badge" style="background:${region.color}22;color:${region.color};">${region.cities.length} il</div>
+                            <button class="bolge-png-btn" onclick="downloadRegionPng(event, ${ri})" title="PNG olarak indir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>PNG</button>
+                        </div>
+                        <div class="bolge-city-list" id="region-${ri}">${skeletons}</div>
+                    </div>
+                </div>`;
+            }
+            bolgeContent.innerHTML = html;
+
+            REGIONS.forEach(async (region, ri) => {
+                const results = await Promise.all(region.cities.map(c => fetchCityWeatherSimple(c)));
+                const container = document.getElementById(`region-${ri}`);
+                if (!container) return;
+                container.innerHTML = results.map((r, i) => {
+                    if (!r) return '';
+                    const cityName = region.cities[i];
+                    return `
+                    <div class="bolge-city-row" onclick="switchToCity('${cityName}')">
+                        <div class="bcr-info">
+                            <div class="bcr-name">${cityName}</div>
+                            <div class="bcr-desc">${r.desc}</div>
+                        </div>
+                        <div class="bcr-icon">${r.icon}</div>
+                        <div class="bcr-temp">${r.temp}°</div>
+                        <div class="bcr-arrow">›</div>
+                    </div>`;
+                }).join('');
+            });
+        }
+
+        function switchToCity(cityName) {
+            // Switch to weather tab
+            tabBtns.forEach(b => b.classList.remove('active'));
+            const weatherTab = document.querySelector('[data-tab="weather"]');
+            if (weatherTab) weatherTab.classList.add('active');
+            document.getElementById('searchDock').style.display = 'flex';
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            const paneWeather = document.getElementById('pane-weather');
+            if (paneWeather) paneWeather.classList.add('active');
+            // Set city and load
+            citySelect.value = cityName;
+            isUsingLocation = false;
+            loadWeather();
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         async function loadWeather() {
             if (!citySelect.value) return showError('Şehir seçin.');
             isUsingLocation = false; showLoading();
@@ -929,6 +1128,12 @@
                 const targetPane = document.getElementById(`pane-${target}`);
                 if (targetPane) {
                     targetPane.classList.add('active');
+                }
+                
+                // Bölgeler tabı açıldığında lazy load
+                if (target === 'bolge' && !bolgeLoaded) {
+                    loadRegionalWeather();
+                    bolgeLoaded = true;
                 }
             });
         });
@@ -1040,6 +1245,200 @@
 
         if (localStorage.getItem('theme') === 'light') { document.body.classList.add('light-mode'); dark = false; }
         citySelect.value = 'İstanbul'; loadWeather();
+
+        async function downloadRegionPng(e, regionIndex) {
+            e.stopPropagation();
+            const btn = e.currentTarget;
+            const region = REGIONS[regionIndex];
+            const rows = document.querySelectorAll(`#region-${regionIndex} .bolge-city-row`);
+            if (!rows.length) { alert('Veriler henüz yüklenmedi, lütfen bekleyin.'); return; }
+            const origText = btn.innerHTML;
+            btn.innerHTML = '⏳';
+            btn.disabled = true;
+
+            try {
+                // DOM'dan şehir verilerini topla
+                const cities = [];
+                rows.forEach(row => {
+                    cities.push({
+                        name: row.querySelector('.bcr-name')?.textContent?.trim() || '',
+                        desc: row.querySelector('.bcr-desc')?.textContent?.trim() || '',
+                        icon: row.querySelector('.bcr-icon')?.textContent?.trim() || '',
+                        temp: row.querySelector('.bcr-temp')?.textContent?.trim() || ''
+                    });
+                });
+
+                // Nunito fontunu canvas için yükle
+                try {
+                    const nunitoFont = new FontFace('Nunito', 'url(https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDIkh.woff2)');
+                    await nunitoFont.load();
+                    document.fonts.add(nunitoFont);
+                } catch(e) { /* font yüklenemezse sistem fontu kullanılır */ }
+
+                // Logo
+                const logoImg = await new Promise(res => {
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    img.onload = () => res(img);
+                    img.onerror = () => res(null);
+                    img.src = './logo.png';
+                });
+
+                // Tarih
+                const now = new Date();
+                const gunAdi  = now.toLocaleDateString('tr-TR', { weekday: 'long' });
+                const tarihStr = now.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+
+                // --- Boyutlar ---
+                const SC   = 2;          // retina scale
+                const PW   = 420;        // logical px genişlik
+                const PADX = 28;
+                const ROW_H = 54;
+                const HDR_H = 72;
+                const DATE_H = 62;
+                const DATE_PAD = 14;
+                const CARD_W = PW - PADX * 2;
+                const CARD_H = HDR_H + cities.length * ROW_H;
+                const BOT_H  = 80;       // MuGöl alanı
+                const BOT_EXTRA = 18;    // ekstra boşluk (aşağı kaydırma)
+                const TOTAL_H = DATE_PAD + DATE_H + DATE_PAD + CARD_H + BOT_H + BOT_EXTRA + DATE_PAD;
+
+                const fc = document.createElement('canvas');
+                fc.width  = PW * SC;
+                fc.height = TOTAL_H * SC;
+                const ctx = fc.getContext('2d');
+                ctx.scale(SC, SC);
+
+                // yardımcı: yuvarlatılmış dikdörtgen path
+                function rr(x,y,w,h,r){ 
+                    ctx.beginPath();
+                    ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.arcTo(x+w,y,x+w,y+r,r);
+                    ctx.lineTo(x+w,y+h-r); ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+                    ctx.lineTo(x+r,y+h); ctx.arcTo(x,y+h,x,y+h-r,r);
+                    ctx.lineTo(x,y+r); ctx.arcTo(x,y,x+r,y,r);
+                    ctx.closePath();
+                }
+
+                // ── Arka plan ──
+                const bg = ctx.createLinearGradient(0,0,PW*0.3,TOTAL_H);
+                bg.addColorStop(0,'#1a3a6b'); bg.addColorStop(0.55,'#0c2a5e'); bg.addColorStop(1,'#061830');
+                ctx.fillStyle = bg;
+                rr(0,0,PW,TOTAL_H,22); ctx.fill();
+
+                // Üst glow
+                const glow = ctx.createRadialGradient(PW*0.8,0,5,PW*0.8,0,PW*0.65);
+                glow.addColorStop(0,'rgba(56,189,248,0.18)'); glow.addColorStop(1,'transparent');
+                ctx.fillStyle = glow; ctx.fillRect(0,0,PW,TOTAL_H);
+
+                // ── Tarih kutusu ──
+                const dateY = DATE_PAD;
+                ctx.fillStyle = 'rgba(56,189,248,0.13)';
+                rr(PADX, dateY, CARD_W, DATE_H, 14); ctx.fill();
+                ctx.strokeStyle = 'rgba(56,189,248,0.30)'; ctx.lineWidth = 1;
+                rr(PADX, dateY, CARD_W, DATE_H, 14); ctx.stroke();
+
+                ctx.fillStyle = 'rgba(56,189,248,0.95)';
+                ctx.font = `bold 800 17px 'Nunito', sans-serif`;
+                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                ctx.fillText(tarihStr + '  ' + gunAdi, PW/2, dateY + DATE_H/2);
+
+                // ── Kart ──
+                const cardX = PADX;
+                const cardY = DATE_PAD + DATE_H + DATE_PAD;
+
+                ctx.fillStyle = 'rgba(14,42,90,0.82)';
+                rr(cardX, cardY, CARD_W, CARD_H, 20); ctx.fill();
+                ctx.strokeStyle = 'rgba(100,180,255,0.20)'; ctx.lineWidth = 1.2;
+                rr(cardX, cardY, CARD_W, CARD_H, 20); ctx.stroke();
+
+                // Kart header
+                const BAR_X = cardX + 16;
+                ctx.fillStyle = region.color;
+                ctx.beginPath(); ctx.roundRect(BAR_X, cardY+16, 4, 40, 3); ctx.fill();
+
+                ctx.fillStyle = '#e8f4ff';
+                ctx.font = "900 18px 'Nunito', sans-serif"; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+                ctx.fillText(region.name, BAR_X + 14, cardY + 30);
+                ctx.fillStyle = 'rgba(126,184,232,0.7)';
+                ctx.font = "700 11px 'Nunito', sans-serif";
+                ctx.fillText(region.cities.length + ' il · anlık güncelleme', BAR_X + 14, cardY + 52);
+
+                // Rozet
+                const bdgW=44, bdgH=22;
+                const bdgX=cardX+CARD_W-16-bdgW, bdgY=cardY+HDR_H/2-bdgH/2;
+                ctx.fillStyle = region.color+'33'; rr(bdgX,bdgY,bdgW,bdgH,11); ctx.fill();
+                ctx.fillStyle = region.color; ctx.font="bold 12px 'Nunito', sans-serif"; ctx.textAlign='center';
+                ctx.fillText(region.cities.length+' il', bdgX+bdgW/2, bdgY+bdgH/2);
+
+                // Header alt çizgi
+                ctx.strokeStyle='rgba(100,180,255,0.12)'; ctx.lineWidth=1;
+                ctx.beginPath(); ctx.moveTo(cardX, cardY+HDR_H); ctx.lineTo(cardX+CARD_W, cardY+HDR_H); ctx.stroke();
+
+                // ── Şehir satırları ──
+                cities.forEach((city, i) => {
+                    const ry = cardY + HDR_H + i * ROW_H;
+                    const midY = ry + ROW_H/2;
+                    const isLast = i === cities.length - 1;
+
+                    // Çizgi (şekil değil, sadece ince çizgi)
+                    if (!isLast) {
+                        ctx.strokeStyle='rgba(100,180,255,0.09)'; ctx.lineWidth=1;
+                        ctx.beginPath(); ctx.moveTo(cardX+16,ry+ROW_H); ctx.lineTo(cardX+CARD_W-16,ry+ROW_H); ctx.stroke();
+                    }
+
+                    // Şehir adı
+                    ctx.fillStyle='#e8f4ff'; ctx.font="800 16px 'Nunito', sans-serif";
+                    ctx.textAlign='left'; ctx.textBaseline='middle';
+                    ctx.fillText(city.name, cardX+16, midY);
+
+                    // Açıklama
+                    const nw = ctx.measureText(city.name).width;
+                    ctx.fillStyle='rgba(126,184,232,0.80)'; ctx.font="600 12px 'Nunito', sans-serif";
+                    ctx.fillText(city.desc, cardX+16+nw+8, midY);
+
+                    // İkon (emoji - düz, kutusuz)
+                    ctx.font='22px sans-serif'; ctx.textAlign='center';
+                    ctx.fillText(city.icon, cardX+CARD_W-70, midY);
+
+                    // Sıcaklık
+                    ctx.fillStyle='#e8f4ff'; ctx.font="900 17px 'Nunito', sans-serif"; ctx.textAlign='right';
+                    ctx.fillText(city.temp, cardX+CARD_W-16, midY);
+                });
+
+                // ── Alt: MuGöl (ortalı, aşağıda) ──
+                const logoSz = 32;
+                const mugolTextW = 60;
+                const havaDurW   = 88;
+                const totalW = logoSz + 10 + Math.max(mugolTextW, havaDurW);
+                const startX = (PW - totalW) / 2;
+                const botCY = cardY + CARD_H + BOT_H/2 + BOT_EXTRA;
+
+                if (logoImg) {
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(startX+logoSz/2, botCY, logoSz/2, 0, Math.PI*2);
+                    ctx.closePath(); ctx.clip();
+                    ctx.drawImage(logoImg, startX, botCY-logoSz/2, logoSz, logoSz);
+                    ctx.restore();
+                }
+
+                const txX = startX + logoSz + 10;
+                ctx.textBaseline='middle'; ctx.textAlign='left';
+                ctx.fillStyle='#e8f4ff'; ctx.font="900 18px 'Nunito', sans-serif";
+                ctx.fillText('MuGöl', txX, botCY - 10);
+                ctx.fillStyle='rgba(126,184,232,0.85)'; ctx.font="700 13px 'Nunito', sans-serif";
+                ctx.fillText('Hava Durumu', txX, botCY + 10);
+
+                // İndir
+                const link = document.createElement('a');
+                link.download = `${region.name.replace(/ /g,'_')}_hava.png`;
+                link.href = fc.toDataURL('image/png');
+                link.click();
+
+            } catch(err) { console.error(err); alert('PNG oluşturulamadı: '+err.message); }
+            btn.innerHTML = origText;
+            btn.disabled = false;
+        }
     </script>
 </body>
 </html>
