@@ -1996,70 +1996,73 @@
                     // ── 3. INFO AREA — region + date ──
                     const INFO_Y = HDR_H + 26;
 
-                    // Region name with shadow
+                    // Date pill — right side (önce çiz, bölge adı max genişliği bilsin)
+                    const dpW = 320, dpH = 100, dpX = PW - PADX - dpW, dpY = INFO_Y;
+                    const rnMaxW = dpX - PADX - 40; // bölge adı bu genişliği geçmesin
+                    // Date pill çizimi
+                    ctx.save();
+                    ctx.shadowColor = region.color + '44'; ctx.shadowBlur = 26; ctx.shadowOffsetY = 8;
+                    ctx.fillStyle = 'rgba(210,232,248,0.72)';
+                    rr(dpX, dpY, dpW, dpH, 24); ctx.fill();
+                    ctx.restore();
+                    const dpSh = ctx.createLinearGradient(0, dpY, 0, dpY + dpH * 0.5);
+                    dpSh.addColorStop(0, 'rgba(255,255,255,0.38)');
+                    dpSh.addColorStop(1, 'rgba(255,255,255,0)');
+                    ctx.fillStyle = dpSh; rr(dpX, dpY, dpW, dpH, 24); ctx.fill();
+                    ctx.strokeStyle = 'rgba(100,170,220,0.50)'; ctx.lineWidth = 1.5;
+                    rr(dpX, dpY, dpW, dpH, 24); ctx.stroke();
+                    ctx.fillStyle = '#0b1f3a';
+                    ctx.font = "900 30px 'Nunito', sans-serif";
+                    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                    ctx.fillText(gunAdi.toUpperCase(), dpX + dpW/2, dpY + 42);
+                    ctx.font = "600 24px 'Nunito', sans-serif";
+                    ctx.fillStyle = '#3a6a90';
+                    ctx.fillText(tarihStr, dpX + dpW/2, dpY + 74);
+
+                    // Region name — dinamik font, tarih pill ile çakışmaz
                     ctx.save();
                     ctx.shadowColor = 'rgba(10,40,90,0.12)'; ctx.shadowBlur = 8; ctx.shadowOffsetY = 3;
                     ctx.fillStyle = '#0b1f3a';
-                    ctx.font = "900 68px 'Nunito', sans-serif";
+                    let rnFontSize = 68;
+                    ctx.font = `900 ${rnFontSize}px 'Nunito', sans-serif`;
+                    while (ctx.measureText(region.name).width > rnMaxW && rnFontSize > 36) {
+                        rnFontSize -= 2;
+                        ctx.font = `900 ${rnFontSize}px 'Nunito', sans-serif`;
+                    }
                     ctx.textAlign = 'left'; ctx.textBaseline = 'top';
                     ctx.fillText(region.name, PADX, INFO_Y);
                     ctx.restore();
 
-                    // Colored underline accent for region name
+                    // Colored underline accent
                     ctx.save();
-                    ctx.font = "900 68px 'Nunito', sans-serif";
+                    ctx.font = `900 ${rnFontSize}px 'Nunito', sans-serif`;
                     const rnW = ctx.measureText(region.name).width;
-                    const ulG = ctx.createLinearGradient(PADX, 0, PADX + rnW * 0.6, 0);
+                    const ulLen = Math.min(rnW * 0.6, rnMaxW * 0.6);
+                    const ulG = ctx.createLinearGradient(PADX, 0, PADX + ulLen, 0);
                     ulG.addColorStop(0, region.color);
                     ulG.addColorStop(1, region.color + '00');
-                    ctx.strokeStyle = ulG; ctx.lineWidth = 4;
-                    ctx.lineCap = 'round';
-                    ctx.beginPath();
-                    ctx.moveTo(PADX, INFO_Y + 78); ctx.lineTo(PADX + rnW * 0.6, INFO_Y + 78);
+                    ctx.strokeStyle = ulG; ctx.lineWidth = 4; ctx.lineCap = 'round';
+                    const ulY = INFO_Y + rnFontSize + 10;
+                    ctx.beginPath(); ctx.moveTo(PADX, ulY); ctx.lineTo(PADX + ulLen, ulY);
                     ctx.stroke();
                     ctx.restore();
 
-                    // Sub label with pill background
+                    // Sub label pill
                     const subLabelTxt = totalPages > 1
                         ? `${allCities.length} il · Sayfa ${pageNum}/${totalPages}`
                         : `${allCities.length} il · Anlık Güncelleme`;
                     ctx.save();
                     ctx.font = "700 26px 'Nunito', sans-serif";
                     const slW = ctx.measureText(subLabelTxt).width + 36;
+                    const slY = INFO_Y + rnFontSize + 22;
                     ctx.fillStyle = region.color + '22';
-                    rr(PADX, INFO_Y + 92, slW, 38, 10); ctx.fill();
+                    rr(PADX, slY, slW, 38, 10); ctx.fill();
                     ctx.strokeStyle = region.color + '44'; ctx.lineWidth = 1;
-                    rr(PADX, INFO_Y + 92, slW, 38, 10); ctx.stroke();
+                    rr(PADX, slY, slW, 38, 10); ctx.stroke();
                     ctx.fillStyle = region.color;
                     ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-                    ctx.fillText(subLabelTxt, PADX + 18, INFO_Y + 92 + 19);
+                    ctx.fillText(subLabelTxt, PADX + 18, slY + 19);
                     ctx.restore();
-
-                    // Date pill — right side, premium glass
-                    const dpW = 360, dpH = 104, dpX = PW - PADX - dpW, dpY = INFO_Y;
-                    // outer glow
-                    ctx.save();
-                    ctx.shadowColor = region.color + '44'; ctx.shadowBlur = 30; ctx.shadowOffsetY = 10;
-                    ctx.fillStyle = 'rgba(210,232,248,0.70)';
-                    rr(dpX, dpY, dpW, dpH, 26); ctx.fill();
-                    ctx.restore();
-                    // inner shine
-                    const dpSh = ctx.createLinearGradient(0, dpY, 0, dpY + dpH * 0.5);
-                    dpSh.addColorStop(0, 'rgba(255,255,255,0.35)');
-                    dpSh.addColorStop(1, 'rgba(255,255,255,0)');
-                    ctx.fillStyle = dpSh; rr(dpX, dpY, dpW, dpH, 26); ctx.fill();
-                    // border
-                    ctx.strokeStyle = 'rgba(100,170,220,0.50)'; ctx.lineWidth = 1.5;
-                    rr(dpX, dpY, dpW, dpH, 26); ctx.stroke();
-                    // (date pill top stripe removed)
-                    // date text
-                    ctx.fillStyle = '#0b1f3a';
-                    ctx.font = "900 32px 'Nunito', sans-serif";
-                    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-                    ctx.fillText(gunAdi.toUpperCase(), dpX + dpW/2, dpY + 46);
-                    ctx.font = "600 26px 'Nunito', sans-serif";
-                    ctx.fillStyle = '#3a6a90';
-                    ctx.fillText(tarihStr, dpX + dpW/2, dpY + 80);
 
                     // ── 4. SEPARATOR ──
                     const SEP_Y = HDR_H + INFO_H + 12;
