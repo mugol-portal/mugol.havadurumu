@@ -1860,25 +1860,16 @@
         document.getElementById('drawerRefreshBtn').addEventListener('click', () => { refreshWeather(); closeDrawer(); });
 
         // --- PWA KURULUM ve SERVICE WORKER KAYDI ---
-        let deferredPrompt;
-        console.log('[PWA] Sayfa yüklendi. beforeinstallprompt bekleniyor...');
-        console.log('[PWA] display-mode standalone:', window.matchMedia('(display-mode: standalone)').matches);
-        console.log('[PWA] location:', location.href, '| isSecureContext:', window.isSecureContext);
-        window.addEventListener('beforeinstallprompt', (e) => { 
-            console.log('[PWA] beforeinstallprompt olayı YAKALANDI ✓');
-            e.preventDefault(); 
-            deferredPrompt = e; 
+        let deferredPrompt = null;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
             if (!localStorage.getItem('mugolInstallDismissed')) {
                 setTimeout(() => document.getElementById('installPrompt').classList.add('show'), 3000);
             }
         });
-        setTimeout(() => {
-            if (!deferredPrompt) {
-                console.warn('[PWA] 4 saniye geçti ama beforeinstallprompt hiç tetiklenmedi. Olası nedenler: (1) isSecureContext=false, (2) manifest/sw.js hatalı, (3) site zaten yüklü, (4) daha önce reddedilmiş, (5) tarayıcı bu API\'yi desteklemiyor.');
-            }
-        }, 4000);
-        
-        document.getElementById('installBtn').addEventListener('click', () => {
+
+        function installApp() {
             const promptEl = document.getElementById('installPrompt');
             if (deferredPrompt) {
                 deferredPrompt.prompt();
@@ -1889,7 +1880,9 @@
             } else {
                 promptEl.classList.remove('show');
             }
-        });
+        }
+
+        document.getElementById('installBtn').addEventListener('click', installApp);
         document.getElementById('dismissBtn').addEventListener('click', () => {
             document.getElementById('installPrompt').classList.remove('show');
             localStorage.setItem('mugolInstallDismissed', '1');
@@ -1899,21 +1892,10 @@
             deferredPrompt = null;
         });
 
-        // Menüdeki "Uygulamayı İndir" butonu — her zaman görünür, akıllı davranır
-        document.getElementById('drawerInstallBtn').addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt = null;
-                closeDrawer();
-            } else if (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone) {
-                showToast('Uygulama zaten yüklü ✓');
-            } else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
-                showToast('Safari\'de Paylaş → "Ana Ekrana Ekle"');
-            } else if (!window.isSecureContext) {
-                showToast('Kurulum için HTTPS veya localhost gerekir (şu an güvenli bağlam değil)');
-            } else {
-                showToast('Tarayıcı menüsünden "Ana ekrana ekle" seçin');
-            }
+        // Menüdeki "Uygulamayı İndir" butonu — aynı installApp() fonksiyonunu kullanır
+        document.getElementById('drawerInstallBtn').addEventListener('click', () => {
+            installApp();
+            closeDrawer();
         });
 
         let swReg = null;
