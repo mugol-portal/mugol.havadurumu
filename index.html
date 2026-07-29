@@ -598,8 +598,7 @@
         .mugol-toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--surface-2); border: 1px solid var(--accent); color: var(--text-primary); font-size: 0.85rem; font-weight: 700; padding: 11px 22px; border-radius: var(--r-pill); z-index: 3000; opacity: 0; transition: all 0.3s cubic-bezier(0.19,1,0.22,1); white-space: nowrap; pointer-events: none; box-shadow: var(--surface-shadow); }
         .mugol-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-        .pwa-toast { position: fixed; bottom: 24px; left: 20px; right: 20px; max-width: 440px; margin: 0 auto; background: var(--surface-2); border: 1px solid var(--accent); border-radius: var(--r-xl); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; transform: translateY(150%); transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); z-index: 2000; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-        .pwa-toast.show { transform: translateY(0); }
+
         .toast-btn { background: var(--accent-grad); border: none; color: #071018; font-weight: 800; padding: 9px 18px; border-radius: var(--r-pill); cursor: pointer; font-family: 'Nunito', sans-serif; font-size: 0.82rem; }
 
         .pulse-gold { animation: pulse-gold-anim 1s infinite; }
@@ -851,21 +850,7 @@
             </div>
         </div>
 
-        <!-- PWA Install Toast -->
-        <div class="pwa-toast" id="installPrompt">
-            <div style="display:flex;align-items:center;gap:14px;">
-                <span style="font-size:24px;">✨</span>
-                <div>
-                    <h4 style="margin:0;font-size:0.9rem;">Uygulamayı İndir</h4>
-                    <span style="font-size:0.75rem;color:var(--text-secondary)">Premium deneyim için</span>
-                </div>
-            </div>
-            <div style="display:flex;gap:8px;">
-                <button class="toast-btn" id="installBtn">Yükle</button>
-                <button style="background:none;border:none;color:var(--text-primary);cursor:pointer;padding:6px;" id="dismissBtn">✕</button>
-            </div>
-        </div>
-    </div>
+
 
     <!-- SCRIPT -->
     <script>
@@ -1859,42 +1844,28 @@
         document.getElementById('drawerThemeBtn').addEventListener('click', toggleTheme);
         document.getElementById('drawerRefreshBtn').addEventListener('click', () => { refreshWeather(); closeDrawer(); });
 
-        // --- PWA KURULUM ve SERVICE WORKER KAYDI ---
-        let deferredPrompt = null;
+        /* --- PWA KURULUM MANTIĞI --- */
+        let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            if (!localStorage.getItem('mugolInstallDismissed')) {
-                setTimeout(() => document.getElementById('installPrompt').classList.add('show'), 3000);
-            }
         });
 
-        function installApp() {
-            const promptEl = document.getElementById('installPrompt');
+        async function installPWA() {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
-                deferredPrompt.userChoice.finally(() => {
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
                     deferredPrompt = null;
-                    promptEl.classList.remove('show');
-                });
+                }
             } else {
-                promptEl.classList.remove('show');
+                alert("Cihazınızda PWA kurulumu şu anda desteklenmiyor veya uygulama zaten yüklü.");
             }
         }
 
-        document.getElementById('installBtn').addEventListener('click', installApp);
-        document.getElementById('dismissBtn').addEventListener('click', () => {
-            document.getElementById('installPrompt').classList.remove('show');
-            localStorage.setItem('mugolInstallDismissed', '1');
-        });
-        window.addEventListener('appinstalled', () => {
-            document.getElementById('installPrompt').classList.remove('show');
-            deferredPrompt = null;
-        });
-
-        // Menüdeki "Uygulamayı İndir" butonu — aynı installApp() fonksiyonunu kullanır
+        // Menüdeki "Uygulamayı İndir" butonu
         document.getElementById('drawerInstallBtn').addEventListener('click', () => {
-            installApp();
+            installPWA();
             closeDrawer();
         });
 
