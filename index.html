@@ -237,15 +237,21 @@
         .drawer-overlay.open { opacity: 1; pointer-events: auto; }
 
         .side-drawer {
-            position: fixed; top: 0; left: 0; bottom: 0; width: 82vw; max-width: 320px;
+            position: fixed; left: 0; right: 0; bottom: 0; top: auto; width: 100%; max-width: 100%;
+            max-height: 78vh;
             background: linear-gradient(180deg, var(--surface-0) 0%, var(--bg-void) 100%);
-            border-right: 1px solid var(--surface-border);
-            z-index: 2600; transform: translateX(-100%);
+            border-right: none; border-top: 1px solid var(--surface-border);
+            border-radius: 22px 22px 0 0;
+            z-index: 2600; transform: translateY(100%);
             transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), box-shadow 0.4s;
             display: flex; flex-direction: column; overflow-y: auto;
             box-shadow: none;
         }
-        .side-drawer.open { transform: translateX(0); box-shadow: 30px 0 60px rgba(0,0,0,0.35); }
+        .side-drawer.open { transform: translateY(0); box-shadow: 0 -30px 60px rgba(0,0,0,0.35); }
+        .side-drawer::before {
+            content: ""; display: block; width: 40px; height: 4px; border-radius: 3px;
+            background: var(--surface-border-strong); margin: 10px auto 0;
+        }
 
         .drawer-header { padding: 26px 20px 18px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--surface-border); }
         .drawer-header .logo-box { width: 48px; height: 48px; }
@@ -258,7 +264,7 @@
 
         .drawer-nav-item {
             display: flex; align-items: center; gap: 13px; width: 100%; padding: 13px 12px; border: none;
-            background: transparent; border-radius: var(--r-md); color: var(--text-secondary);
+            background: transparent; border-radius: 4px; color: var(--text-secondary);
             font-family: 'Nunito', sans-serif; font-size: 0.92rem; font-weight: 700; cursor: pointer;
             transition: all 0.2s; text-align: left; text-decoration: none;
         }
@@ -269,7 +275,7 @@
 
         .drawer-fav-list { display: flex; flex-direction: column; gap: 2px; }
         .drawer-fav-item {
-            display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--r-md);
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 4px;
             cursor: pointer; transition: background 0.2s; color: var(--text-secondary); font-size: 0.85rem; font-weight: 700;
         }
         .drawer-fav-item:hover { background: var(--surface-1); color: var(--text-primary); }
@@ -318,6 +324,44 @@
 
         .tab-pane { display: none; animation: hero-enter 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
         .tab-pane.active { display: block; }
+
+        /* ═══ ALT NAVİGASYON ÇUBUĞU (BOTTOM NAV) ═══ */
+        .bottom-nav {
+            position: fixed; left: 0; right: 0; bottom: 0; z-index: 900;
+            display: flex; align-items: stretch; justify-content: space-around;
+            background: var(--surface-1); border-top: 1px solid var(--surface-border);
+            box-shadow: 0 -10px 30px rgba(0,4,20,0.45);
+            padding: 8px 8px calc(8px + env(safe-area-inset-bottom, 0px));
+            gap: 6px;
+        }
+        .bnav-item {
+            flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 3px; padding: 8px 4px; background: transparent; border: none; cursor: pointer;
+            color: var(--text-muted); font-family: 'Nunito', sans-serif; font-weight: 800;
+            font-size: 0.64rem; letter-spacing: 0.01em; border-radius: var(--r-lg);
+            transition: color 0.25s ease, background 0.25s ease, transform 0.15s ease;
+            position: relative;
+        }
+        .bnav-item .bnav-icon-wrap {
+            display: flex; align-items: center; justify-content: center;
+            width: 38px; height: 30px; border-radius: var(--r-md);
+            transition: background 0.25s ease, transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .bnav-item .bnav-icon { font-size: 1.2rem; line-height: 1; filter: grayscale(1) opacity(0.65); transition: filter 0.25s ease; }
+        .bnav-item:hover { color: var(--text-secondary); }
+        .bnav-item:hover .bnav-icon-wrap { background: var(--surface-2); }
+        .bnav-item.active { color: var(--accent); }
+        .bnav-item.active .bnav-icon-wrap { background: linear-gradient(135deg, rgba(45,217,201,0.18), rgba(45,217,201,0.05)); box-shadow: inset 0 0 0 1px rgba(45,217,201,0.28); transform: translateY(-3px); }
+        .bnav-item.active .bnav-icon { filter: none; }
+        .bnav-item:active { transform: scale(0.94); }
+
+        /* İçerik alt navigasyon çubuğunun altında kalmasın diye boşluk */
+        .container { padding-bottom: 88px; }
+
+        @media (min-width: 640px) {
+            .bottom-nav { display: none; }
+            .container { padding-bottom: 0; }
+        }
 
         /* ═══ ARAMA ÇUBUĞU ═══ */
         .search-dock {
@@ -383,6 +427,8 @@
 
         .hero-icon { font-size: 92px; margin-bottom: 4px; display: inline-block; filter: drop-shadow(0 18px 34px rgba(0,0,0,0.4)); animation: float 6s ease-in-out infinite; position: relative; z-index: 1; }
         .hero-temp { font-size: 5.6rem; font-weight: 900; line-height: 1; letter-spacing: -5px; margin-bottom: 2px; position: relative; z-index: 1; }
+        .hero-temp-sep { font-size: 3rem; font-weight: 800; opacity: 0.4; margin: 0 4px; letter-spacing: 0; }
+        .hero-temp-min { font-size: 3.4rem; font-weight: 800; opacity: 0.62; letter-spacing: -2px; }
         .hero-feels { font-size: 0.86rem; font-weight: 700; margin-bottom: 8px; position: relative; z-index: 1; }
         .hero-desc {
             font-size: 1rem; font-weight: 800; text-transform: capitalize; margin-bottom: 22px; letter-spacing: 0.2px;
@@ -436,6 +482,19 @@
         .live-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 0.6rem; font-weight: 800; color: rgba(255,255,255,0.85); text-transform: uppercase; letter-spacing: 0.5px; }
         .live-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 8px #4ade80; animation: pulse 1.8s infinite; }
 
+        /* ═══ HAVA DURUMU UYARILARI ═══ */
+        .weather-alerts-wrap { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
+        .weather-alert-card {
+            display: flex; align-items: flex-start; gap: 12px; padding: 14px 15px; border-radius: var(--r-lg);
+            border: 1px solid; box-shadow: var(--surface-inner);
+        }
+        .weather-alert-card.alert-danger { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.35); }
+        .weather-alert-card.alert-warning { background: rgba(251,191,36,0.1); border-color: rgba(251,191,36,0.35); }
+        .weather-alert-icon { font-size: 1.4rem; flex-shrink: 0; line-height: 1; }
+        .weather-alert-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+        .weather-alert-title { font-size: 0.88rem; font-weight: 900; color: var(--text-primary); }
+        .weather-alert-desc { font-size: 0.76rem; font-weight: 600; color: var(--text-secondary); line-height: 1.35; }
+
         /* ═══ BENTO ÖZET ═══ */
         .quick-bento { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 22px; }
         .quick-bento-card {
@@ -448,9 +507,75 @@
         .quick-bento-val { font-size: 1.02rem; font-weight: 900; color: var(--text-primary); }
         .quick-bento-label { font-size: 0.58rem; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.4px; margin-top: 2px; }
 
+        .best-time-card {
+            display: flex; align-items: center; gap: 13px; background: linear-gradient(135deg, rgba(45,217,201,0.14), rgba(45,217,201,0.03));
+            border: 1px solid rgba(45,217,201,0.28); border-radius: var(--r-lg); padding: 14px 16px; margin-bottom: 22px;
+            box-shadow: var(--surface-inner);
+        }
+        .best-time-icon { font-size: 1.6rem; flex-shrink: 0; }
+        .best-time-body { display: flex; flex-direction: column; gap: 2px; }
+        .best-time-title { font-size: 0.68rem; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.3px; }
+        .best-time-val { font-size: 1rem; font-weight: 900; color: var(--accent); }
+
+        /* ═══ KIYAFET TAVSİYESİ ═══ */
+        .outfit-card {
+            background: var(--surface-1); border: 1px solid var(--surface-border); border-radius: var(--r-xl);
+            padding: 16px; margin-bottom: 24px; box-shadow: var(--surface-shadow), var(--surface-inner);
+        }
+        .outfit-summary { display: block; font-size: 0.86rem; font-weight: 800; color: var(--text-primary); margin-bottom: 14px; }
+        .outfit-rows { display: flex; flex-direction: column; gap: 10px; padding-bottom: 12px; }
+        .outfit-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .outfit-row-label { font-size: 0.72rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; flex-shrink: 0; }
+        .outfit-row-val { font-size: 0.88rem; font-weight: 700; color: var(--text-secondary); text-align: right; }
+        .outfit-extras { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 12px; border-top: 1px solid var(--surface-border); }
+        .outfit-extra-chip {
+            font-size: 0.74rem; font-weight: 700; color: var(--text-secondary); background: var(--surface-2);
+            border: 1px solid var(--surface-border); border-radius: var(--r-pill); padding: 6px 12px;
+        }
+        .outfit-colors { padding-top: 12px; border-top: 1px solid var(--surface-border); margin-top: 12px; }
+        .outfit-colors-note { display: block; font-size: 0.76rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.4; }
+        .outfit-swatch-row { display: flex; gap: 14px; flex-wrap: wrap; }
+        .outfit-swatch { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .outfit-swatch-dot { width: 32px; height: 32px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15), 0 2px 8px rgba(0,0,0,0.25); }
+        .outfit-swatch-name { font-size: 0.6rem; font-weight: 700; color: var(--text-muted); text-align: center; max-width: 62px; line-height: 1.2; }
+
         /* ═══ SECTION HEADERS ═══ */
         .section-head { display: flex; align-items: center; gap: 8px; margin: 30px 2px 14px; }
         .section-head::before { content: ''; display: block; width: 4px; height: 16px; border-radius: 4px; background: var(--accent-grad); flex-shrink: 0; }
+
+        /* ═══ GÜNEŞ YAYI KARTI ═══ */
+        .sun-arc-card {
+            background: var(--surface-1); border: 1px solid var(--surface-border); border-radius: var(--r-xl);
+            padding: 22px 20px 20px; box-shadow: var(--surface-shadow), var(--surface-inner); margin-bottom: 16px;
+        }
+        .sun-arc-label { font-size: 0.66rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 14px; }
+        .sun-arc-svg-wrap { position: relative; width: 100%; height: 90px; }
+        .sun-arc-svg-wrap svg { width: 100%; height: 100%; overflow: visible; }
+        .sun-arc-track { fill: none; stroke: var(--surface-border-strong); stroke-width: 2; stroke-linecap: round; }
+        .sun-arc-dot { filter: drop-shadow(0 0 10px rgba(251,191,36,0.65)); }
+        .sun-arc-times { display: flex; justify-content: space-between; margin-top: 8px; }
+        .sun-arc-time-col { display: flex; flex-direction: column; gap: 2px; }
+        .sun-arc-time-col.end { align-items: flex-end; }
+        .sun-arc-time-label { font-size: 0.72rem; color: var(--text-secondary); font-weight: 700; }
+        .sun-arc-time-val { font-size: 1.3rem; color: var(--text-primary); font-weight: 900; }
+
+        /* ═══ AY FAZI KARTI ═══ */
+        .moon-phase-card {
+            background: var(--surface-1); border: 1px solid var(--surface-border); border-radius: var(--r-xl);
+            padding: 22px 20px 18px; box-shadow: var(--surface-shadow), var(--surface-inner); margin-bottom: 16px;
+        }
+        .moon-phase-label { font-size: 0.66rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 16px; }
+        .moon-phase-visual { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 18px; }
+        .moon-orb-wrap { width: 84px; height: 84px; position: relative; }
+        .moon-orb-wrap svg { width: 100%; height: 100%; filter: drop-shadow(0 6px 18px rgba(0,0,0,0.4)); }
+        .moon-phase-pct { font-size: 1.15rem; font-weight: 900; color: var(--text-primary); }
+        .moon-phase-trend { font-size: 0.86rem; font-weight: 700; color: var(--text-secondary); }
+        .moon-info-rows { display: flex; flex-direction: column; gap: 12px; padding-top: 14px; border-top: 1px solid var(--surface-border); }
+        .moon-info-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .moon-info-row-label { font-size: 0.82rem; color: var(--text-secondary); font-weight: 700; }
+        .moon-info-row-val { text-align: right; }
+        .moon-info-row-val b { font-size: 0.9rem; color: var(--text-primary); font-weight: 900; display: block; }
+        .moon-info-row-val span { font-size: 0.72rem; color: var(--text-muted); font-weight: 700; }
         .section-title { font-size: 0.98rem; font-weight: 900; color: var(--text-primary); letter-spacing: -0.01em; }
         .section-icon { color: var(--accent); margin-left: auto; font-size: 1rem; }
 
@@ -535,9 +660,156 @@
         .aqi-ring-desc { font-size: 0.94rem; font-weight: 800; color: var(--text-primary); }
         .aqi-ring-sub { font-size: 0.74rem; color: var(--text-muted); font-weight: 600; }
 
+        /* ═══ YAŞAM TAVSİYELERİ (Koşu, Çamaşır, Deniz, Polen) ═══ */
+        .advisory-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 14px; }
+        .advisory-card {
+            display: flex; align-items: flex-start; gap: 13px; background: var(--surface-1);
+            border: 1px solid var(--surface-border); border-radius: var(--r-lg); padding: 15px;
+            box-shadow: var(--surface-inner);
+        }
+        .advisory-icon { width: 44px; height: 44px; border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; font-size: 1.35rem; flex-shrink: 0; }
+        .advisory-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+        .advisory-title { font-size: 0.62rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; }
+        .advisory-level { font-size: 0.94rem; font-weight: 900; }
+        .advisory-desc { font-size: 0.76rem; color: var(--text-secondary); font-weight: 600; line-height: 1.35; }
+
+        /* ═══ BİYOMETEOROLOJİ GAUGE KARTLARI (Uyku, Spor, Migren, Sinüs) ═══ */
+        .gauge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+        .gauge-card {
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            background: var(--surface-1); border: 1px solid var(--surface-border); border-radius: var(--r-xl);
+            padding: 18px 12px 16px; box-shadow: var(--surface-inner);
+        }
+        .gauge-ring-wrap { position: relative; width: 92px; height: 92px; margin-bottom: 4px; }
+        .gauge-svg { width: 100%; height: 100%; }
+        .gauge-svg circle { transition: stroke-dasharray 0.6s ease; }
+        .gauge-center {
+            position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+        }
+        .gauge-icon { font-size: 1.1rem; line-height: 1; }
+        .gauge-value { font-size: 1.15rem; font-weight: 900; line-height: 1; margin-top: 2px; }
+        .gauge-label { font-size: 0.64rem; font-weight: 800; color: var(--text-muted); letter-spacing: 0.4px; text-transform: uppercase; margin-top: 2px; }
+        .gauge-status { font-size: 0.82rem; font-weight: 800; }
+
+        .garden-card {
+            background: var(--surface-1); border: 1px solid var(--surface-border); border-radius: var(--r-xl);
+            padding: 16px; margin-bottom: 24px; box-shadow: var(--surface-inner);
+        }
+        .garden-card-head { font-size: 0.92rem; font-weight: 900; color: var(--text-primary); margin-bottom: 12px; }
+        .garden-tips { display: flex; flex-direction: column; gap: 10px; }
+        .garden-tip-row { display: flex; align-items: flex-start; gap: 10px; }
+        .garden-tip-icon { font-size: 1.1rem; flex-shrink: 0; }
+        .garden-tip-text { font-size: 0.8rem; color: var(--text-secondary); font-weight: 600; line-height: 1.4; }
+
+        @media (min-width: 480px) {
+            .advisory-grid { grid-template-columns: 1fr 1fr; }
+            .gauge-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+
         /* ═══ UYDU/RADAR ═══ */
         .map-container { width: 100%; height: 320px; border-radius: var(--r-xl); overflow: hidden; border: 1px solid var(--surface-border); box-shadow: var(--surface-inner), var(--surface-shadow); background: var(--surface-1); margin-bottom: 24px; -webkit-mask-image: -webkit-radial-gradient(white, black); isolation: isolate; }
         .map-container iframe { width: 100%; height: 100%; border: none; display: block; border-radius: var(--r-xl); }
+
+        /* ═══ TÜRKİYE İL SICAKLIK HARİTASI KARTI ═══ */
+        .tr-temp-map-card {
+            background: var(--surface-1); border: 1px solid var(--surface-border); border-radius: var(--r-xl);
+            padding: 16px; box-shadow: var(--surface-shadow), var(--surface-inner); margin-bottom: 16px;
+        }
+        .tr-temp-map-card .map-container { height: 300px; box-shadow: none; border-radius: var(--r-lg); }
+        .tr-temp-legend { display: flex; flex-wrap: wrap; gap: 10px 14px; justify-content: center; padding: 4px 2px 2px; }
+        .tr-temp-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.74rem; font-weight: 700; color: var(--text-secondary); }
+        .tr-temp-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 0 2px rgba(255,255,255,0.06); }
+
+        /* ═══ UYDU SEKMESİ (büyük ekran harita) ═══ */
+        .uydu-intro { text-align: center; padding: 18px 10px 6px; }
+        .uydu-emoji { font-size: 2.4rem; display: block; margin-bottom: 6px; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.35)); }
+        .uydu-intro h2 { font-size: 1.15rem; font-weight: 900; color: var(--text-primary); margin-bottom: 4px; }
+        .uydu-intro p { font-size: 0.82rem; color: var(--text-secondary); font-weight: 600; }
+
+        .uydu-search-dock {
+            display: flex; gap: 8px; margin: 14px 0 4px; align-items: center;
+        }
+        .uydu-search-wrap { position: relative; flex: 1; }
+        .uydu-search-input {
+            width: 100%; height: 46px; padding: 0 14px; border-radius: var(--r-pill); border: 1px solid var(--surface-border);
+            background: var(--surface-1); color: var(--text-primary); font-size: 0.88rem; font-weight: 700;
+            font-family: 'Nunito', sans-serif; outline: none; box-shadow: var(--surface-inner);
+        }
+        .uydu-search-input::placeholder { color: var(--text-muted); font-weight: 600; }
+        .uydu-search-input:focus { border-color: var(--surface-border-strong); }
+        .uydu-search-dropdown {
+            position: absolute; top: calc(100% + 8px); left: 0; right: 0;
+            background: var(--surface-2); border: 1px solid var(--surface-border-strong);
+            border-radius: var(--r-lg); z-index: 1001; max-height: 240px;
+            overflow-y: auto; box-shadow: 0 24px 50px rgba(0,4,20,0.55);
+            scrollbar-width: none; display: none;
+        }
+        .uydu-search-dropdown::-webkit-scrollbar { display: none; }
+        .uydu-search-dropdown.open { display: block; }
+        .uydu-search-item { padding: 11px 16px; font-size: 0.86rem; font-weight: 700; color: var(--text-secondary); cursor: pointer; }
+        .uydu-search-item:hover, .uydu-search-item.hl { background: var(--surface-1); color: var(--text-primary); }
+        .uydu-tool-btn {
+            flex-shrink: 0; width: 46px; height: 46px; border-radius: var(--r-lg); border: 1px solid var(--surface-border);
+            background: var(--surface-1); color: var(--text-secondary); font-size: 1.05rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+        }
+        .uydu-tool-btn:hover { color: var(--text-primary); border-color: var(--surface-border-strong); }
+        .uydu-tool-btn:active { transform: scale(0.94); }
+        .uydu-tool-btn.active-locate { color: var(--accent); border-color: rgba(45,217,201,0.35); }
+
+        .uydu-layer-bar {
+            display: flex; gap: 8px; overflow-x: auto; padding: 14px 2px 16px; scrollbar-width: none;
+        }
+        .uydu-layer-bar::-webkit-scrollbar { display: none; }
+        .uydu-layer-chip {
+            flex-shrink: 0; display: flex; align-items: center; gap: 6px; padding: 10px 16px; border-radius: var(--r-pill);
+            background: var(--surface-1); border: 1px solid var(--surface-border); color: var(--text-secondary);
+            font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.8rem; cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1); white-space: nowrap;
+        }
+        .uydu-layer-chip:hover { color: var(--text-primary); border-color: var(--surface-border-strong); }
+        .uydu-layer-chip.active { background: var(--accent-grad); color: #071018; border-color: transparent; box-shadow: 0 6px 18px -6px var(--accent-glow); }
+
+        .uydu-info-card {
+            display: flex; align-items: center; gap: 12px; padding: 13px 14px; margin-bottom: 14px;
+            border-radius: var(--r-lg); background: var(--surface-1); border: 1px solid var(--surface-border);
+            box-shadow: var(--surface-inner); transition: opacity 0.2s ease;
+        }
+        .uydu-info-icon { font-size: 1.5rem; flex-shrink: 0; }
+        .uydu-info-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; flex: 1; }
+        .uydu-info-title { font-size: 0.86rem; font-weight: 900; color: var(--text-primary); }
+        .uydu-info-desc { font-size: 0.72rem; font-weight: 600; color: var(--text-secondary); line-height: 1.35; }
+        .uydu-info-loc {
+            flex-shrink: 0; font-size: 0.68rem; font-weight: 800; color: var(--accent);
+            background: rgba(45,217,201,0.12); padding: 5px 10px; border-radius: var(--r-pill); white-space: nowrap;
+        }
+
+        .uydu-map-container {
+            width: 100%; height: 62vh; min-height: 420px; border-radius: var(--r-xl); overflow: hidden;
+            border: 1px solid var(--surface-border); box-shadow: var(--surface-inner), var(--surface-shadow);
+            background: var(--surface-1); margin-bottom: 18px; position: relative;
+        }
+        .uydu-map-container iframe { width: 100%; height: 100%; border: none; display: block; }
+        .uydu-map-loading {
+            position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+            background: var(--surface-1); z-index: 1; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .uydu-map-loading.hidden { opacity: 0; }
+        .uydu-hint { display: flex; align-items: center; gap: 8px; padding: 12px 14px; border-radius: var(--r-lg); background: var(--surface-1); border: 1px solid var(--surface-border); color: var(--text-muted); font-size: 0.76rem; font-weight: 700; margin-bottom: 20px; }
+
+        /* Tam ekran modu: harita kartını görünür alanı kaplayacak şekilde büyütür */
+        .uydu-map-container.uydu-fullscreen {
+            position: fixed; inset: 0; z-index: 3000; height: 100vh; min-height: 100vh;
+            border-radius: 0; margin-bottom: 0; border: none;
+        }
+        .uydu-fullscreen-exit {
+            position: fixed; top: 16px; right: 16px; z-index: 3001; width: 42px; height: 42px;
+            border-radius: 50%; background: rgba(10,16,26,0.85); backdrop-filter: blur(6px);
+            border: 1px solid rgba(255,255,255,0.15); color: #fff; font-size: 1.2rem; cursor: pointer;
+            display: none; align-items: center; justify-content: center;
+        }
+        .uydu-fullscreen-exit.visible { display: flex; }
+        body.uydu-fullscreen-active { overflow: hidden; }
 
         /* ═══ UYARI / HABER KARTLARI ═══ */
         .alert-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
@@ -647,13 +919,6 @@
             </button>
         </div>
 
-        <nav class="drawer-section">
-            <div class="drawer-label">Bölümler</div>
-            <button class="drawer-nav-item active" data-tab="weather"><span class="dni-icon">🌤️</span>Hava Durumu</button>
-            <button class="drawer-nav-item" data-tab="news"><span class="dni-icon">📰</span>Haberler &amp; Uyarılar</button>
-            <button class="drawer-nav-item" data-tab="bolge"><span class="dni-icon">🗺️</span>Bölgesel Hava</button>
-        </nav>
-
         <div class="drawer-section">
             <div class="drawer-label">Favori Şehirler</div>
             <div class="drawer-fav-list" id="drawerFavList">
@@ -681,9 +946,6 @@
         <!-- Header -->
         <header class="header">
             <div class="brand-wrapper">
-                <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menüyü aç">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
-                </button>
                 <div class="logo-box">
                     <img src="./logo.png" alt="MuGöl Logo">
                 </div>
@@ -850,7 +1112,71 @@
             </div>
         </div>
 
+        <!-- UYDU PANELİ -->
+        <div class="tab-pane" id="pane-uydu">
+            <div class="uydu-intro">
+                <span class="uydu-emoji">🛰️</span>
+                <h2>Uydu & Radar</h2>
+                <p>Canlı bulut, yağış ve rüzgar katmanları</p>
+            </div>
 
+            <div class="uydu-search-dock">
+                <div class="uydu-search-wrap">
+                    <input type="text" class="uydu-search-input" id="uyduSearchInput" placeholder="Şehir ara…" autocomplete="off" />
+                    <div class="uydu-search-dropdown" id="uyduSearchDropdown"></div>
+                </div>
+                <button class="uydu-tool-btn" id="uyduLocateBtn" title="Konumum">📍</button>
+                <button class="uydu-tool-btn" id="uyduFullscreenBtn" title="Tam Ekran">⛶</button>
+            </div>
+
+            <div class="uydu-layer-bar" id="uyduLayerBar">
+                <button class="uydu-layer-chip active" data-layer="clouds">☁️ Bulut</button>
+                <button class="uydu-layer-chip" data-layer="radar">🌧️ Yağış</button>
+                <button class="uydu-layer-chip" data-layer="wind">💨 Rüzgar</button>
+                <button class="uydu-layer-chip" data-layer="temp">🌡️ Sıcaklık</button>
+                <button class="uydu-layer-chip" data-layer="pressure">⏲ Basınç</button>
+            </div>
+
+            <div class="uydu-info-card" id="uyduInfoCard">
+                <span class="uydu-info-icon" id="uyduInfoIcon">☁️</span>
+                <div class="uydu-info-text">
+                    <span class="uydu-info-title" id="uyduInfoTitle">Bulutluluk</span>
+                    <span class="uydu-info-desc" id="uyduInfoDesc">Uydu görüntülerinden türetilen anlık bulut örtüsü.</span>
+                </div>
+                <span class="uydu-info-loc" id="uyduInfoLoc">📍 Türkiye</span>
+            </div>
+
+            <div class="uydu-map-container" id="uyduMapContainer">
+                <div class="uydu-map-loading" id="uyduMapLoading"><div class="gold-spinner"></div></div>
+                <iframe id="uyduMapFrame" loading="lazy"></iframe>
+                <button class="uydu-fullscreen-exit" id="uyduFullscreenExit" title="Tam Ekrandan Çık">✕</button>
+            </div>
+            <div class="uydu-hint">📍 Harita, son görüntülenen şehir konumunu merkez alır. Yakınlaştırıp gezinebilirsiniz.</div>
+        </div>
+
+        <!-- ALT NAVİGASYON ÇUBUĞU (görsel referanstaki gibi sabit alt bar) -->
+        <nav class="bottom-nav" id="bottomNav">
+            <button class="bnav-item active" data-tab="weather">
+                <span class="bnav-icon-wrap"><span class="bnav-icon">🌤️</span></span>
+                <span>Hava Durumu</span>
+            </button>
+            <button class="bnav-item" data-tab="bolge">
+                <span class="bnav-icon-wrap"><span class="bnav-icon">🗺️</span></span>
+                <span>Bölgeler</span>
+            </button>
+            <button class="bnav-item" data-tab="news">
+                <span class="bnav-icon-wrap"><span class="bnav-icon">📰</span></span>
+                <span>Haberler</span>
+            </button>
+            <button class="bnav-item" data-tab="uydu">
+                <span class="bnav-icon-wrap"><span class="bnav-icon">🛰️</span></span>
+                <span>Uydu</span>
+            </button>
+            <button class="bnav-item" id="bnavMenuBtn">
+                <span class="bnav-icon-wrap"><span class="bnav-icon">☰</span></span>
+                <span>Menü</span>
+            </button>
+        </nav>
 
     <!-- SCRIPT -->
     <script>
@@ -863,10 +1189,13 @@
         const notificationBtn = document.getElementById('notificationBtn');
         const tabBtns = document.querySelectorAll('.tab-btn');
         const drawerNavItems = document.querySelectorAll('.drawer-nav-item[data-tab]');
+        const bottomNavItems = document.querySelectorAll('.bnav-item[data-tab]');
 
         let isUsingLocation = false;
         let currentLat = null;
         let currentLon = null;
+        let lastLat = null;
+        let lastLon = null;
         let notificationInterval = null;
 
         const OPENWEATHER_API_KEY = '5689ce426e3668ec41daf1d9d3600832';
@@ -1122,6 +1451,231 @@
         }
 
         // YENİ: Ay evresi hesaplama — basit sinodik ay döngüsü yaklaşımı
+        // YENİ: Kıyı illeri — Deniz Suyu Sıcaklığı kartı bu illerde gösterilir
+        const COASTAL_CITIES = new Set([
+            'İstanbul','Kocaeli','Yalova','Bursa','Balıkesir','Çanakkale','Tekirdağ','Edirne','Kırklareli',
+            'İzmir','Aydın','Muğla','Antalya','Mersin','Adana','Hatay','Isparta',
+            'Samsun','Sinop','Kastamonu','Zonguldak','Bartın','Ordu','Giresun','Trabzon','Rize','Artvin'
+        ]);
+
+        // YENİ: Koşu/Yürüyüş uygunluk skoru — sıcaklık, nem, rüzgar ve hava koduna göre 0-100 arası puan
+        function getRunningScore(temp, humidity, windSpeed, weatherCode) {
+            let score = 100;
+            if (temp < 5) score -= (5 - temp) * 4;
+            else if (temp > 22) score -= (temp - 22) * 3.2;
+            if (humidity > 70) score -= (humidity - 70) * 0.8;
+            if (windSpeed > 20) score -= (windSpeed - 20) * 1.5;
+            if (weatherCode >= 95) score -= 60;
+            else if (weatherCode >= 80) score -= 45;
+            else if (weatherCode >= 60) score -= 35;
+            else if (weatherCode >= 70) score -= 40;
+            else if (weatherCode >= 45) score -= 15;
+            score = Math.max(0, Math.min(100, Math.round(score)));
+            const level = score >= 80 ? { label: 'Mükemmel', icon: '🏃', color: '#2dd9c9' }
+                : score >= 60 ? { label: 'İyi', icon: '🚶', color: '#38bdf8' }
+                : score >= 40 ? { label: 'Orta', icon: '⚠️', color: '#fbbf24' }
+                : score >= 20 ? { label: 'Zayıf', icon: '🥵', color: '#fb923c' }
+                : { label: 'Uygun Değil', icon: '⛔', color: '#ef4444' };
+            let tip;
+            if (weatherCode >= 60) tip = 'Yağış bekleniyor, kapalı alan egzersizi tercih edin.';
+            else if (temp > 28) tip = 'Sıcak saatlerden kaçının; sabah erken veya akşam tercih edin.';
+            else if (temp < 5) tip = 'Isınma hareketlerine daha fazla zaman ayırın, katmanlı giyinin.';
+            else if (windSpeed > 25) tip = 'Rüzgar kuvvetli, rüzgarlı bölgelerden kaçının.';
+            else tip = 'Koşu ve yürüyüş için hava koşulları uygun.';
+            return { score, ...level, tip };
+        }
+
+        // YENİ: Çamaşır kurutma indeksi — sıcaklık, nem, rüzgar ve yağış olasılığına göre tahmini kuruma süresi
+        function getLaundryIndex(temp, humidity, windSpeed, rainProb) {
+            let score = 100;
+            score -= Math.max(0, humidity - 40) * 0.9;
+            score -= Math.max(0, 15 - temp) * 2.5;
+            score += Math.min(20, windSpeed * 0.6);
+            score -= rainProb * 0.7;
+            score = Math.max(0, Math.min(100, Math.round(score)));
+            let hours;
+            if (score >= 80) hours = '1.5–2.5 saat';
+            else if (score >= 60) hours = '2.5–4 saat';
+            else if (score >= 40) hours = '4–6 saat';
+            else if (score >= 20) hours = '6–9 saat';
+            else hours = '9+ saat / iç mekan önerilir';
+            const level = score >= 80 ? { label: 'Mükemmel', icon: '👕', color: '#2dd9c9' }
+                : score >= 60 ? { label: 'İyi', icon: '🧺', color: '#38bdf8' }
+                : score >= 40 ? { label: 'Orta', icon: '🌥️', color: '#fbbf24' }
+                : score >= 20 ? { label: 'Yavaş', icon: '💧', color: '#fb923c' }
+                : { label: 'Uygun Değil', icon: '🌧️', color: '#ef4444' };
+            return { score, hours, ...level };
+        }
+
+        // YENİ: Tarım & Bahçe tavsiyesi — sıcaklık, nem, rüzgar, yağış olasılığına göre kural tabanlı öneri
+        function getGardenAdvice(temp, humidity, windSpeed, rainProb, weatherCode) {
+            const tips = [];
+            if (rainProb >= 50) tips.push({ icon: '🌧️', text: 'Yağış bekleniyor — sulamayı erteleyin, fazla su birikmesine karşı drenajı kontrol edin.' });
+            else if (temp >= 28 && humidity < 45) tips.push({ icon: '💧', text: 'Sıcak ve kuru hava — bitkileri sabah erken veya akşam serinliğinde sulayın.' });
+            else if (rainProb < 15 && temp < 28) tips.push({ icon: '🌱', text: 'Sulama için uygun koşullar, toprağı kontrol ederek normal sulama yapılabilir.' });
+            else tips.push({ icon: '🪴', text: 'Ilıman koşullar — düzenli bakım rutinine devam edilebilir.' });
+
+            if (temp <= 2) tips.push({ icon: '🥶', text: 'Don riski var — hassas bitkileri örtün veya içeri alın.' });
+            if (windSpeed >= 30) tips.push({ icon: '💨', text: 'Kuvvetli rüzgar — narin fideleri ve saksıları rüzgardan koruyun.' });
+            if (temp >= 15 && temp <= 24 && rainProb < 30 && weatherCode < 3) tips.push({ icon: '🌾', text: 'Ekim ve fide dikimi için ideal sıcaklık aralığı.' });
+
+            return tips.slice(0, 3);
+        }
+
+        // YENİ: Biyometeoroloji göstergeleri — Uyku, Migren, Sinüs skorları (0-100 gauge için)
+        function getSleepScore(temp, humidity, pressure) {
+            let score = 100;
+            // İdeal uyku sıcaklığı ~16-20°C
+            if (temp < 16) score -= (16 - temp) * 3.5;
+            else if (temp > 20) score -= (temp - 20) * 4;
+            if (humidity > 65) score -= (humidity - 65) * 0.9;
+            else if (humidity < 30) score -= (30 - humidity) * 0.7;
+            if (pressure && (pressure < 1005 || pressure > 1025)) score -= 8;
+            score = Math.max(0, Math.min(100, Math.round(score)));
+            const level = score >= 80 ? { label: 'İyi', color: '#2dd9c9' }
+                : score >= 55 ? { label: 'Ortalama', color: '#fbbf24' }
+                : { label: 'Zor', color: '#ef4444' };
+            return { score, ...level };
+        }
+
+        function getMigraineRisk(pressure, pressureTrend, humidity) {
+            // Ani basınç düşüşü ve yüksek nem migren tetikleyicisi olarak bilinir
+            let risk = 0;
+            if (pressureTrend && pressureTrend < -3) risk += 45;
+            else if (pressureTrend && pressureTrend < -1.5) risk += 25;
+            if (pressure && pressure < 1005) risk += 20;
+            if (humidity > 75) risk += 15;
+            risk = Math.max(0, Math.min(100, Math.round(risk)));
+            const level = risk <= 25 ? { label: 'Düşük', color: '#2dd9c9' }
+                : risk <= 55 ? { label: 'Orta', color: '#fbbf24' }
+                : { label: 'Yüksek', color: '#ef4444' };
+            return { score: risk, ...level };
+        }
+
+        function getSinusRisk(humidity, pressure, windSpeed, pollenOverall) {
+            let risk = 0;
+            if (humidity > 70) risk += 30;
+            else if (humidity < 30) risk += 20; // kuru hava da tahriş edebilir
+            if (pressure && pressure < 1008) risk += 20;
+            if (windSpeed > 25) risk += 15;
+            if (pollenOverall && (pollenOverall.label === 'Yüksek' || pollenOverall.label === 'Çok Yüksek')) risk += 25;
+            risk = Math.max(0, Math.min(100, Math.round(risk)));
+            const level = risk <= 25 ? { label: 'Düşük', color: '#2dd9c9' }
+                : risk <= 55 ? { label: 'Orta', color: '#fbbf24' }
+                : { label: 'Yüksek', color: '#ef4444' };
+            return { score: risk, ...level };
+        }
+
+        // YENİ: Hava durumu uyarı sistemi — don, aşırı sıcak, fırtına, kuvvetli rüzgar, yoğun yağış tespiti
+        // YENİ: Günün en uygun saatini bulur — dışarı çıkmak/aktivite için en iyi zaman dilimi önerisi
+        function getBestTimeSlot(hourlyData) {
+            if (!hourlyData || !hourlyData.length) return null;
+            let best = null;
+            hourlyData.forEach(h => {
+                let score = 100;
+                const temp = h.temp;
+                if (temp < 10) score -= (10 - temp) * 3;
+                else if (temp > 26) score -= (temp - 26) * 3;
+                if (h.code >= 95) score -= 70;
+                else if (h.code >= 80) score -= 55;
+                else if (h.code >= 60) score -= 45;
+                else if (h.code >= 70) score -= 50;
+                else if (h.code >= 45) score -= 20;
+                else if (h.code >= 1) score -= 5;
+                if (!best || score > best.score) best = { ...h, score };
+            });
+            return best;
+        }
+
+        // YENİ: Kıyafet tavsiyesi — sıcaklık, hissedilen sıcaklık, rüzgar, yağış ve hava koduna göre giyim önerisi
+        function getOutfitAdvice(temp, feelsLike, windSpeed, rainProb, weatherCode) {
+            const t = feelsLike !== undefined && feelsLike !== null ? feelsLike : temp;
+            let top, bottom, extra = [];
+
+            if (t <= 0) { top = '🧥 Kalın mont + kazak'; bottom = '🧶 Kalın pantolon'; extra.push('🧤 Eldiven', '🧣 Atkı/Bere'); }
+            else if (t <= 8) { top = '🧥 Mont veya kalın ceket'; bottom = '👖 Kalın pantolon'; extra.push('🧣 Atkı'); }
+            else if (t <= 15) { top = '🧥 Hafif mont / kazak'; bottom = '👖 Uzun pantolon'; }
+            else if (t <= 20) { top = '👕 Sweatshirt veya ince ceket'; bottom = '👖 Pantolon'; }
+            else if (t <= 26) { top = '👕 Tişört + ince gömlek'; bottom = '👖 Hafif pantolon / şort'; }
+            else { top = '👕 İnce, nefes alan kıyafet'; bottom = '🩳 Şort / hafif etek'; extra.push('🧴 Güneş kremi'); }
+
+            if (rainProb >= 45 || weatherCode >= 60) extra.push('☂️ Şemsiye', '🧥 Su geçirmez ceket');
+            if (windSpeed >= 25) extra.push('🧣 Rüzgar geçirmez kıyafet');
+            if (weatherCode === 0 && t >= 18) extra.push('🕶️ Güneş gözlüğü');
+            if (weatherCode >= 71 && weatherCode < 80) extra.push('👢 Su geçirmez bot');
+
+            const summary = t <= 8 ? 'Soğuk hava — katmanlı giyinin.'
+                : t <= 15 ? 'Serin hava — hafif kalın giyinin.'
+                : t <= 26 ? 'Ilıman hava — rahat giyinebilirsiniz.'
+                : 'Sıcak hava — hafif ve ferah giyinin.';
+
+            // YENİ: Renk paleti önerisi — sıcaklık ve hava koşuluna göre
+            let colorNote, colors;
+            if (rainProb >= 45 || weatherCode >= 60) {
+                colorNote = 'Yağışlı ve gri havada görünürlüğü artıran canlı tonlar tercih edin.';
+                colors = [
+                    { name: 'Hardal Sarısı', hex: '#e6b800' },
+                    { name: 'Turuncu', hex: '#ff7a3d' },
+                    { name: 'Lacivert', hex: '#1e3a5f' },
+                    { name: 'Antrasit', hex: '#3a3f4b' }
+                ];
+            } else if (t <= 8) {
+                colorNote = 'Soğuk günlerde koyu ve sıcak hissettiren tonlar daha kullanışlıdır.';
+                colors = [
+                    { name: 'Bordo', hex: '#7a1f2b' },
+                    { name: 'Koyu Yeşil', hex: '#2f4a3c' },
+                    { name: 'Kahverengi', hex: '#5b3a29' },
+                    { name: 'Siyah', hex: '#1a1a1a' }
+                ];
+            } else if (t <= 20) {
+                colorNote = 'Serin ve ılıman havada toprak tonları ve pastel renkler iyi gider.';
+                colors = [
+                    { name: 'Bej', hex: '#d8c3a5' },
+                    { name: 'Denim Mavi', hex: '#4a6b8a' },
+                    { name: 'Zeytin Yeşili', hex: '#6b7a4f' },
+                    { name: 'Krem', hex: '#efe6d8' }
+                ];
+            } else {
+                colorNote = 'Sıcak havada açık ve pastel tonlar ısıyı daha az yansıtır, serin tutar.';
+                colors = [
+                    { name: 'Beyaz', hex: '#f5f5f0' },
+                    { name: 'Açık Mavi', hex: '#a8d0e6' },
+                    { name: 'Pastel Sarı', hex: '#f2e08a' },
+                    { name: 'Bej', hex: '#e0d3b8' }
+                ];
+            }
+
+            return { top, bottom, extra: [...new Set(extra)].slice(0, 4), summary, colorNote, colors };
+        }
+
+        function getWeatherAlerts(temp, feelsLike, windSpeed, weatherCode, rainProb, humidity) {
+            const alerts = [];
+            if (temp <= 0 || feelsLike <= -2) {
+                alerts.push({ icon: '🥶', level: 'danger', title: 'Don Uyarısı', desc: 'Sıcaklık donma noktasının altında. Bitkileri ve boruları koruyun, buzlanmaya dikkat edin.' });
+            } else if (temp <= 3) {
+                alerts.push({ icon: '❄️', level: 'warning', title: 'Soğuk Hava Uyarısı', desc: 'Sıcaklık düşük seyrediyor, sabah erken saatlerde don olabilir.' });
+            }
+            if (temp >= 38 || feelsLike >= 41) {
+                alerts.push({ icon: '🔥', level: 'danger', title: 'Aşırı Sıcak Uyarısı', desc: 'Yüksek sıcaklık nedeniyle bol su için, uzun süre güneşte kalmayın.' });
+            } else if (temp >= 32) {
+                alerts.push({ icon: '☀️', level: 'warning', title: 'Sıcak Hava Uyarısı', desc: 'Sıcaklıklar yükseliyor, öğle saatlerinde dışarıda dikkatli olun.' });
+            }
+            if (windSpeed >= 60) {
+                alerts.push({ icon: '🌪️', level: 'danger', title: 'Fırtına Uyarısı', desc: 'Çok kuvvetli rüzgar bekleniyor. Açık alanlardan ve gevşek nesnelerden uzak durun.' });
+            } else if (windSpeed >= 40) {
+                alerts.push({ icon: '💨', level: 'warning', title: 'Kuvvetli Rüzgar Uyarısı', desc: 'Rüzgar hızı artıyor, dış mekan eşyalarını sabitleyin.' });
+            }
+            if (weatherCode >= 95) {
+                alerts.push({ icon: '⛈️', level: 'danger', title: 'Gök Gürültülü Sağanak', desc: 'Şiddetli fırtına bekleniyor, mümkünse kapalı alanda kalın.' });
+            } else if (rainProb >= 70) {
+                alerts.push({ icon: '🌧️', level: 'warning', title: 'Yoğun Yağış Uyarısı', desc: 'Kuvvetli yağış bekleniyor, su birikintilerine ve trafiğe dikkat edin.' });
+            }
+            if (humidity >= 85 && temp >= 26) {
+                alerts.push({ icon: '💦', level: 'warning', title: 'Bunaltıcı Nem Uyarısı', desc: 'Yüksek nem ve sıcaklık birlikte hissedilen sıcaklığı artırıyor.' });
+            }
+            return alerts;
+        }
+
         function getMoonPhase(date) {
             const synodic = 29.53058867;
             const knownNewMoon = new Date(Date.UTC(2000, 0, 6, 18, 14));
@@ -1140,7 +1694,95 @@
                 { max: 1.01, icon: '🌑', label: 'Yeni Ay' }
             ];
             const found = phases.find(p => phase <= p.max) || phases[0];
-            return found;
+
+            // Ek astronomik bilgiler: aydınlanma yüzdesi, yaş, sonraki/önceki ana evreler
+            const ageDays = phase * synodic;
+            const illumination = Math.round((1 - Math.cos(phase * 2 * Math.PI)) / 2 * 100);
+            const waxing = phase < 0.5;
+            const trendLabel = phase < 0.02 || phase > 0.98 ? 'Yeni Ay'
+                : phase < 0.25 ? 'Artan Hilal'
+                : Math.abs(phase - 0.25) < 0.02 ? 'İlk Dördün'
+                : phase < 0.5 ? 'Artan Şişkin'
+                : Math.abs(phase - 0.5) < 0.02 ? 'Dolunay'
+                : phase < 0.75 ? 'Azalan Şişkin'
+                : Math.abs(phase - 0.75) < 0.02 ? 'Son Dördün'
+                : 'Azalan Hilal';
+
+            // Ana evrelere (0, 0.25, 0.5, 0.75, 1) olan tarihleri hesapla
+            const mainPhaseFractions = [0, 0.25, 0.5, 0.75, 1];
+            const mainPhaseNames = ['Yeni Ay', 'İlk Dördün', 'Dolunay', 'Son Dördün', 'Yeni Ay'];
+            const cycleStart = date.getTime() - phase * synodic * 86400000;
+            const events = mainPhaseFractions.map((f, i) => ({
+                name: mainPhaseNames[i],
+                date: new Date(cycleStart + f * synodic * 86400000)
+            }));
+            // Bir önceki tam döngüdeki son evreyi de ekle (Yeni Ay öncesi Son Dördün ihtimaline karşı)
+            events.unshift({ name: 'Son Dördün', date: new Date(cycleStart - 0.25 * synodic * 86400000) });
+
+            const nowTime = date.getTime();
+            const nextEvent = events.find(e => e.date.getTime() > nowTime) || events[events.length - 1];
+            const prevEvent = [...events].reverse().find(e => e.date.getTime() <= nowTime) || events[0];
+
+            return { ...found, illumination, ageDays, waxing, trendLabel, nextEvent, prevEvent };
+        }
+
+        // YENİ: Güneş yayı — gün doğumu/batımı arasında güncel konumu SVG üzerinde çizer
+        function renderSunArc(sunriseUnix, sunsetUnix) {
+            const w = 320, h = 90;
+            const startX = 12, endX = w - 12, arcY = 70, peakY = 12;
+            const now = Date.now() / 1000;
+            let t = (now - sunriseUnix) / (sunsetUnix - sunriseUnix);
+            const isNight = t < 0 || t > 1;
+            t = Math.max(0, Math.min(1, t));
+            // İkinci derece Bezier benzeri basit parabol ile yay üzerindeki nokta
+            const x = startX + (endX - startX) * t;
+            const y = arcY - Math.sin(t * Math.PI) * (arcY - peakY);
+            const pathD = `M ${startX} ${arcY} Q ${w/2} ${peakY - (arcY - peakY)} ${endX} ${arcY}`;
+            const dotColor = isNight ? '#64748b' : '#fbbf24';
+            const dotGlow = isNight ? 'none' : 'drop-shadow(0 0 10px rgba(251,191,36,0.65))';
+            return `
+                <div class="sun-arc-svg-wrap">
+                    <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+                        <path class="sun-arc-track" d="${pathD}"/>
+                        <circle class="sun-arc-dot" cx="${x}" cy="${y}" r="11" fill="${dotColor}" style="filter:${dotGlow}"/>
+                    </svg>
+                </div>`;
+        }
+
+        // YENİ: Ay fazını gerçekçi gölge ile SVG top olarak çizer
+        function renderMoonOrb(phaseFraction) {
+            // phaseFraction: 0=yeni ay, 0.5=dolunay, 1=yeni ay
+            const r = 40, cx = 42, cy = 42;
+            const waxing = phaseFraction <= 0.5;
+            const litFraction = waxing ? phaseFraction * 2 : (1 - phaseFraction) * 2; // 0..1, 0=hiç aydınlık yok, 1=tam aydınlık
+            // Terminatör eğrisi: elips genişliği ile hesaplanır
+            const rx = Math.abs(1 - litFraction * 2) * r;
+            const lightOnRight = waxing;
+            let terminatorPath;
+            if (litFraction <= 0.001) {
+                terminatorPath = '';
+            } else if (litFraction >= 0.999) {
+                terminatorPath = `M ${cx} ${cy - r} A ${r} ${r} 0 1 1 ${cx} ${cy + r} A ${r} ${r} 0 1 1 ${cx} ${cy - r} Z`;
+            } else {
+                const sweepOuter = lightOnRight ? 1 : 0;
+                const sweepInner = litFraction < 0.5 ? (lightOnRight ? 1 : 0) : (lightOnRight ? 0 : 1);
+                terminatorPath = `M ${cx} ${cy - r} A ${r} ${r} 0 0 ${sweepOuter} ${cx} ${cy + r} A ${rx} ${r} 0 0 ${sweepInner} ${cx} ${cy - r} Z`;
+            }
+            return `
+                <svg viewBox="0 0 84 84">
+                    <defs>
+                        <radialGradient id="moonDark" cx="35%" cy="35%" r="75%">
+                            <stop offset="0%" stop-color="#1e293b"/>
+                            <stop offset="100%" stop-color="#0d1826"/>
+                        </radialGradient>
+                        <radialGradient id="moonLight" cx="35%" cy="35%" r="75%">
+                            <stop offset="0%" stop-color="#fffdf5"/>
+                            <stop offset="100%" stop-color="#e2dcc8"/>
+                        </radialGradient>
+                    </defs>
+                    <circle cx="${cx}" cy="${cy}" r="${r}" fill="url(#moonDark)"/>
+                    ${terminatorPath ? `<path d="${terminatorPath}" fill="url(#moonLight)"/>` : ''}
+                </svg>`;
         }
 
         // YENİ: hava parçacık animasyonu (yağmur/kar) — hero kart arka planında
@@ -1344,12 +1986,18 @@
             const currentUrl  = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}&units=metric&lang=tr`;
             const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}&units=metric&lang=tr`;
             const aqiUrl      = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}`;
+            const marineUrl   = `https://marine-api.open-meteo.com/v1/marine?latitude=${lat}&longitude=${lon}&current=sea_surface_temperature&timezone=auto`;
+            const pollenUrl   = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=alder_pollen,birch_pollen,grass_pollen,ragweed_pollen&timezone=auto`;
+            const dailyMeteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=auto&forecast_days=5`;
 
-            const [currentRes, forecastRes, aqiRes, realNews] = await Promise.all([
+            const [currentRes, forecastRes, aqiRes, realNews, marineRes, pollenRes, dailyMeteoRes] = await Promise.all([
                 fetch(currentUrl),
                 fetch(forecastUrl),
                 fetch(aqiUrl).catch(() => null),
-                fetchRealWeatherNews()
+                fetchRealWeatherNews(),
+                fetch(marineUrl).catch(() => null),
+                fetch(pollenUrl).catch(() => null),
+                fetch(dailyMeteoUrl).catch(() => null)
             ]);
 
             if (!currentRes.ok || !forecastRes.ok) throw new Error('API hatası');
@@ -1363,6 +2011,31 @@
                 if (tempAqi.list && tempAqi.list.length > 0) aqiData = tempAqi.list[0].main.aqi;
             }
 
+            let seaTemp = null;
+            if (marineRes && marineRes.ok) {
+                try {
+                    const marineData = await marineRes.json();
+                    if (marineData.current && typeof marineData.current.sea_surface_temperature === 'number') {
+                        seaTemp = marineData.current.sea_surface_temperature;
+                    }
+                } catch (_) { /* deniz verisi yok */ }
+            }
+
+            let pollenData = null;
+            if (pollenRes && pollenRes.ok) {
+                try {
+                    const pd = await pollenRes.json();
+                    if (pd.current) {
+                        pollenData = {
+                            alder: pd.current.alder_pollen,
+                            birch: pd.current.birch_pollen,
+                            grass: pd.current.grass_pollen,
+                            ragweed: pd.current.ragweed_pollen
+                        };
+                    }
+                } catch (_) { /* polen verisi yok */ }
+            }
+
             const data = {
                 current: {
                     temperature_2m:       currentData.main.temp,
@@ -1374,7 +2047,9 @@
                     visibility:           currentData.visibility,
                     sunrise:              currentData.sys.sunrise,
                     sunset:               currentData.sys.sunset,
-                    aqi:                  aqiData
+                    aqi:                  aqiData,
+                    seaTemp:              seaTemp,
+                    pollen:               pollenData
                 },
                 hourly: {
                     time:           forecastData.list.map(item => item.dt_txt),
@@ -1385,19 +2060,33 @@
                 news: realNews
             };
 
-            const dailyMap = {};
-            forecastData.list.forEach(item => {
-                const date = item.dt_txt.split(' ')[0];
-                if (!dailyMap[date]) dailyMap[date] = { temps: [], codes: [] };
-                dailyMap[date].temps.push(item.main.temp);
-                dailyMap[date].codes.push(mapOpenWeatherToCode(item.weather[0].id));
-            });
-            Object.keys(dailyMap).slice(0, 5).forEach(date => {
-                data.daily.time.push(date);
-                data.daily.temperature_2m_max.push(Math.max(...dailyMap[date].temps));
-                data.daily.temperature_2m_min.push(Math.min(...dailyMap[date].temps));
-                data.daily.weather_code.push(dailyMap[date].codes[0]);
-            });
+            // YENİ: Günlük min/max için önce Open-Meteo'nun gerçek günlük tahmin verisini kullan (daha doğru),
+            // OpenWeatherMap'in 3 saatlik forecast'inden hesaplama sadece yedek (fallback) olarak kalsın.
+            let dailyMeteoData = null;
+            if (dailyMeteoRes && dailyMeteoRes.ok) {
+                try { dailyMeteoData = await dailyMeteoRes.json(); } catch (_) { /* yedek yönteme düş */ }
+            }
+
+            if (dailyMeteoData && dailyMeteoData.daily && dailyMeteoData.daily.time && dailyMeteoData.daily.time.length) {
+                data.daily.time = dailyMeteoData.daily.time;
+                data.daily.temperature_2m_max = dailyMeteoData.daily.temperature_2m_max.map(v => Math.round(v));
+                data.daily.temperature_2m_min = dailyMeteoData.daily.temperature_2m_min.map(v => Math.round(v));
+                data.daily.weather_code = dailyMeteoData.daily.weather_code;
+            } else {
+                const dailyMap = {};
+                forecastData.list.forEach(item => {
+                    const date = item.dt_txt.split(' ')[0];
+                    if (!dailyMap[date]) dailyMap[date] = { temps: [], codes: [] };
+                    dailyMap[date].temps.push(item.main.temp);
+                    dailyMap[date].codes.push(mapOpenWeatherToCode(item.weather[0].id));
+                });
+                Object.keys(dailyMap).slice(0, 5).forEach(date => {
+                    data.daily.time.push(date);
+                    data.daily.temperature_2m_max.push(Math.round(Math.max(...dailyMap[date].temps)));
+                    data.daily.temperature_2m_min.push(Math.round(Math.min(...dailyMap[date].temps)));
+                    data.daily.weather_code.push(dailyMap[date].codes[0]);
+                });
+            }
 
             const city = cityName || await getCityNameFromCoords(lat, lon);
             return { city, data, lat, lon };
@@ -1428,6 +2117,7 @@
         }
 
         function displayWeather({ city, data, lat, lon }) {
+            lastLat = lat; lastLon = lon;
             const { current, hourly, daily, news } = data;
             const hourlyData =[];[0, 3, 6, 9, 12, 15, 18, 21, 24].forEach(slot => {
                 const target = new Date(); target.setHours(slot === 24 ? 0 : slot, 0, 0, 0);
@@ -1439,7 +2129,8 @@
                 if (closest.i !== -1) hourlyData.push({
                     time: `${String(slot).padStart(2, '0')}:00`,
                     temp: Math.round(hourly.temperature_2m[closest.i]),
-                    icon: getWeatherIcon(hourly.weather_code[closest.i])
+                    icon: getWeatherIcon(hourly.weather_code[closest.i]),
+                    code: hourly.weather_code[closest.i]
                 });
             });
 
@@ -1474,6 +2165,60 @@
             // YENİ: ay evresi hesaplama (basit astronomik yaklaşım)
             const moonPhase = getMoonPhase(now);
 
+            // YENİ: Koşu/Yürüyüş uygunluğu
+            const runningInfo = getRunningScore(current.temperature_2m, current.relative_humidity_2m, current.wind_speed_10m, current.weather_code);
+
+            // YENİ: Çamaşır kurutma indeksi
+            const laundryInfo = getLaundryIndex(current.temperature_2m, current.relative_humidity_2m, current.wind_speed_10m, rainProb);
+
+            // YENİ: Tarım & Bahçe tavsiyesi
+            const gardenTips = getGardenAdvice(current.temperature_2m, current.relative_humidity_2m, current.wind_speed_10m, rainProb, current.weather_code);
+
+            // YENİ: Aktif hava durumu uyarıları
+            const weatherAlerts = getWeatherAlerts(current.temperature_2m, current.feels_like, current.wind_speed_10m, current.weather_code, rainProb, current.relative_humidity_2m);
+
+            // YENİ: Günün en uygun saati (dışarı çıkmak için)
+            const bestSlot = getBestTimeSlot(hourlyData);
+
+            // YENİ: Kıyafet tavsiyesi
+            const outfitInfo = getOutfitAdvice(current.temperature_2m, current.feels_like, current.wind_speed_10m, rainProb, current.weather_code);
+
+            // YENİ: Deniz suyu sıcaklığı (yalnızca kıyı illerinde gösterilir)
+            const isCoastal = COASTAL_CITIES.has(city) || current.seaTemp !== null;
+            const seaTempVal = current.seaTemp !== null && current.seaTemp !== undefined ? Math.round(current.seaTemp) : null;
+
+            // YENİ: Polen / Alerji indeksi (Open-Meteo tane/m³ verisi -> basit seviye eşiği)
+            function pollenLevel(val) {
+                if (val === null || val === undefined) return null;
+                if (val < 10) return { label: 'Düşük', color: '#2dd9c9' };
+                if (val < 30) return { label: 'Orta', color: '#fbbf24' };
+                if (val < 70) return { label: 'Yüksek', color: '#fb923c' };
+                return { label: 'Çok Yüksek', color: '#ef4444' };
+            }
+            let pollenRows = [];
+            let pollenOverall = null;
+            if (current.pollen) {
+                const p = current.pollen;
+                const entries = [
+                    { name: 'Kızılağaç', val: p.alder },
+                    { name: 'Huş', val: p.birch },
+                    { name: 'Çayır Otu', val: p.grass },
+                    { name: 'Ambrosia', val: p.ragweed }
+                ].filter(e => e.val !== null && e.val !== undefined);
+                pollenRows = entries.map(e => ({ ...e, level: pollenLevel(e.val) }));
+                if (entries.length) {
+                    const maxVal = Math.max(...entries.map(e => e.val));
+                    pollenOverall = pollenLevel(maxVal);
+                }
+            }
+
+            // YENİ: Biyometeoroloji göstergeleri — Uyku, Spor, Migren, Sinüs (gauge kartları için)
+            const sleepInfo = getSleepScore(current.temperature_2m, current.relative_humidity_2m, current.pressure_msl);
+            // Basınç trendi için ilk 3 saatlik tahminden kaba bir eğilim; veri yoksa 0 kabul edilir (nötr)
+            const pressureTrend = 0; // OpenWeatherMap ücretsiz planında geçmiş basınç serisine erişim yok, nötr varsayım kullanılır
+            const migraineInfo = getMigraineRisk(current.pressure_msl, pressureTrend, current.relative_humidity_2m);
+            const sinusInfo = getSinusRisk(current.relative_humidity_2m, current.pressure_msl, current.wind_speed_10m, pollenOverall);
+
             // Aktif Tab'ı hatırla (Yenileme yapıldığında doğru sayfada kalması için)
             const activeTabBtn = document.querySelector('.tab-btn.active');
             const activeTab = activeTabBtn ? activeTabBtn.dataset.tab : 'weather';
@@ -1491,8 +2236,8 @@
                         </button>
                         <div class="live-badge" style="position:relative;z-index:1;margin-bottom:10px;"><span class="live-badge-dot"></span>Canlı güncelleme · ${new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})}</div>
                         <div class="hero-icon">${getWeatherIcon(current.weather_code)}</div>
-                        <div class="hero-temp">${Math.round(current.temperature_2m)}°</div>
-                        <div class="hero-feels">Hissedilen: ${Math.round(current.feels_like)}° ${getCompareChip(city, Math.round(current.temperature_2m))}</div>
+                        <div class="hero-temp">${dailyData[0].maxTemp}°<span class="hero-temp-sep">/</span><span class="hero-temp-min">${dailyData[0].minTemp}°</span></div>
+                        <div class="hero-feels">Şu an: ${Math.round(current.temperature_2m)}° · Hissedilen: ${Math.round(current.feels_like)}° ${getCompareChip(city, Math.round(current.temperature_2m))}</div>
                         <div class="hero-desc">${getWeatherDesc(current.weather_code)}</div>
                         <div class="hero-stats">
                             <div class="stat-box"><span class="stat-icon">💧</span><span class="stat-val">${current.relative_humidity_2m}%</span><span class="stat-label">Nem</span></div>
@@ -1503,11 +2248,57 @@
                         <button class="city-png-btn" onclick="downloadCityPng(event)" title="PNG olarak indir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>PNG</button>
                     </div>
 
+                    <!-- YENİ: Aktif hava durumu uyarıları -->
+                    ${weatherAlerts.length ? `
+                    <div class="weather-alerts-wrap">
+                        ${weatherAlerts.map(a => `
+                        <div class="weather-alert-card alert-${a.level}">
+                            <span class="weather-alert-icon">${a.icon}</span>
+                            <div class="weather-alert-body">
+                                <span class="weather-alert-title">${a.title}</span>
+                                <span class="weather-alert-desc">${a.desc}</span>
+                            </div>
+                        </div>`).join('')}
+                    </div>` : ''}
+
                     <!-- YENİ: Hızlı özet bento şeridi -->
                     <div class="quick-bento">
                         <div class="quick-bento-card"><span class="quick-bento-icon">🌡️</span><span class="quick-bento-val">${Math.round(current.feels_like)}°</span><span class="quick-bento-label">Hissedilen</span></div>
                         <div class="quick-bento-card"><span class="quick-bento-icon">💧</span><span class="quick-bento-val">${rainProb}%</span><span class="quick-bento-label">Yağış İht.</span></div>
                         <div class="quick-bento-card"><span class="quick-bento-icon">🌙</span><span class="quick-bento-val">${moonPhase.icon}</span><span class="quick-bento-label">${moonPhase.label}</span></div>
+                    </div>
+
+                    ${bestSlot ? `
+                    <div class="best-time-card">
+                        <span class="best-time-icon">${bestSlot.icon}</span>
+                        <div class="best-time-body">
+                            <span class="best-time-title">Bugün Dışarı Çıkmak İçin En İyi Zaman</span>
+                            <span class="best-time-val">${bestSlot.time} · ${bestSlot.temp}°</span>
+                        </div>
+                    </div>` : ''}
+
+                    <!-- YENİ: Kıyafet tavsiyesi -->
+                    <div class="section-head"><span class="section-title">Bugün Ne Giyilmeli?</span><span class="section-icon">👔</span></div>
+                    <div class="outfit-card">
+                        <span class="outfit-summary">${outfitInfo.summary}</span>
+                        <div class="outfit-rows">
+                            <div class="outfit-row"><span class="outfit-row-label">Üst</span><span class="outfit-row-val">${outfitInfo.top}</span></div>
+                            <div class="outfit-row"><span class="outfit-row-label">Alt</span><span class="outfit-row-val">${outfitInfo.bottom}</span></div>
+                        </div>
+                        ${outfitInfo.extra.length ? `
+                        <div class="outfit-extras">
+                            ${outfitInfo.extra.map(e => `<span class="outfit-extra-chip">${e}</span>`).join('')}
+                        </div>` : ''}
+                        <div class="outfit-colors">
+                            <span class="outfit-colors-note">🎨 ${outfitInfo.colorNote}</span>
+                            <div class="outfit-swatch-row">
+                                ${outfitInfo.colors.map(c => `
+                                <div class="outfit-swatch">
+                                    <span class="outfit-swatch-dot" style="background:${c.hex};"></span>
+                                    <span class="outfit-swatch-name">${c.name}</span>
+                                </div>`).join('')}
+                            </div>
+                        </div>
                     </div>
 
                     <!-- YENİ: Şehir karşılaştırma şeridi -->
@@ -1558,6 +2349,22 @@
                         </div>
                     </div>
 
+                    <div class="section-head"><span class="section-title">Güneş, Ay ve Uzay Havası</span><span class="section-icon">🪐</span></div>
+                    <div class="sun-arc-card">
+                        <div class="sun-arc-label">Güneş</div>
+                        ${renderSunArc(current.sunrise, current.sunset)}
+                        <div class="sun-arc-times">
+                            <div class="sun-arc-time-col">
+                                <span class="sun-arc-time-label">Gün Doğumu</span>
+                                <span class="sun-arc-time-val">${sunriseTime}</span>
+                            </div>
+                            <div class="sun-arc-time-col end">
+                                <span class="sun-arc-time-label">Gün Batımı</span>
+                                <span class="sun-arc-time-val">${sunsetTime}</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="section-head"><span class="section-title">Saatlik Tahmin</span><span class="section-icon">🕒</span></div>
                     <div class="scroll-wrap">
                         ${hourlyData.map(h => `<div class="hour-pill"><div class="hp-time">${h.time}</div><div class="hp-icon">${h.icon}</div><div class="hp-temp">${h.temp}°</div></div>`).join('')}
@@ -1587,6 +2394,107 @@
                         })()}
                     </div>
 
+                    <div class="moon-phase-card">
+                        <div class="moon-phase-label">Ay Fazı</div>
+                        <div class="moon-phase-visual">
+                            <div class="moon-orb-wrap">${renderMoonOrb((moonPhase.ageDays / 29.53058867))}</div>
+                            <div class="moon-phase-pct">Ay: %${moonPhase.illumination}</div>
+                            <div class="moon-phase-trend">${moonPhase.trendLabel}</div>
+                        </div>
+                        <div class="moon-info-rows">
+                            <div class="moon-info-row">
+                                <span class="moon-info-row-label">Ay Yaşı</span>
+                                <div class="moon-info-row-val"><b>${moonPhase.ageDays.toFixed(1)} gün</b><span>/ 29.5g</span></div>
+                            </div>
+                            <div class="moon-info-row">
+                                <span class="moon-info-row-label">Sıradaki Evre</span>
+                                <div class="moon-info-row-val"><b>${moonPhase.nextEvent.name}</b><span>${moonPhase.nextEvent.date.toLocaleDateString('tr-TR',{day:'numeric',month:'short',year:'numeric'})}</span></div>
+                            </div>
+                            <div class="moon-info-row">
+                                <span class="moon-info-row-label">Önceki Evre</span>
+                                <div class="moon-info-row-val"><b>${moonPhase.prevEvent.name}</b><span>${moonPhase.prevEvent.date.toLocaleDateString('tr-TR',{day:'numeric',month:'short',year:'numeric'})}</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-head"><span class="section-title">Yaşam Tavsiyeleri</span><span class="section-icon">🌿</span></div>
+
+                    <div class="advisory-grid">
+                        <div class="advisory-card">
+                            <div class="advisory-icon" style="background:${runningInfo.color}22;color:${runningInfo.color};">${runningInfo.icon}</div>
+                            <div class="advisory-body">
+                                <span class="advisory-title">Koşu & Yürüyüş</span>
+                                <span class="advisory-level" style="color:${runningInfo.color};">${runningInfo.label} · %${runningInfo.score}</span>
+                                <span class="advisory-desc">${runningInfo.tip}</span>
+                            </div>
+                        </div>
+
+                        <div class="advisory-card">
+                            <div class="advisory-icon" style="background:${laundryInfo.color}22;color:${laundryInfo.color};">${laundryInfo.icon}</div>
+                            <div class="advisory-body">
+                                <span class="advisory-title">Çamaşır Kurutma</span>
+                                <span class="advisory-level" style="color:${laundryInfo.color};">${laundryInfo.label} · %${laundryInfo.score}</span>
+                                <span class="advisory-desc">Tahmini kuruma süresi: ${laundryInfo.hours}</span>
+                            </div>
+                        </div>
+
+                        ${isCoastal && seaTempVal !== null ? `
+                        <div class="advisory-card">
+                            <div class="advisory-icon" style="background:#38bdf822;color:#38bdf8;">🌊</div>
+                            <div class="advisory-body">
+                                <span class="advisory-title">Deniz Suyu Sıcaklığı</span>
+                                <span class="advisory-level" style="color:#38bdf8;">${seaTempVal}°C</span>
+                                <span class="advisory-desc">${seaTempVal >= 24 ? 'Denize girmek için ideal sıcaklık.' : seaTempVal >= 20 ? 'Serin ama denize girilebilir.' : 'Soğuk — uzun süreli yüzme için uygun değil.'}</span>
+                            </div>
+                        </div>` : ''}
+
+                        ${pollenOverall ? `
+                        <div class="advisory-card">
+                            <div class="advisory-icon" style="background:${pollenOverall.color}22;color:${pollenOverall.color};">🌼</div>
+                            <div class="advisory-body">
+                                <span class="advisory-title">Polen / Alerji</span>
+                                <span class="advisory-level" style="color:${pollenOverall.color};">${pollenOverall.label}</span>
+                                <span class="advisory-desc">${pollenRows.map(r => r.name).join(', ')} polen seviyeleri izleniyor.</span>
+                            </div>
+                        </div>` : ''}
+                    </div>
+
+                    <div class="section-head"><span class="section-title">Biyometeoroloji</span><span class="section-icon">💗</span></div>
+                    <div class="gauge-grid">
+                        ${[
+                            { icon: '🌙', label: 'UYKU', info: sleepInfo },
+                            { icon: '🚴', label: 'SPOR', info: { score: runningInfo.score, label: runningInfo.score >= 80 ? 'İdeal' : runningInfo.label, color: runningInfo.score >= 80 ? '#2dd9c9' : runningInfo.color } },
+                            { icon: '💓', label: 'MİGREN', info: migraineInfo },
+                            { icon: '💧', label: 'SİNÜS', info: sinusInfo }
+                        ].map(g => {
+                            const pct = Math.max(0, Math.min(100, g.info.score));
+                            const circumference = 2 * Math.PI * 42;
+                            const dash = (pct / 100) * circumference * 0.75; // 270° yay (3/4 çember)
+                            return `
+                            <div class="gauge-card">
+                                <div class="gauge-ring-wrap">
+                                    <svg viewBox="0 0 100 100" class="gauge-svg">
+                                        <circle cx="50" cy="50" r="42" fill="none" stroke="var(--surface-border)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${circumference*0.75} ${circumference}" stroke-dashoffset="0" transform="rotate(135 50 50)"/>
+                                        <circle cx="50" cy="50" r="42" fill="none" stroke="${g.info.color}" stroke-width="9" stroke-linecap="round" stroke-dasharray="${dash} ${circumference}" stroke-dashoffset="0" transform="rotate(135 50 50)"/>
+                                    </svg>
+                                    <div class="gauge-center">
+                                        <span class="gauge-icon">${g.icon}</span>
+                                        <span class="gauge-value" style="color:${g.info.color};">${g.info.score}</span>
+                                    </div>
+                                </div>
+                                <span class="gauge-label">${g.label}</span>
+                                <span class="gauge-status" style="color:${g.info.color};">${g.info.label}</span>
+                            </div>`;
+                        }).join('')}
+                    </div>
+
+                    <div class="garden-card">
+                        <div class="garden-card-head">🪴 Tarım & Bahçe Tavsiyesi</div>
+                        <div class="garden-tips">
+                            ${gardenTips.map(t => `<div class="garden-tip-row"><span class="garden-tip-icon">${t.icon}</span><span class="garden-tip-text">${t.text}</span></div>`).join('')}
+                        </div>
+                    </div>
+
                     <div class="section-head"><span class="section-title">Hava Kalitesi</span><span class="section-icon">🌬️</span></div>
                     <div class="aqi-ring-card">
                         <div class="aqi-ring" style="background:${aqiObj.ringColor || '#64748b'};box-shadow:0 8px 20px ${aqiObj.ringColor || '#64748b'}55;">${current.aqi || '–'}</div>
@@ -1594,6 +2502,22 @@
                             <span class="aqi-ring-title">Hava Kalitesi İndeksi</span>
                             <span class="aqi-ring-desc">${aqiObj.icon} ${aqiObj.text}</span>
                             <span class="aqi-ring-sub">${aqiObj.advice || 'Genel nüfus için normal aktivite uygundur.'}</span>
+                        </div>
+                    </div>
+
+                    <div class="section-head"><span class="section-title">Türkiye İl Sıcaklık Haritası</span><span class="section-icon">🗺️</span></div>
+                    <div class="tr-temp-map-card">
+                        <div class="map-container" style="margin-bottom:12px;">
+                            <iframe src="https://embed.windy.com/embed2.html?lat=39.0&lon=35.2&zoom=5&level=surface&overlay=temp&menu=&message=true&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=km%2Fh&metricTemp=%C2%B0C&radarRange=-1" loading="lazy"></iframe>
+                        </div>
+                        <div class="tr-temp-legend">
+                            <span class="tr-temp-legend-item"><span class="tr-temp-dot" style="background:#3b82f6"></span>&lt; 0°</span>
+                            <span class="tr-temp-legend-item"><span class="tr-temp-dot" style="background:#22d3ee"></span>0–10°</span>
+                            <span class="tr-temp-legend-item"><span class="tr-temp-dot" style="background:#2dd9c9"></span>10–15°</span>
+                            <span class="tr-temp-legend-item"><span class="tr-temp-dot" style="background:#34d399"></span>15–20°</span>
+                            <span class="tr-temp-legend-item"><span class="tr-temp-dot" style="background:#fbbf24"></span>20–25°</span>
+                            <span class="tr-temp-legend-item"><span class="tr-temp-dot" style="background:#fb923c"></span>25–30°</span>
+                            <span class="tr-temp-legend-item"><span class="tr-temp-dot" style="background:#ef4444"></span>&gt; 30°</span>
                         </div>
                     </div>
 
@@ -1639,6 +2563,10 @@
             cityDataCache.aqiObj = aqiObj;
             cityDataCache.uvIndex = uvIndex;
             cityDataCache.uvLevel = uvLevel;
+            cityDataCache.runningInfo = runningInfo;
+            cityDataCache.laundryInfo = laundryInfo;
+            cityDataCache.gardenTips = gardenTips;
+            cityDataCache.outfitInfo = outfitInfo;
         }
 
         function showLoading() { weatherContent.innerHTML = `<div class="weather-hero"><div class="loading-wrap"><div class="gold-spinner"></div><p style="color:var(--text-secondary)">Meteorolojik veriler taranıyor...</p></div></div>`; }
@@ -1681,6 +2609,148 @@
             }
             return null;
         }
+
+        // ─── UYDU SEKMESİ: Windy harita + katman geçişi ───
+        let currentUyduLayer = 'clouds';
+        let uyduLat = null, uyduLon = null, uyduLocName = null;
+
+        const UYDU_LAYER_INFO = {
+            clouds:   { icon: '☁️', title: 'Bulutluluk', desc: 'Uydu görüntülerinden türetilen anlık bulut örtüsü.' },
+            radar:    { icon: '🌧️', title: 'Yağış Radarı', desc: 'Canlı radar verisiyle yağmur ve kar yoğunluğu.' },
+            wind:     { icon: '💨', title: 'Rüzgar Akışı', desc: 'Yüzey rüzgar yönü ve hızı animasyonlu akış çizgileriyle.' },
+            temp:     { icon: '🌡️', title: 'Sıcaklık Haritası', desc: 'Bölgesel yüzey sıcaklığı renk skalasıyla gösterilir.' },
+            pressure: { icon: '⏲', title: 'Basınç Sistemleri', desc: 'Yüksek/alçak basınç merkezleri ve izobar çizgileri.' }
+        };
+
+        function buildWindyUrl(layer, lat, lon) {
+            const la = lat || 39.0;
+            const lo = lon || 35.0;
+            const layerMap = {
+                clouds:   { overlay: 'clouds', zoom: 6 },
+                radar:    { overlay: 'radar', zoom: 6 },
+                wind:     { overlay: 'wind', zoom: 5 },
+                temp:     { overlay: 'temp', zoom: 5 },
+                pressure: { overlay: 'pressure', zoom: 4 }
+            };
+            const cfg = layerMap[layer] || layerMap.clouds;
+            return `https://embed.windy.com/embed2.html?lat=${la}&lon=${lo}&zoom=${cfg.zoom}&level=surface&overlay=${cfg.overlay}&menu=&message=true&marker=true&calendar=now&pressure=&type=map&location=coordinates&detail=&detailLat=${la}&detailLon=${lo}&metricWind=km%2Fh&metricTemp=%C2%B0C&radarRange=-1`;
+        }
+
+        function updateUyduInfoCard(layer) {
+            const info = UYDU_LAYER_INFO[layer] || UYDU_LAYER_INFO.clouds;
+            const iconEl = document.getElementById('uyduInfoIcon');
+            const titleEl = document.getElementById('uyduInfoTitle');
+            const descEl = document.getElementById('uyduInfoDesc');
+            const locEl = document.getElementById('uyduInfoLoc');
+            if (iconEl) iconEl.textContent = info.icon;
+            if (titleEl) titleEl.textContent = info.title;
+            if (descEl) descEl.textContent = info.desc;
+            if (locEl) locEl.textContent = '📍 ' + (uyduLocName || 'Türkiye');
+        }
+
+        function loadUyduMap(layer) {
+            const targetLayer = layer || currentUyduLayer;
+            currentUyduLayer = targetLayer;
+            const frame = document.getElementById('uyduMapFrame');
+            const loadingEl = document.getElementById('uyduMapLoading');
+            if (!frame) return;
+            if (uyduLat === null) {
+                uyduLat = lastLat || (isUsingLocation && currentLat) || 39.0;
+                uyduLon = lastLon || (isUsingLocation && currentLon) || 35.0;
+                uyduLocName = uyduLocName || cityDataCache.city || 'Türkiye';
+            }
+            if (loadingEl) loadingEl.classList.remove('hidden');
+            frame.src = buildWindyUrl(targetLayer, uyduLat, uyduLon);
+            frame.onload = () => { if (loadingEl) loadingEl.classList.add('hidden'); };
+            updateUyduInfoCard(targetLayer);
+        }
+        document.querySelectorAll('.uydu-layer-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelectorAll('.uydu-layer-chip').forEach(c => c.classList.toggle('active', c === chip));
+                loadUyduMap(chip.dataset.layer);
+            });
+        });
+
+        // ─── UYDU: Şehir arama ───
+        const uyduSearchInput = document.getElementById('uyduSearchInput');
+        const uyduSearchDropdown = document.getElementById('uyduSearchDropdown');
+        if (uyduSearchInput && uyduSearchDropdown) {
+            let uyduHl = -1;
+            function renderUyduDropdown(query) {
+                const q = query.trim().toLocaleLowerCase('tr-TR');
+                if (!q) { uyduSearchDropdown.classList.remove('open'); uyduSearchDropdown.innerHTML = ''; return; }
+                const matches = ALL_CITIES.filter(c => c.toLocaleLowerCase('tr-TR').includes(q)).slice(0, 8);
+                if (!matches.length) { uyduSearchDropdown.classList.remove('open'); uyduSearchDropdown.innerHTML = ''; return; }
+                uyduHl = -1;
+                uyduSearchDropdown.innerHTML = matches.map(c => `<div class="uydu-search-item" data-city="${c}">${c}</div>`).join('');
+                uyduSearchDropdown.classList.add('open');
+            }
+            function selectUyduCity(cityName) {
+                if (!cityCoords[cityName]) return;
+                const [lat, lon] = cityCoords[cityName];
+                uyduLat = lat; uyduLon = lon; uyduLocName = cityName;
+                uyduSearchInput.value = cityName;
+                uyduSearchDropdown.classList.remove('open');
+                uyduSearchDropdown.innerHTML = '';
+                loadUyduMap();
+            }
+            uyduSearchInput.addEventListener('input', () => renderUyduDropdown(uyduSearchInput.value));
+            uyduSearchInput.addEventListener('focus', () => { if (uyduSearchInput.value.trim()) renderUyduDropdown(uyduSearchInput.value); });
+            uyduSearchDropdown.addEventListener('click', (e) => {
+                const item = e.target.closest('.uydu-search-item');
+                if (item) selectUyduCity(item.dataset.city);
+            });
+            uyduSearchInput.addEventListener('keydown', (e) => {
+                const items = [...uyduSearchDropdown.querySelectorAll('.uydu-search-item')];
+                if (!items.length) return;
+                if (e.key === 'ArrowDown') { e.preventDefault(); uyduHl = Math.min(uyduHl + 1, items.length - 1); items.forEach((it,i)=>it.classList.toggle('hl', i===uyduHl)); }
+                else if (e.key === 'ArrowUp') { e.preventDefault(); uyduHl = Math.max(uyduHl - 1, 0); items.forEach((it,i)=>it.classList.toggle('hl', i===uyduHl)); }
+                else if (e.key === 'Enter') { e.preventDefault(); const target = items[uyduHl] || items[0]; if (target) selectUyduCity(target.dataset.city); }
+            });
+            document.addEventListener('click', (e) => {
+                if (!uyduSearchInput.contains(e.target) && !uyduSearchDropdown.contains(e.target)) {
+                    uyduSearchDropdown.classList.remove('open');
+                }
+            });
+        }
+
+        // ─── UYDU: Konumum butonu ───
+        const uyduLocateBtn = document.getElementById('uyduLocateBtn');
+        if (uyduLocateBtn) {
+            uyduLocateBtn.addEventListener('click', () => {
+                if (!navigator.geolocation) return;
+                uyduLocateBtn.classList.add('active-locate');
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        uyduLat = pos.coords.latitude; uyduLon = pos.coords.longitude; uyduLocName = 'Konumunuz';
+                        if (uyduSearchInput) uyduSearchInput.value = '';
+                        loadUyduMap();
+                        setTimeout(() => uyduLocateBtn.classList.remove('active-locate'), 1200);
+                    },
+                    () => { uyduLocateBtn.classList.remove('active-locate'); },
+                    { enableHighAccuracy: true, timeout: 10000 }
+                );
+            });
+        }
+
+        // ─── UYDU: Tam ekran butonu ───
+        const uyduFullscreenBtn = document.getElementById('uyduFullscreenBtn');
+        const uyduFullscreenExit = document.getElementById('uyduFullscreenExit');
+        const uyduMapContainerEl = document.getElementById('uyduMapContainer');
+        function enterUyduFullscreen() {
+            if (!uyduMapContainerEl) return;
+            uyduMapContainerEl.classList.add('uydu-fullscreen');
+            if (uyduFullscreenExit) uyduFullscreenExit.classList.add('visible');
+            document.body.classList.add('uydu-fullscreen-active');
+        }
+        function exitUyduFullscreen() {
+            if (!uyduMapContainerEl) return;
+            uyduMapContainerEl.classList.remove('uydu-fullscreen');
+            if (uyduFullscreenExit) uyduFullscreenExit.classList.remove('visible');
+            document.body.classList.remove('uydu-fullscreen-active');
+        }
+        if (uyduFullscreenBtn) uyduFullscreenBtn.addEventListener('click', enterUyduFullscreen);
+        if (uyduFullscreenExit) uyduFullscreenExit.addEventListener('click', exitUyduFullscreen);
 
         async function loadRegionalWeather() {
             const bolgeContent = document.getElementById('bolgeContent');
@@ -1798,6 +2868,7 @@
             // Aktif butonları güncelle (hem üst tab çubuğu hem çekmece menüsü)
             tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === target));
             drawerNavItems.forEach(b => b.classList.toggle('active', b.dataset.tab === target));
+            bottomNavItems.forEach(b => b.classList.toggle('active', b.dataset.tab === target));
 
             const searchDock = document.getElementById('searchDock');
             // Şehir arama çubuğunu SADECE Hava Durumu panelindeyken göster
@@ -1813,9 +2884,15 @@
                 loadRegionalWeather();
                 bolgeLoaded = true;
             }
+
+            // Uydu tabı açıldığında haritayı yükle/güncelle
+            if (target === 'uydu') {
+                loadUyduMap();
+            }
         }
         tabBtns.forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
         drawerNavItems.forEach(btn => btn.addEventListener('click', () => { switchTab(btn.dataset.tab); closeDrawer(); }));
+        bottomNavItems.forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
 
         searchBtn.addEventListener('click', loadWeather);
         refreshBtn.addEventListener('click', refreshWeather);
@@ -1832,12 +2909,13 @@
         }
         themeToggle.addEventListener('click', toggleTheme);
 
-        // --- SOL ÇEKMECE (HAMBURGER MENÜ) ---
+        // --- ALT ÇEKMECE (MENÜ) ---
         const sideDrawer = document.getElementById('sideDrawer');
         const drawerOverlay = document.getElementById('drawerOverlay');
-        function openDrawer() { sideDrawer.classList.add('open'); drawerOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
-        function closeDrawer() { sideDrawer.classList.remove('open'); drawerOverlay.classList.remove('open'); document.body.style.overflow = ''; }
-        document.getElementById('hamburgerBtn').addEventListener('click', openDrawer);
+        function openDrawer() { sideDrawer.classList.add('open'); drawerOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; if (bnavMenuBtn) bnavMenuBtn.classList.add('active'); }
+        function closeDrawer() { sideDrawer.classList.remove('open'); drawerOverlay.classList.remove('open'); document.body.style.overflow = ''; if (bnavMenuBtn) bnavMenuBtn.classList.remove('active'); }
+        const bnavMenuBtn = document.getElementById('bnavMenuBtn');
+        if (bnavMenuBtn) bnavMenuBtn.addEventListener('click', openDrawer);
         document.getElementById('drawerCloseBtn').addEventListener('click', closeDrawer);
         drawerOverlay.addEventListener('click', closeDrawer);
         document.getElementById('drawerNotifBtn').addEventListener('click', () => notificationBtn.click());
@@ -2291,31 +3369,33 @@
                     // sabit alanı tam dolduracak şekilde otomatik ölçeklenir.
                     const HDR_H = 190;
                     const TABLE_HEAD_H = 0; // başlık satırı kaldırıldı (EN YÜKSEK/EN DÜŞÜK yazmıyor)
+                    // YENİ: Bölge geneli Yaşam Tavsiyeleri + Bugün Ne Giyilmeli bölümü — footer'dan hemen önce
+                    const LIFEOUT_H = 330;
                     const MAX_H = 1350;
                     const TOTAL_H = MAX_H;
-                    const availableGridH = TOTAL_H - HDR_H - PADY*2 - FOOT_H;
+                    const availableGridH = TOTAL_H - LIFEOUT_H - HDR_H - PADY*2 - FOOT_H;
                     // Liste düzeninde önce GAP sabit kalarak kart yüksekliği hesaplanır; çok sayıda
                     // il olduğunda (örn. 18 il) alt sınıra (32px) rağmen taşma olursa GAP kademeli
                     // küçültülür — böylece grid asla FOOT_H alanına taşmaz ve footer her zaman görünür.
                     let LIST_GAP = GAP;
                     let CARD_H;
                     if (layout === 'list') {
-                        CARD_H = clamp(Math.floor((availableGridH - LIST_GAP*(ROWS-1)) / ROWS), 32, 90);
+                        CARD_H = clamp(Math.floor((availableGridH - LIST_GAP*(ROWS-1)) / ROWS), 26, 74);
                         let neededH = ROWS * CARD_H + LIST_GAP * (ROWS - 1);
-                        while (neededH > availableGridH && LIST_GAP > 4) {
+                        while (neededH > availableGridH && LIST_GAP > 3) {
                             LIST_GAP -= 1;
                             neededH = ROWS * CARD_H + LIST_GAP * (ROWS - 1);
                         }
-                        while (neededH > availableGridH && CARD_H > 26) {
+                        while (neededH > availableGridH && CARD_H > 22) {
                             CARD_H -= 1;
                             neededH = ROWS * CARD_H + LIST_GAP * (ROWS - 1);
                         }
                     } else if (layout === 'table') {
                         // Tek panel: satırlar bitişik, aralarında boşluk yok (GAP=0), sadece ince çizgi ayırır.
                         LIST_GAP = 0;
-                        CARD_H = clamp(Math.floor((availableGridH - TABLE_HEAD_H) / ROWS), 40, 130);
+                        CARD_H = clamp(Math.floor((availableGridH - TABLE_HEAD_H) / ROWS), 32, 104);
                     } else {
-                        CARD_H = clamp(Math.floor((availableGridH - GAP*(ROWS-1)) / ROWS), 120, 340);
+                        CARD_H = clamp(Math.floor((availableGridH - GAP*(ROWS-1)) / ROWS), 96, 272);
                     }
                     const GRID_GAP = layout === 'list' ? LIST_GAP : (layout === 'table' ? 0 : GAP);
                     const GRID_CONTENT_H = layout === 'table' ? (TABLE_HEAD_H + ROWS * CARD_H) : (ROWS * (CARD_H + GRID_GAP) - GRID_GAP);
@@ -2557,11 +3637,17 @@
                         ctx.fillText(city.icon || '🌡️', cx + CARD_W/2, iconY);
                         ctx.restore();
 
-                        // ── min sıcaklık (sol, termometre ikonlu, mavi) / anlık büyük sıcaklık (sağ, beyaz) ──
+                        // ── min sıcaklık (sol, termometre ikonlu, mavi, MIN etiketli) / maks sıcaklık (sağ, beyaz, MAKS etiketli) ──
                         const tempRowY = iconY + iconFontSize + Math.round(8*S) + extraGap;
                         const minFontSize = Math.max(13, Math.round(22*S));
+                        const tempLabelFontSize = Math.max(7, Math.round(9*S));
                         ctx.save();
                         ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+                        ctx.font = `800 ${tempLabelFontSize}px 'Nunito', sans-serif`;
+                        ctx.fillStyle = '#38bdf8';
+                        ctx.letterSpacing = '0.5px';
+                        ctx.fillText('MIN', cx + padIn, tempRowY - minFontSize/2 - Math.round(6*S));
+                        ctx.letterSpacing = '0px';
                         ctx.font = `${Math.max(12, Math.round(19*S))}px sans-serif`;
                         ctx.fillText('🌡️', cx + padIn, tempRowY);
                         ctx.font = `900 ${minFontSize}px 'Nunito', sans-serif`;
@@ -2571,19 +3657,27 @@
                         ctx.restore();
 
                         ctx.save();
+                        ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+                        ctx.font = `800 ${tempLabelFontSize}px 'Nunito', sans-serif`;
+                        ctx.fillStyle = clr.maxTempColor;
+                        ctx.letterSpacing = '0.5px';
+                        ctx.fillText('MAKS', cx + CARD_W - padIn, tempRowY - Math.round(34*S)/2 - Math.round(6*S));
+                        ctx.letterSpacing = '0px';
+                        ctx.restore();
+                        ctx.save();
                         ctx.shadowColor = accentSoft+'0.5)'; ctx.shadowBlur = 10*S;
                         ctx.fillStyle = clr.maxTempColor;
                         ctx.font = `900 ${Math.max(18, Math.round(34*S))}px 'Nunito', sans-serif`;
                         ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
-                        const tempLabel = (city.tempNow != null) ? `${city.tempNow}°` : '—';
+                        const tempLabel = (city.maxTemp != null) ? `${city.maxTemp}°` : '—';
                         ctx.fillText(tempLabel, cx + CARD_W - padIn, tempRowY);
                         ctx.restore();
 
-                        // ── hava durumu açıklaması (ör. AÇIK) — orta, küçük kapsül ──
+                        // ── hava durumu açıklaması (ör. AÇIK) — orta, daha büyük ve okunaklı kapsül ──
                         const descY = tempRowY + Math.round(16*S) + Math.round(8*S) + extraGap;
                         const descText = (city.desc || '').toString().toUpperCase();
-                        const descFontSize = Math.max(7.5, Math.round(10*S));
-                        const descPillH = Math.max(13, Math.round(18*S));
+                        const descFontSize = Math.max(10, Math.round(13*S));
+                        const descPillH = Math.max(17, Math.round(23*S));
                         if (descText) {
                             ctx.save();
                             ctx.font = `800 ${descFontSize}px 'Nunito', sans-serif`;
@@ -2719,7 +3813,7 @@
                         ctx.restore();
 
                         // max sıcaklık (sabit sütun)
-                        const tempLabel = (city.tempNow != null) ? `${city.tempNow}°` : '—';
+                        const tempLabel = (city.maxTemp != null) ? `${city.maxTemp}°` : '—';
                         ctx.save();
                         ctx.shadowColor = accentSoft+'0.5)'; ctx.shadowBlur = 8;
                         ctx.fillStyle = clr.maxTempColor;
@@ -2831,7 +3925,7 @@
                             }
 
                             // en yüksek (max) sıcaklık
-                            const tMaxLabel = (city.tempNow != null) ? `${city.tempNow}°` : '—';
+                            const tMaxLabel = (city.maxTemp != null) ? `${city.maxTemp}°` : '—';
                             ctx.save();
                             ctx.shadowColor = accentSoft+'0.5)'; ctx.shadowBlur = 8;
                             ctx.fillStyle = clr.maxTempColor;
@@ -2857,61 +3951,274 @@
                         });
                     }
 
-                    // ── 4. ALT BÖLÜM: Marka şeridi (logo + uygulama adı + URL) ──
-                    const FY = TOTAL_H - FOOT_H;
-                    if (hasBg) {
-                        // fotoğraflı arkaplanda footer sınırını netleştirmek için ince geçiş gölgesi
-                        const footerEdge = ctx.createLinearGradient(0, FY - 24, 0, FY);
-                        footerEdge.addColorStop(0, 'rgba(0,0,0,0)');
-                        footerEdge.addColorStop(1, 'rgba(0,0,0,0.30)');
-                        ctx.fillStyle = footerEdge;
-                        ctx.fillRect(0, FY - 24, PW, 24);
-                    }
-                    const fl = ctx.createLinearGradient(0,0,PW,0);
-                    fl.addColorStop(0,'transparent');
-                    fl.addColorStop(0.5, accent);
-                    fl.addColorStop(1,'transparent');
-                    ctx.fillStyle = fl;
-                    ctx.fillRect(0, FY, PW, 2);
-                    ctx.fillStyle = clr.footerBg;
-                    ctx.fillRect(0, FY+2, PW, FOOT_H-2);
+                    // ── YENİ: Bölge geneli Yaşam Tavsiyeleri + Bugün Ne Giyilmeli ──
+                    (function drawLifeOutfitSection() {
+                        // Bölgedeki illerin ortalama değerlerinden temsili bir hava profili çıkar
+                        const withData = cities.filter(c => c.tempNow != null);
+                        const avg = (arr) => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : null;
+                        const avgTemp = avg(withData.map(c => c.tempNow)) ?? 20;
+                        const avgFeels = avg(withData.filter(c=>c.feelsLike!=null).map(c => c.feelsLike)) ?? avgTemp;
+                        const avgWind = avg(withData.filter(c=>c.windSpeed!=null).map(c => c.windSpeed)) ?? 10;
+                        const avgHumidity = avg(withData.filter(c=>c.humidity!=null).map(c => c.humidity)) ?? 50;
+                        const codes = withData.filter(c=>c.code!=null).map(c => c.code);
+                        const repCode = codes.length ? codes.sort((a,b)=>b-a)[0] : 1; // en "kötü" kodu temsilci al
+                        const rainProbEst = repCode >= 95 ? 90 : repCode >= 80 ? 75 : repCode >= 60 ? 65 : repCode >= 50 ? 35 : repCode >= 3 ? 20 : repCode >= 1 ? 8 : 2;
 
-                    const footLogoSz = 44;
-                    const footLcx = PADX, footLcy = FY + (FOOT_H - footLogoSz)/2;
-                    if (logoImg) {
+                        const rInfo = getRunningScore(avgTemp, avgHumidity, avgWind, repCode);
+                        const lInfo = getLaundryIndex(avgTemp, avgHumidity, avgWind, rainProbEst);
+                        const gTips = getGardenAdvice(avgTemp, avgHumidity, avgWind, rainProbEst, repCode);
+
+                        // YENİ: Bölge geneli tahmini Hava Kalitesi — düşük rüzgar + yüksek nem kirlilik birikimini artırır
+                        let aqiScore = 2; // 1=Çok İyi .. 5=Çok Kötü
+                        if (avgWind < 8 && avgHumidity > 60) aqiScore = 3;
+                        if (avgWind < 5 && avgHumidity > 70) aqiScore = 4;
+                        if (avgWind >= 20) aqiScore = 1;
+                        if (repCode >= 60) aqiScore = Math.max(1, aqiScore - 1); // yağış havayı temizler
+                        const aqiInfo = getAqiText(aqiScore);
+
+                        // YENİ: Bölge geneli tahmini Polen/Alerji seviyesi — kuru, sıcak, az rüzgarlı/az yağışlı havada yüksek
+                        let pollenScore = 1; // 0=Düşük,1=Orta,2=Yüksek,3=Çok Yüksek
+                        if (avgTemp > 20 && avgHumidity < 55 && rainProbEst < 25) pollenScore = 2;
+                        if (avgTemp > 26 && avgHumidity < 40 && rainProbEst < 15) pollenScore = 3;
+                        if (rainProbEst >= 50 || avgHumidity > 75) pollenScore = 0;
+                        const pollenMap = [
+                            { label: 'Düşük', color: '#2dd9c9', icon: '🌼' },
+                            { label: 'Orta', color: '#fbbf24', icon: '🌼' },
+                            { label: 'Yüksek', color: '#fb923c', icon: '🌼' },
+                            { label: 'Çok Yüksek', color: '#ef4444', icon: '🌼' }
+                        ];
+                        const pollenInfo = pollenMap[pollenScore];
+
+                        // YENİ: Yaşam Tavsiyeleri + Marka şeridi artık TEK birleşik kart — ortak çerçeve/gölge
+                        // Kart artık tuvalin tam kenarına kadar yayılıyor (yanlarda boşluk kalmasın diye PADX kullanılmıyor)
+                        const boxTop = TOTAL_H - FOOT_H - LIFEOUT_H;
+                        const unifiedH = LIFEOUT_H + FOOT_H - 10; // iki panel arası boşluğu kapat, alt kenara kadar tek gövde
+                        const brandStripH = FOOT_H;
+                        const dividerY = boxTop + (unifiedH - brandStripH);
+
+                        // Okunurluk için opak mavi panel — arka plan fotoğrafı ne olursa olsun metin net kalır
+                        const BLUE_PANEL_BG = isLight ? '#eaf2fb' : '#0c1b30';
+                        const BLUE_PANEL_BORDER = isLight ? 'rgba(37,99,235,0.28)' : 'rgba(59,130,246,0.35)';
+                        const BLUE_TEXT_PRIMARY = isLight ? '#0f2a4a' : '#eaf2ff';
+                        const BLUE_TEXT_MUTED = isLight ? 'rgba(20,50,90,0.65)' : 'rgba(190,215,250,0.72)';
+                        const BLUE_ACCENT = '#3b82f6';
+
+                        // Tek gövde: tam genişlik (0'dan PW'ye), üst köşeler yuvarlak, alt köşeler tuval kenarına yakın olduğundan düz
                         ctx.save();
-                        ctx.beginPath(); rr(footLcx, footLcy, footLogoSz, footLogoSz, 12); ctx.clip();
-                        ctx.fillStyle = '#fff'; ctx.fillRect(footLcx, footLcy, footLogoSz, footLogoSz);
-                        ctx.drawImage(logoImg, footLcx, footLcy, footLogoSz, footLogoSz);
+                        ctx.shadowColor = 'rgba(0,10,30,0.35)';
+                        ctx.shadowBlur = 20;
+                        ctx.shadowOffsetY = 8;
+                        ctx.fillStyle = BLUE_PANEL_BG;
+                        ctx.beginPath();
+                        ctx.moveTo(0, boxTop+20);
+                        ctx.arcTo(0, boxTop, 20, boxTop, 20);
+                        ctx.lineTo(PW-20, boxTop);
+                        ctx.arcTo(PW, boxTop, PW, boxTop+20, 20);
+                        ctx.lineTo(PW, TOTAL_H);
+                        ctx.lineTo(0, TOTAL_H);
+                        ctx.closePath();
+                        ctx.fill();
                         ctx.restore();
-                        ctx.strokeStyle = accentSoft+'0.6)'; ctx.lineWidth = 1.5;
-                        rr(footLcx, footLcy, footLogoSz, footLogoSz, 12); ctx.stroke();
-                    }
+                        ctx.save();
+                        ctx.strokeStyle = BLUE_PANEL_BORDER; ctx.lineWidth = 1.5;
+                        ctx.beginPath();
+                        ctx.moveTo(0, boxTop+20);
+                        ctx.arcTo(0, boxTop, 20, boxTop, 20);
+                        ctx.lineTo(PW-20, boxTop);
+                        ctx.arcTo(PW, boxTop, PW, boxTop+20, 20);
+                        ctx.lineTo(PW, TOTAL_H);
+                        ctx.moveTo(0, boxTop+20);
+                        ctx.lineTo(0, TOTAL_H);
+                        ctx.stroke();
+                        ctx.restore();
 
-                    const footTx = footLcx + footLogoSz + 16;
-                    ctx.fillStyle = clr.footerBrand;
-                    ctx.font = "900 21px 'Nunito', sans-serif";
-                    ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-                    ctx.fillText('MuGöl', footTx, FY + FOOT_H/2 - 11);
-                    ctx.fillStyle = accent;
-                    ctx.font = "800 10.5px 'Nunito', sans-serif";
-                    ctx.letterSpacing = '2.2px';
-                    ctx.fillText('HAVA DURUMU', footTx, FY + FOOT_H/2 + 12);
-                    ctx.letterSpacing = '0px';
+                        const inPad = PADX + 24;
+                        ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+                        ctx.font = "900 20px 'Nunito', sans-serif";
+                        ctx.fillStyle = BLUE_TEXT_PRIMARY;
+                        ctx.fillText('🌿 Bölge Yaşam Tavsiyeleri', inPad, boxTop+18);
 
-                    ctx.fillStyle = clr.footerUrl;
-                    ctx.font = "600 13px 'Nunito', sans-serif";
-                    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
-                    ctx.fillText('mugol-portal.github.io/mugol.havadurumu/', PW - PADX, FY + FOOT_H/2);
+                        // İçerik yüksekliğini önceden hesapla; boşluk varsa aralıkları büyüterek doldur (üstte kayma olmasın).
+                        const tipCount = Math.min(2, gTips.length);
+                        const naturalContentH = 40 + 112 + 12 + 62 + 10 + 22 + 22 + (tipCount > 1 ? 19 : 0) + 8;
+                        const availableContentH = dividerY - boxTop;
+                        const extraSlack = Math.max(0, availableContentH - naturalContentH);
+                        // Fazla boşluğu 3 ana boşluk noktasına (üst, orta, alt) dağıt
+                        const gapBoost = extraSlack / 3;
 
-                    // ── YENİ ÖZELLİK: oluşturulma saati damgası ──
-                    ctx.save();
-                    ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
-                    ctx.fillStyle = clr.footerUrl;
-                    ctx.font = "600 11px 'Nunito', sans-serif";
-                    const saatStr = now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-                    ctx.fillText(`Oluşturuldu: ${saatStr}`, PW - PADX, TOTAL_H - 14);
-                    ctx.restore();
+                        // Koşu & Çamaşır — genişletilmiş mini kartlar, renk kodlu ilerleme çubuğu ve entegre ikon rozeti
+                        const miniW = (PW-inPad*2-16)/2, miniH = 112, miniY = boxTop+40+gapBoost;
+                        const levelColor = (score) => score >= 80 ? '#2dd9c9' : score >= 60 ? '#38bdf8' : score >= 40 ? '#fbbf24' : score >= 20 ? '#fb923c' : '#ef4444';
+                        [
+                            { icon: rInfo.icon, title: 'KOŞU & YÜRÜYÜŞ', label: rInfo.label, score: rInfo.score },
+                            { icon: lInfo.icon, title: 'ÇAMAŞIR KURUTMA', label: lInfo.label, score: lInfo.score }
+                        ].forEach((it,i) => {
+                            const mx = inPad+i*(miniW+16);
+                            const mColor = levelColor(it.score);
+
+                            // Tıklanabilir kart hissi: belirgin gölge + hafif kenarlık
+                            ctx.save();
+                            ctx.shadowColor = 'rgba(0,10,30,0.28)';
+                            ctx.shadowBlur = 12;
+                            ctx.shadowOffsetY = 4;
+                            ctx.fillStyle = isLight ? 'rgba(59,130,246,0.08)' : 'rgba(59,130,246,0.13)';
+                            rr(mx, miniY, miniW, miniH, 16); ctx.fill();
+                            ctx.restore();
+                            ctx.save();
+                            ctx.strokeStyle = mColor+'55';
+                            ctx.lineWidth = 1.4;
+                            rr(mx, miniY, miniW, miniH, 16); ctx.stroke();
+                            ctx.restore();
+
+                            // İkon rozeti — renkle entegre dairesel arka plan
+                            const badgeR = 19, badgeCx = mx+17+badgeR/1.4, badgeCy = miniY+23;
+                            ctx.save();
+                            ctx.fillStyle = mColor+'2a';
+                            ctx.beginPath(); ctx.arc(badgeCx, badgeCy, badgeR, 0, Math.PI*2); ctx.fill();
+                            ctx.restore();
+                            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                            ctx.font = '21px sans-serif';
+                            ctx.fillText(it.icon, badgeCx, badgeCy+1);
+
+                            // Başlık
+                            ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+                            ctx.font = "800 10px 'Nunito', sans-serif";
+                            ctx.fillStyle = BLUE_TEXT_MUTED;
+                            ctx.letterSpacing = '0.5px';
+                            ctx.fillText(it.title, mx+16, miniY+40);
+                            ctx.letterSpacing = '0px';
+
+                            // Büyük yüzde — kendi satırında (22px font ~26px yükseklik kaplar)
+                            ctx.font = "900 22px 'Nunito', sans-serif";
+                            ctx.fillStyle = mColor;
+                            ctx.fillText(`%${it.score}`, mx+16, miniY+54);
+
+                            // Durum etiketi — yüzdenin net altında, örtüşme olmayacak şekilde
+                            ctx.font = "700 11px 'Nunito', sans-serif";
+                            ctx.fillStyle = BLUE_TEXT_PRIMARY;
+                            ctx.fillText(it.label, mx+16, miniY+82);
+
+                            // Renk kodlu ilerleme çubuğu — durumu (Mükemmel/İyi/Orta/Zayıf) görsel olarak özetler, en altta kendi alanında
+                            const barX = mx+16, barW = miniW-32, barTrackY = miniY+miniH-12;
+                            ctx.save();
+                            ctx.strokeStyle = isLight ? 'rgba(15,45,80,0.10)' : 'rgba(255,255,255,0.12)';
+                            ctx.lineWidth = 5;
+                            ctx.lineCap = 'round';
+                            ctx.beginPath(); ctx.moveTo(barX, barTrackY); ctx.lineTo(barX+barW, barTrackY); ctx.stroke();
+                            ctx.restore();
+                            ctx.save();
+                            ctx.strokeStyle = mColor;
+                            ctx.lineWidth = 5;
+                            ctx.lineCap = 'round';
+                            ctx.shadowColor = mColor+'80';
+                            ctx.shadowBlur = 7;
+                            ctx.beginPath(); ctx.moveTo(barX, barTrackY); ctx.lineTo(barX+barW*(it.score/100), barTrackY); ctx.stroke();
+                            ctx.restore();
+                        });
+
+                        // Polen/Alerji & Hava Kalitesi — Koşu/Çamaşır ile aynı stilde iki mini kart
+                        const secondRowY = miniY+miniH+12+gapBoost;
+                        const secondRowH = 62;
+                        [
+                            { icon: pollenInfo.icon, title: 'POLEN / ALERJİ', label: pollenInfo.label, color: pollenInfo.color, isPct: false },
+                            { icon: aqiInfo.icon, title: 'HAVA KALİTESİ', label: aqiInfo.text, color: aqiInfo.ringColor, isPct: false }
+                        ].forEach((it,i) => {
+                            const mx = inPad+i*(miniW+16);
+                            const mColor = it.color;
+
+                            ctx.save();
+                            ctx.shadowColor = 'rgba(0,10,30,0.28)';
+                            ctx.shadowBlur = 12;
+                            ctx.shadowOffsetY = 4;
+                            ctx.fillStyle = isLight ? 'rgba(59,130,246,0.08)' : 'rgba(59,130,246,0.13)';
+                            rr(mx, secondRowY, miniW, secondRowH, 15); ctx.fill();
+                            ctx.restore();
+                            ctx.save();
+                            ctx.strokeStyle = mColor+'55';
+                            ctx.lineWidth = 1.4;
+                            rr(mx, secondRowY, miniW, secondRowH, 15); ctx.stroke();
+                            ctx.restore();
+
+                            const badgeR = 16, badgeCx = mx+15+badgeR/1.4, badgeCy = secondRowY+secondRowH/2;
+                            ctx.save();
+                            ctx.fillStyle = mColor+'2a';
+                            ctx.beginPath(); ctx.arc(badgeCx, badgeCy, badgeR, 0, Math.PI*2); ctx.fill();
+                            ctx.restore();
+                            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                            ctx.font = '18px sans-serif';
+                            ctx.fillText(it.icon, badgeCx, badgeCy+1);
+
+                            const txX = badgeCx+badgeR+13;
+                            ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+                            ctx.font = "800 9px 'Nunito', sans-serif";
+                            ctx.fillStyle = BLUE_TEXT_MUTED;
+                            ctx.letterSpacing = '0.5px';
+                            ctx.fillText(it.title, txX, secondRowY+14);
+                            ctx.letterSpacing = '0px';
+                            ctx.font = "900 15px 'Nunito', sans-serif";
+                            ctx.fillStyle = mColor;
+                            ctx.fillText(it.label, txX, secondRowY+29);
+                        });
+
+                        // Tarım & Bahçe Tavsiyesi — kısa öneri listesi
+                        const gardenY = secondRowY+secondRowH+10+gapBoost;
+                        ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+                        ctx.font = "900 14px 'Nunito', sans-serif";
+                        ctx.fillStyle = BLUE_TEXT_PRIMARY;
+                        ctx.fillText('🪴 Tarım & Bahçe Tavsiyesi', inPad, gardenY);
+
+                        let gTipY = gardenY+22;
+                        gTips.slice(0,2).forEach(tip => {
+                            ctx.font = '13px sans-serif';
+                            ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+                            ctx.fillText(tip.icon, inPad, gTipY);
+                            ctx.font = "600 11px 'Nunito', sans-serif";
+                            ctx.fillStyle = BLUE_TEXT_MUTED;
+                            let tipTxt = tip.text;
+                            const maxTipW = PW-inPad*2-26;
+                            while (ctx.measureText(tipTxt).width > maxTipW && tipTxt.length > 10) tipTxt = tipTxt.slice(0,-1);
+                            if (tipTxt !== tip.text) tipTxt = tipTxt.trimEnd() + '…';
+                            ctx.fillText(tipTxt, inPad+20, gTipY+1);
+                            gTipY += 19;
+                        });
+
+                        // ── Ayraç çizgisi + Marka şeridi (artık aynı kartın alt bölümü) ──
+                        ctx.save();
+                        ctx.strokeStyle = BLUE_PANEL_BORDER; ctx.lineWidth = 1;
+                        ctx.beginPath(); ctx.moveTo(inPad, dividerY); ctx.lineTo(PW-inPad, dividerY); ctx.stroke();
+                        ctx.restore();
+
+                        const footLogoSz = 40;
+                        const footLcx = inPad, footLcy = dividerY + (brandStripH - footLogoSz)/2;
+                        if (logoImg) {
+                            ctx.save();
+                            ctx.beginPath(); rr(footLcx, footLcy, footLogoSz, footLogoSz, 11); ctx.clip();
+                            ctx.fillStyle = '#fff'; ctx.fillRect(footLcx, footLcy, footLogoSz, footLogoSz);
+                            ctx.drawImage(logoImg, footLcx, footLcy, footLogoSz, footLogoSz);
+                            ctx.restore();
+                            ctx.strokeStyle = 'rgba(59,130,246,0.6)'; ctx.lineWidth = 1.5;
+                            rr(footLcx, footLcy, footLogoSz, footLogoSz, 11); ctx.stroke();
+                        }
+
+                        const footTx = footLcx + footLogoSz + 14;
+                        ctx.fillStyle = BLUE_TEXT_PRIMARY;
+                        ctx.font = "900 19px 'Nunito', sans-serif";
+                        ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+                        ctx.fillText('MuGöl', footTx, dividerY + brandStripH/2 - 10);
+                        ctx.fillStyle = BLUE_ACCENT;
+                        ctx.font = "800 9.5px 'Nunito', sans-serif";
+                        ctx.letterSpacing = '2px';
+                        ctx.fillText('HAVA DURUMU', footTx, dividerY + brandStripH/2 + 11);
+                        ctx.letterSpacing = '0px';
+
+                        ctx.fillStyle = BLUE_TEXT_MUTED;
+                        ctx.font = "600 12px 'Nunito', sans-serif";
+                        ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+                        ctx.fillText('mugol-portal.github.io/mugol.havadurumu/', PW-inPad, dividerY + brandStripH/2 - 8);
+
+                        ctx.font = "600 10.5px 'Nunito', sans-serif";
+                        ctx.fillText(`Oluşturuldu: ${new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})}`, PW-inPad, dividerY + brandStripH/2 + 11);
+                    })();
 
                     return fc.toDataURL('image/png');
                 }
@@ -3120,6 +4427,13 @@
                     const DETAIL_ROW_H = 90;
                     const DETAIL_GAP = 12;
                     const DETAIL_H = DETAIL_ROWS * DETAIL_ROW_H + (DETAIL_ROWS - 1) * DETAIL_GAP;
+                    const LIFE_TITLE_H = 44;
+                    const LIFE_ROW_H = 76;
+                    const LIFE_GAP = 12;
+                    const LIFE_ROWS = 2; // Koşu/Yürüyüş + Çamaşır Kurutma (her zaman gösterilir)
+                    const LIFE_H = LIFE_ROWS * LIFE_ROW_H + (LIFE_ROWS - 1) * LIFE_GAP;
+                    const OUTFIT_TITLE_H = 44;
+                    const OUTFIT_H = 210;
                     const FOOT_H = 46;
                     const PADY_SEC = 16;
                     const GAP_BEFORE_SECTION = 30; // her yeni section başlığından önceki boşluk (secY = ... + 30)
@@ -3127,7 +4441,9 @@
                     const TOTAL_H = HDR_H + HERO_H + PADY_SEC
                         + HOURLY_TITLE_H + HOURLY_CARDS_H + PADY_SEC + GAP_BEFORE_SECTION
                         + DAILY_TITLE_H + d.dailyData.length * DAILY_ROW_H + PADY_SEC + GAP_BEFORE_SECTION
-                        + DETAIL_TITLE_H + DETAIL_H + FOOT_H;
+                        + DETAIL_TITLE_H + DETAIL_H + PADY_SEC + GAP_BEFORE_SECTION
+                        + LIFE_TITLE_H + LIFE_H + PADY_SEC + GAP_BEFORE_SECTION
+                        + OUTFIT_TITLE_H + OUTFIT_H + FOOT_H;
 
                     const fc = document.createElement('canvas');
                     fc.width = PW; fc.height = TOTAL_H;
@@ -3277,19 +4593,38 @@
                     ctx.font = '92px sans-serif';
                     ctx.fillText(d.current.__icon || '☁️', PW/2, heroY+66);
 
-                    // Sıcaklık — hafif dikey degrade ile derinlik
+                    // Sıcaklık — günün en yüksek/en düşük değeri, hafif dikey degrade ile derinlik
                     ctx.save();
                     const tempGrad = ctx.createLinearGradient(0,heroY+130,0,heroY+260);
                     tempGrad.addColorStop(0, clr.tempColor);
                     tempGrad.addColorStop(1, isLight ? '#2a4a63' : '#c9dcf0');
                     ctx.fillStyle = tempGrad;
-                    ctx.font = "900 128px 'Nunito', sans-serif";
-                    ctx.fillText(`${Math.round(d.current.temperature_2m)}°`, PW/2, heroY+168);
+                    const todayMax = d.dailyData && d.dailyData[0] ? d.dailyData[0].maxTemp : Math.round(d.current.temperature_2m);
+                    const todayMin = d.dailyData && d.dailyData[0] ? d.dailyData[0].minTemp : Math.round(d.current.temperature_2m);
+                    ctx.font = "900 108px 'Nunito', sans-serif";
+                    const maxW = ctx.measureText(`${todayMax}°`).width;
+                    ctx.font = "800 60px 'Nunito', sans-serif";
+                    const sepW = ctx.measureText(' / ').width;
+                    ctx.font = "800 68px 'Nunito', sans-serif";
+                    const minW = ctx.measureText(`${todayMin}°`).width;
+                    const totalTempW = maxW + sepW + minW;
+                    const tempStartX = PW/2 - totalTempW/2;
+                    ctx.textAlign = 'left';
+                    ctx.font = "900 108px 'Nunito', sans-serif";
+                    ctx.fillText(`${todayMax}°`, tempStartX, heroY+168);
+                    ctx.font = "800 60px 'Nunito', sans-serif";
+                    ctx.globalAlpha = 0.45;
+                    ctx.fillText(' / ', tempStartX + maxW, heroY+168);
+                    ctx.globalAlpha = 0.68;
+                    ctx.font = "800 68px 'Nunito', sans-serif";
+                    ctx.fillText(`${todayMin}°`, tempStartX + maxW + sepW, heroY+168);
+                    ctx.globalAlpha = 1;
+                    ctx.textAlign = 'center';
                     ctx.restore();
 
                     ctx.font = "600 20px 'Nunito', sans-serif";
                     ctx.fillStyle = clr.labelColor;
-                    ctx.fillText(`Hissedilen: ${Math.round(d.current.feels_like)}°`, PW/2, heroY+282);
+                    ctx.fillText(`Şu an: ${Math.round(d.current.temperature_2m)}° · Hissedilen: ${Math.round(d.current.feels_like)}°`, PW/2, heroY+282);
 
                     ctx.save();
                     ctx.shadowColor = accentSoft+'0.5)';
@@ -3459,6 +4794,131 @@
                         ctx.font = "900 20px 'Nunito', sans-serif";
                         ctx.fillStyle = clr.cityName;
                         ctx.fillText(it.val, ix+66, iy+dCardH/2+12);
+                    });
+
+                    // ── YAŞAM TAVSİYELERİ: Koşu/Yürüyüş + Çamaşır Kurutma ──
+                    secY = detailTop+DETAIL_H+PADY_SEC+GAP_BEFORE_SECTION;
+                    ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+                    ctx.font = "900 24px 'Nunito', sans-serif";
+                    ctx.fillStyle = clr.cityName;
+                    ctx.fillText('🌿 Yaşam Tavsiyeleri', PADX, secY);
+
+                    const lifeTop = secY+44;
+                    const lifeItems = [
+                        { icon: d.runningInfo.icon, title: 'Koşu & Yürüyüş', level: `${d.runningInfo.label} · %${d.runningInfo.score}`, color: d.runningInfo.color, desc: d.runningInfo.tip },
+                        { icon: d.laundryInfo.icon, title: 'Çamaşır Kurutma', level: `${d.laundryInfo.label} · %${d.laundryInfo.score}`, color: d.laundryInfo.color, desc: `Tahmini süre: ${d.laundryInfo.hours}` }
+                    ];
+                    lifeItems.forEach((it,i) => {
+                        const iy = lifeTop+i*(LIFE_ROW_H+LIFE_GAP);
+                        ctx.save();
+                        ctx.shadowColor = isLight ? 'rgba(15,45,80,0.08)' : 'rgba(0,0,0,0.28)';
+                        ctx.shadowBlur = 12;
+                        ctx.shadowOffsetY = 5;
+                        ctx.fillStyle = clr.cardBg;
+                        rr(ctx,PADX,iy,PW-PADX*2,LIFE_ROW_H,16); ctx.fill();
+                        ctx.restore();
+                        ctx.save();
+                        ctx.strokeStyle = clr.cardBorder; ctx.lineWidth = 1.2;
+                        rr(ctx,PADX,iy,PW-PADX*2,LIFE_ROW_H,16); ctx.stroke();
+                        ctx.restore();
+
+                        const iconBoxSz = 52, iconBoxX = PADX+14, iconBoxY = iy+(LIFE_ROW_H-iconBoxSz)/2;
+                        ctx.save();
+                        ctx.fillStyle = it.color+'33';
+                        rr(ctx,iconBoxX,iconBoxY,iconBoxSz,iconBoxSz,14); ctx.fill();
+                        ctx.restore();
+                        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                        ctx.font = '26px sans-serif';
+                        ctx.fillText(it.icon, iconBoxX+iconBoxSz/2, iconBoxY+iconBoxSz/2+1);
+
+                        const txX = iconBoxX+iconBoxSz+18;
+                        ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+                        ctx.font = "700 12px 'Nunito', sans-serif";
+                        ctx.fillStyle = clr.labelColor;
+                        ctx.letterSpacing = '0.4px';
+                        ctx.fillText(it.title.toUpperCase(), txX, iy+13);
+                        ctx.letterSpacing = '0px';
+                        ctx.font = "900 19px 'Nunito', sans-serif";
+                        ctx.fillStyle = it.color;
+                        ctx.fillText(it.level, txX, iy+32);
+                        ctx.font = "600 13px 'Nunito', sans-serif";
+                        ctx.fillStyle = clr.labelColor;
+                        const maxDescW = PW-PADX-txX-16;
+                        let descTxt = it.desc;
+                        while (ctx.measureText(descTxt).width > maxDescW && descTxt.length > 10) descTxt = descTxt.slice(0,-1);
+                        if (descTxt !== it.desc) descTxt = descTxt.slice(0,-1) + '…';
+                        ctx.fillText(descTxt, txX, iy+54);
+                    });
+
+                    // ── BUGÜN NE GİYİLMELİ ──
+                    secY = lifeTop+LIFE_H+PADY_SEC+GAP_BEFORE_SECTION;
+                    ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+                    ctx.font = "900 24px 'Nunito', sans-serif";
+                    ctx.fillStyle = clr.cityName;
+                    ctx.fillText('👔 Bugün Ne Giyilmeli?', PADX, secY);
+
+                    const outfitTop = secY+44;
+                    ctx.save();
+                    ctx.shadowColor = isLight ? 'rgba(15,45,80,0.08)' : 'rgba(0,0,0,0.28)';
+                    ctx.shadowBlur = 16;
+                    ctx.shadowOffsetY = 6;
+                    ctx.fillStyle = clr.cardBg;
+                    rr(ctx,PADX,outfitTop,PW-PADX*2,OUTFIT_H,20); ctx.fill();
+                    ctx.restore();
+                    ctx.save();
+                    ctx.strokeStyle = clr.cardBorder; ctx.lineWidth = 1.2;
+                    rr(ctx,PADX,outfitTop,PW-PADX*2,OUTFIT_H,20); ctx.stroke();
+                    ctx.restore();
+
+                    const opad = 26;
+                    ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+                    ctx.font = "800 18px 'Nunito', sans-serif";
+                    ctx.fillStyle = clr.cityName;
+                    ctx.fillText(d.outfitInfo.summary, PADX+opad, outfitTop+22);
+
+                    ctx.font = "700 13px 'Nunito', sans-serif";
+                    ctx.fillStyle = clr.labelColor;
+                    ctx.letterSpacing = '0.4px';
+                    ctx.fillText('ÜST', PADX+opad, outfitTop+62);
+                    ctx.letterSpacing = '0px';
+                    ctx.font = "700 18px 'Nunito', sans-serif";
+                    ctx.fillStyle = clr.cityName;
+                    ctx.fillText(d.outfitInfo.top, PADX+opad+70, outfitTop+60);
+
+                    ctx.font = "700 13px 'Nunito', sans-serif";
+                    ctx.fillStyle = clr.labelColor;
+                    ctx.letterSpacing = '0.4px';
+                    ctx.fillText('ALT', PADX+opad, outfitTop+94);
+                    ctx.letterSpacing = '0px';
+                    ctx.font = "700 18px 'Nunito', sans-serif";
+                    ctx.fillStyle = clr.cityName;
+                    ctx.fillText(d.outfitInfo.bottom, PADX+opad+70, outfitTop+92);
+
+                    // Ayraç çizgisi
+                    ctx.save();
+                    ctx.strokeStyle = clr.cardBorder; ctx.lineWidth = 1;
+                    ctx.beginPath(); ctx.moveTo(PADX+opad,outfitTop+128); ctx.lineTo(PW-PADX-opad,outfitTop+128); ctx.stroke();
+                    ctx.restore();
+
+                    // Renk paleti notu + renk daireleri
+                    ctx.font = "600 13px 'Nunito', sans-serif";
+                    ctx.fillStyle = clr.labelColor;
+                    let colorNoteTxt = '🎨 ' + d.outfitInfo.colorNote;
+                    const maxNoteW = PW-PADX*2-opad*2;
+                    while (ctx.measureText(colorNoteTxt).width > maxNoteW && colorNoteTxt.length > 10) colorNoteTxt = colorNoteTxt.slice(0,-1);
+                    if (colorNoteTxt !== '🎨 ' + d.outfitInfo.colorNote) colorNoteTxt = colorNoteTxt.slice(0,-1) + '…';
+                    ctx.fillText(colorNoteTxt, PADX+opad, outfitTop+142);
+
+                    const swW = 60;
+                    d.outfitInfo.colors.forEach((c,i) => {
+                        const scx = PADX+opad+18+i*swW, scy = outfitTop+180;
+                        ctx.save();
+                        ctx.fillStyle = c.hex;
+                        ctx.beginPath(); ctx.arc(scx,scy,16,0,Math.PI*2); ctx.fill();
+                        ctx.strokeStyle = isLight ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)';
+                        ctx.lineWidth = 1.5;
+                        ctx.beginPath(); ctx.arc(scx,scy,16,0,Math.PI*2); ctx.stroke();
+                        ctx.restore();
                     });
 
                     // ── ALT BİLGİ: oluşturulma saati + URL ──
