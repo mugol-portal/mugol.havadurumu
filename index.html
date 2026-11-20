@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="HandheldFriendly" content="true">
     <meta name="MobileOptimized" content="375">
-    <meta name="theme-color" content="#070d16" id="metaThemeColor">
+    <meta name="theme-color" content="#0a0f1e" id="metaThemeColor">
     
     <!-- PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -26,7 +26,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;600;700;800&family=Figtree:wght@400;500;600;700;800&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
         /* ═══════════════════════════════════════════════════════════
@@ -886,6 +886,194 @@
             .live-clock { display: inline-flex; }
         }
         amp-auto-ads { display: block; width: 0; height: 0; overflow: hidden; }
+
+        /* ═══════════════════════════════════════════════════════════
+           MuGöl Hava — Tasarım Sistemi v4 "Alacakaranlık"
+           Gece lacivert zemin, gün batımı mercanı vurgu, buz mavisi ikincil.
+           Başlıklar Bricolage Grotesque, metin Figtree.
+           ═══════════════════════════════════════════════════════════ */
+        :root {
+            --bg-void: #0a0f1e;
+            --bg-gradient: radial-gradient(900px 520px at 85% -8%, rgba(255,122,69,0.16) 0%, transparent 60%),
+                           radial-gradient(900px 600px at 0% 0%, rgba(86,126,255,0.14) 0%, transparent 55%),
+                           linear-gradient(180deg, #0b1122 0%, #080c18 100%);
+            --surface-0: #0f1629;
+            --surface-1: #131b31;
+            --surface-2: #1a2440;
+            --surface-border: rgba(170,190,255,0.09);
+            --surface-border-strong: rgba(170,190,255,0.20);
+            --surface-shadow: 0 20px 40px -24px rgba(0,0,0,0.7);
+            --surface-inner: inset 0 1px 0 rgba(255,255,255,0.04);
+            --text-primary: #f4f1ec;
+            --text-secondary: #a7b2cc;
+            --text-muted: #6b7694;
+            --accent: #ff8a5b;
+            --accent-2: #8fd3ff;
+            --accent-grad: linear-gradient(135deg, #ff9a68 0%, #ff6b4a 100%);
+            --accent-glow: rgba(255,122,80,0.32);
+            --r-2xl: 28px; --r-xl: 24px; --r-lg: 20px; --r-md: 14px; --r-sm: 10px;
+        }
+        body.light-mode {
+            --bg-void: #edf1f7;
+            --bg-gradient: radial-gradient(900px 520px at 85% -8%, rgba(255,138,91,0.20) 0%, transparent 60%),
+                           radial-gradient(900px 600px at 0% 0%, rgba(120,160,255,0.18) 0%, transparent 55%),
+                           linear-gradient(180deg, #f3f6fb 0%, #e9eef6 100%);
+            --surface-0: #ffffff; --surface-1: #ffffff; --surface-2: #f1f4fa;
+            --surface-border: rgba(20,32,70,0.08);
+            --surface-border-strong: rgba(20,32,70,0.16);
+            --surface-shadow: 0 18px 34px -22px rgba(20,32,70,0.28);
+            --text-primary: #131a2e; --text-secondary: #4a5675; --text-muted: #8b95b0;
+            --accent: #e8590c; --accent-2: #1c7fc4;
+            --accent-grad: linear-gradient(135deg, #ff8a5b 0%, #e8590c 100%);
+            --accent-glow: rgba(232,89,12,0.22);
+        }
+        html { background-color: #0a0f1e; }
+        body { font-family: 'Figtree', 'Nunito', sans-serif; letter-spacing: -0.005em; }
+        body::before { background-image: none; }
+        button, input, select, textarea { font-family: inherit; }
+
+        h1, h2, .section-title, .hero-temp, .hero-temp-min, .quick-bento-val, .detail-val, .gauge-value,
+        .bolge-region-name, .bcr-temp, .hp-temp, .compare-chip-temp, .uydu-intro h2, .bolge-intro h2, .drawer-header h1 {
+            font-family: 'Bricolage Grotesque', 'Figtree', sans-serif;
+        }
+
+        .container { max-width: 520px; padding: 16px 16px 120px; }
+
+        /* Üst çubuk */
+        .brand-text h1 { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.04em; background: none; -webkit-text-fill-color: var(--text-primary); color: var(--text-primary); }
+        .brand-text p { font-size: 0.68rem; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--accent); }
+        .logo-box { border-radius: 14px; border-width: 1px; border-color: var(--surface-border-strong); box-shadow: none; background: var(--surface-1); }
+        body.light-mode .logo-box { border-color: var(--surface-border-strong); }
+        .icon-btn, .hamburger-btn { border-radius: 14px; background: var(--surface-1); box-shadow: none; }
+        .icon-btn.active { color: #1a0a04; }
+        .live-clock { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 0.78rem; }
+
+        /* Arama ve favoriler */
+        .city-search-input { border-radius: 16px !important; background: var(--surface-1) !important; border: 1px solid var(--surface-border) !important; font-weight: 600; }
+        .city-search-input:focus { border-color: var(--accent) !important; box-shadow: 0 0 0 4px var(--accent-glow) !important; outline: none; }
+        .city-dropdown { border-radius: 16px; }
+        .fav-chip, .compare-chip, .bolge-filter-chip, .uydu-layer-chip { border-radius: 100px; font-weight: 700; }
+        .fav-chip:hover, .fav-chip.active-city, .bolge-filter-chip.active, .uydu-layer-chip.active { border-color: var(--accent); }
+        .bolge-filter-chip.active, .uydu-layer-chip.active { background: var(--accent-grad); color: #1a0a04; }
+
+        /* Sekmeler */
+        .tabs-dock { border-radius: 18px; padding: 4px; box-shadow: none; }
+        .tab-btn { border-radius: 14px; font-weight: 700; }
+        .tab-btn.active { color: #1a0a04; box-shadow: 0 6px 16px -6px var(--accent-glow); }
+
+        /* Kahraman kart: gökyüzü */
+        .weather-hero { border-radius: 32px; box-shadow: 0 30px 60px -30px var(--sky-shadow, rgba(0,0,0,.5)); }
+        .weather-hero.hero-sunny { --sky-gradient: linear-gradient(165deg, #ffb27a 0%, #ff6f4a 38%, #7a3fbf 100%); --sky-shadow: rgba(255,111,74,0.5); }
+        .weather-hero.hero-rain { --sky-gradient: linear-gradient(165deg, #6d8fb8 0%, #38567f 50%, #1a2c4d 100%); --sky-shadow: rgba(40,80,140,0.5); }
+        .weather-hero.hero-snow { --sky-gradient: linear-gradient(165deg, #cfe3f5 0%, #8fb2d6 50%, #55789f 100%); --sky-shadow: rgba(110,150,200,0.45); }
+        .weather-hero.hero-storm { --sky-gradient: linear-gradient(165deg, #55507a 0%, #2d2a4f 50%, #14122a 100%); --sky-shadow: rgba(60,40,120,0.55); }
+        .weather-hero:not(.hero-sunny):not(.hero-rain):not(.hero-snow):not(.hero-storm) { --sky-gradient: linear-gradient(165deg, #7fb4e6 0%, #4a78c4 50%, #2b3f86 100%); --sky-shadow: rgba(60,100,200,0.45); }
+        .hero-temp { font-size: 6.4rem; font-weight: 700; letter-spacing: -0.07em; }
+        .hero-temp-min { font-weight: 600; letter-spacing: -0.05em; }
+        .weather-hero .hero-desc { border-radius: 100px; font-weight: 700; }
+        .weather-hero .hero-stats { border-radius: 20px; background: rgba(10,15,30,0.28); }
+        .stat-val { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; }
+
+        /* Kartlar: tek tip kutu yerine boyuta göre farklı yarıçap */
+        .quick-bento-card, .detail-card, .advisory-card, .gauge-card, .best-time-card, .outfit-card,
+        .sun-arc-card, .moon-phase-card, .garden-card, .aqi-ring-card, .tr-temp-map-card, .tip-card,
+        .bolge-region-card, .alert-card, .weather-alert-card, .temp-chart-wrap, .weekly-bars, .uydu-info-card {
+            border-radius: 24px; border: 1px solid var(--surface-border); box-shadow: none; background: var(--surface-1);
+        }
+        .quick-bento-card, .detail-card, .hour-pill { border-radius: 20px; }
+        .quick-bento-card:hover, .detail-card:hover, .hour-pill:hover { border-color: var(--accent); transform: none; }
+        .hour-pill { border-radius: 18px; background: var(--surface-1); border: 1px solid var(--surface-border); }
+        .hour-pill.current { background: var(--accent-grad); border-color: transparent; }
+        .hour-pill.current .hp-time, .hour-pill.current .hp-temp { color: #1a0a04; }
+        .quick-bento-val, .detail-val { font-weight: 700; letter-spacing: -0.03em; }
+        .section-title { font-size: 1.12rem; font-weight: 700; letter-spacing: -0.03em; }
+        .section-head::before { background: var(--accent); }
+        .wb-fill { background: var(--accent-grad); }
+        .tip-card::before { background: var(--accent); }
+
+        /* Düğmeler */
+        .btn-gold { background: var(--accent-grad); color: #1a0a04; border-radius: 14px; font-weight: 800; box-shadow: 0 10px 24px -10px var(--accent-glow); }
+        .btn-ghost, .share-btn, .city-png-btn, .bolge-png-btn { border-radius: 14px; }
+
+        /* Alt gezinme: yüzen hap */
+        .bottom-nav {
+            left: 14px; right: 14px; bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+            max-width: 520px; margin: 0 auto; border-radius: 26px; border: 1px solid var(--surface-border-strong);
+            background: color-mix(in srgb, var(--surface-0) 82%, transparent);
+            backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4);
+            box-shadow: 0 24px 40px -18px rgba(0,0,0,0.65);
+        }
+        .bnav-item { font-weight: 700; }
+        .bnav-item.active { color: var(--accent); }
+        .bnav-item.active .bnav-icon-wrap { background: color-mix(in srgb, var(--accent) 18%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent); }
+
+        /* Çekmece */
+        .side-drawer { border-radius: 28px 28px 0 0; }
+        .drawer-nav-item { border-radius: 14px; font-weight: 700; }
+        .drawer-nav-item.active { background: color-mix(in srgb, var(--accent) 14%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent); }
+        .drawer-fav-item { border-radius: 12px; }
+        .drawer-install-btn .dib-title { color: #1a0a04; }
+        .drawer-label, .mg-ad-label { letter-spacing: 0.02em; text-transform: none; font-size: 0.72rem; }
+
+        /* Hareket: yalnızca sekme geçişi */
+        @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+        /* ═══ v4.1 — Kutusuz düzen: çerçeve, dolgu ve gölge yok; ayrım boşluk ve ince çizgiyle ═══ */
+        .quick-bento-card, .detail-card, .advisory-card, .gauge-card, .best-time-card, .outfit-card,
+        .sun-arc-card, .moon-phase-card, .garden-card, .aqi-ring-card, .tr-temp-map-card, .tip-card,
+        .bolge-region-card, .alert-card, .weather-alert-card, .temp-chart-wrap, .weekly-bars, .uydu-info-card,
+        .hour-pill, .compare-chip, .fav-chip, .stat-box, .mg-ad-box, .bolge-city-row {
+            background: transparent !important; border: 0 !important; border-radius: 0 !important;
+            box-shadow: none !important; backdrop-filter: none !important;
+        }
+        .quick-bento-card, .detail-card, .advisory-card, .gauge-card, .best-time-card, .outfit-card,
+        .sun-arc-card, .moon-phase-card, .garden-card, .aqi-ring-card, .tip-card, .alert-card,
+        .weather-alert-card, .temp-chart-wrap, .weekly-bars, .bolge-region-card, .uydu-info-card {
+            border-bottom: 1px solid var(--surface-border) !important; padding-left: 2px !important; padding-right: 2px !important;
+        }
+        .details-grid, .quick-bento, .advisory-grid, .gauge-grid { gap: 0 16px !important; }
+        .quick-bento-card:hover, .detail-card:hover, .hour-pill:hover { border-color: transparent !important; }
+        .bolge-city-row { border-bottom: 1px solid var(--surface-border) !important; }
+
+        /* Kahraman: kenardan kenara gökyüzü, köşesiz */
+        .weather-hero { border-radius: 0 !important; box-shadow: none !important; margin-left: -16px; margin-right: -16px; border: 0 !important; }
+        .weather-hero .hero-stats { background: transparent !important; border: 0 !important; border-top: 1px solid rgba(255,255,255,0.25) !important; border-radius: 0 !important; }
+        .weather-hero .hero-desc { background: transparent !important; border: 0 !important; padding-left: 0 !important; }
+
+        /* Saatlik: kutusuz sütunlar, seçili olan altı çizili */
+        .hour-pill.current { background: transparent !important; box-shadow: inset 0 -3px 0 var(--accent) !important; }
+        .hour-pill.current .hp-time, .hour-pill.current .hp-temp { color: var(--accent) !important; }
+
+        /* Çipler ve sekmeler: düz yazı, seçili olanın altında çizgi */
+        .fav-chip, .compare-chip, .bolge-filter-chip, .uydu-layer-chip, .tab-btn { background: transparent !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; color: var(--text-secondary); }
+        .fav-chip:hover, .fav-chip.active-city, .bolge-filter-chip.active, .uydu-layer-chip.active, .tab-btn.active {
+            color: var(--accent) !important; box-shadow: inset 0 -2px 0 var(--accent) !important; background: transparent !important;
+        }
+        .tabs-dock { background: transparent !important; border: 0 !important; border-bottom: 1px solid var(--surface-border) !important; border-radius: 0 !important; padding: 0 !important; }
+
+        /* Arama: yalnızca alt çizgi */
+        .city-search-input, .uydu-search-input { background: transparent !important; border: 0 !important; border-bottom: 1px solid var(--surface-border-strong) !important; border-radius: 0 !important; box-shadow: none !important; }
+        .city-search-input:focus, .uydu-search-input:focus { border-bottom-color: var(--accent) !important; box-shadow: none !important; }
+        .city-dropdown, .uydu-search-dropdown { border-radius: 8px; }
+
+        /* Düğmeler ve üst çubuk ikonları: kutusuz */
+        .icon-btn, .hamburger-btn, .logo-box, .share-btn, .city-png-btn, .bolge-png-btn, .btn-ghost, .live-clock { background: transparent !important; border: 0 !important; box-shadow: none !important; }
+        .icon-btn.active { background: transparent !important; color: var(--accent); }
+        .btn-gold { border-radius: 100px; }
+
+        /* Alt menü: düz çubuk, üstte ince çizgi */
+        .bottom-nav { left: 0; right: 0; bottom: 0; max-width: none; border-radius: 0 !important; border: 0 !important; border-top: 1px solid var(--surface-border-strong) !important; box-shadow: none !important; padding-bottom: env(safe-area-inset-bottom, 0px); }
+        .bnav-item.active .bnav-icon-wrap { background: transparent !important; box-shadow: none !important; }
+        .side-drawer { border-radius: 0; }
+        .drawer-nav-item.active { background: transparent; box-shadow: inset 3px 0 0 var(--accent); border-radius: 0; }
+
+        /* Uydu: zaman seçici (kutusuz) */
+        .uydu-time-bar { display: flex; align-items: center; gap: 4px; overflow-x: auto; margin: 4px 0 12px; border-bottom: 1px solid var(--surface-border); scrollbar-width: none; }
+        .uydu-time-bar::-webkit-scrollbar { display: none; }
+        .uydu-time-label { font-size: 0.74rem; font-weight: 600; color: var(--text-muted); padding-right: 8px; flex-shrink: 0; }
+        .uydu-time-chip { flex-shrink: 0; background: transparent; border: 0; padding: 10px 10px; font-family: inherit; font-size: 0.84rem; font-weight: 700; color: var(--text-secondary); cursor: pointer; }
+        .uydu-time-chip.active { color: var(--accent); box-shadow: inset 0 -2px 0 var(--accent); }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
@@ -962,18 +1150,6 @@
                 <button class="icon-btn theme-toggle" title="Tema Değiştir">🌙</button>
             </div>
         </header>
-
-        <!-- Resimli Reklam: Header Altı -->
-        <div class="mg-ad-box" aria-label="Reklam" role="complementary">
-            <span class="mg-ad-label">Reklam</span>
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-1880946354382681"
-                 data-ad-slot="1689789138"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
 
         <!-- FAVORİ ŞEHİRLER ŞERİDİ -->
         <div class="fav-strip" id="favStrip"></div>
@@ -1137,6 +1313,15 @@
                 <button class="uydu-layer-chip" data-layer="pressure">⏲ Basınç</button>
             </div>
 
+            <div class="uydu-time-bar" id="uyduTimeBar" aria-label="Tahmin zamanı">
+                <span class="uydu-time-label">Zaman</span>
+                <button class="uydu-time-chip active" data-time="now">Şimdi</button>
+                <button class="uydu-time-chip" data-time="12">+12 saat</button>
+                <button class="uydu-time-chip" data-time="24">+24 saat</button>
+                <button class="uydu-time-chip" data-time="120">+5 gün</button>
+                <button class="uydu-time-chip" data-time="240">+10 gün</button>
+            </div>
+
             <div class="uydu-info-card" id="uyduInfoCard">
                 <span class="uydu-info-icon" id="uyduInfoIcon">☁️</span>
                 <div class="uydu-info-text">
@@ -1151,7 +1336,19 @@
                 <iframe id="uyduMapFrame" loading="lazy"></iframe>
                 <button class="uydu-fullscreen-exit" id="uyduFullscreenExit" title="Tam Ekrandan Çık">✕</button>
             </div>
-            <div class="uydu-hint">📍 Harita, son görüntülenen şehir konumunu merkez alır. Yakınlaştırıp gezinebilirsiniz.</div>
+            <div class="uydu-hint">📍 Harita, son görüntülenen şehir konumunu merkez alır. Yakınlaştırıp gezinebilirsiniz. İleri tarihli görünümde harita tahmin verisini gösterir; yağış radarı yalnızca yakın saatler için tahmin sunar.</div>
+        </div>
+
+        <!-- Reklam: Sayfa Sonu -->
+        <div class="mg-ad-box" aria-label="Reklam" role="complementary" style="margin-top:24px;margin-bottom:0;">
+            <span class="mg-ad-label">Reklam</span>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-1880946354382681"
+                 data-ad-slot="1689789138"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
         <!-- ALT NAVİGASYON ÇUBUĞU (görsel referanstaki gibi sabit alt bar) -->
@@ -2612,6 +2809,7 @@
 
         // ─── UYDU SEKMESİ: Windy harita + katman geçişi ───
         let currentUyduLayer = 'clouds';
+        let currentUyduTime = 'now';
         let uyduLat = null, uyduLon = null, uyduLocName = null;
 
         const UYDU_LAYER_INFO = {
@@ -2633,7 +2831,7 @@
                 pressure: { overlay: 'pressure', zoom: 4 }
             };
             const cfg = layerMap[layer] || layerMap.clouds;
-            return `https://embed.windy.com/embed2.html?lat=${la}&lon=${lo}&zoom=${cfg.zoom}&level=surface&overlay=${cfg.overlay}&menu=&message=true&marker=true&calendar=now&pressure=&type=map&location=coordinates&detail=&detailLat=${la}&detailLon=${lo}&metricWind=km%2Fh&metricTemp=%C2%B0C&radarRange=-1`;
+            return `https://embed.windy.com/embed2.html?lat=${la}&lon=${lo}&zoom=${cfg.zoom}&level=surface&overlay=${cfg.overlay}&menu=&message=true&marker=true&calendar=${currentUyduTime}&pressure=&type=map&location=coordinates&detail=&detailLat=${la}&detailLon=${lo}&metricWind=km%2Fh&metricTemp=%C2%B0C&radarRange=-1`;
         }
 
         function updateUyduInfoCard(layer) {
@@ -2668,6 +2866,14 @@
             chip.addEventListener('click', () => {
                 document.querySelectorAll('.uydu-layer-chip').forEach(c => c.classList.toggle('active', c === chip));
                 loadUyduMap(chip.dataset.layer);
+            });
+        });
+
+        document.querySelectorAll('.uydu-time-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelectorAll('.uydu-time-chip').forEach(c => c.classList.toggle('active', c === chip));
+                currentUyduTime = chip.dataset.time;
+                loadUyduMap(currentUyduLayer);
             });
         });
 
